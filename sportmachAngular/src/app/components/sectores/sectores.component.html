@@ -1,0 +1,18 @@
+<form (ngSubmit)="addSector()">
+  <label for="nombre">Nombre:</label>
+  <input type="text" id="nombre" [(ngModel)]="newSector.nombre" name="nombre" required>
+
+  <label for="image">Imagen:</label>
+  <input type="file" id="image" (change)="onFileChange($event)" required>
+
+  <label for="horario">Horario:</label>
+  <input type="text" id="horario" [(ngModel)]="newSector.horario" name="horario" required>
+
+  <label for="description">Descripción:</label>
+  <input type="text" id="description" [(ngModel)]="newSector.description" name="description">
+
+  <label for="capacidad">Capacidad:</label>
+  <input type="number" id="capacidad" [(ngModel)]="newSector.capacidad" name="capacidad">
+
+  <button type="submit">Agregar Sector</button>
+</form>

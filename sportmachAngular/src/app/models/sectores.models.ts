@@ -2,13 +2,13 @@ export class sectores{
 
   idSector: string;
   nombre: string;
-  image: File;
+  image: File | null;
   description?: string;
   horario: string;
   capacidad?: number;
 
 
-  constructor(idSector: string, nombre: string, image: File, horario: string, description?: string, capacidad?:number) {
+  constructor(idSector: string, nombre: string, image: File | null, horario: string, description?: string, capacidad?:number) {
     this.idSector = idSector;
     this.nombre = nombre;
     this.image = image;
