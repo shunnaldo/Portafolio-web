@@ -5,8 +5,13 @@
   <label for="image">Imagen:</label>
   <input type="file" id="image" (change)="onFileChange($event)" required>
 
-  <label for="horario">Horario:</label>
-  <input type="text" id="horario" [(ngModel)]="newSector.horario" name="horario" required>
+  <label for="horarios">Horarios:</label>
+  <input type="text" [(ngModel)]="horarioInput" name="horarios" placeholder="Ej: lunes: 12 a 2, martes: 2 a 4" />
+  <button type="button" (click)="addHorarios()">Agregar Horario</button>
+
+  <div *ngFor="let h of newSector.horarios; let i = index">
+    <p>{{ h }} <button type="button" (click)="removeHorario(i)">Eliminar</button></p>
+  </div>
 
   <label for="description">Descripción:</label>
   <input type="text" id="description" [(ngModel)]="newSector.description" name="description">
@@ -16,5 +21,3 @@
 
   <button type="submit">Agregar Sector</button>
 </form>
-
-
