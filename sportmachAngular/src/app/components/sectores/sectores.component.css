@@ -1,53 +1,103 @@
+/* Estilo para el formulario */
 form {
-  display: flex;
-  flex-direction: column;
-  max-width: 500px;
-  margin: 0 auto;
+  background-color: #f8f9fa;
   padding: 20px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 20px auto;
 }
 
-label {
-  margin-top: 10px;
+form label {
+  display: block;
+  margin-bottom: 8px;
   font-weight: bold;
   color: #333;
 }
 
-input[type="text"],
-input[type="file"],
-input[type="number"] {
+form input[type="text"],
+form input[type="number"],
+form input[type="file"] {
   width: 100%;
   padding: 10px;
-  margin-top: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font-size: 16px;
-  transition: border-color 0.3s;
+  border-radius: 5px;
 }
 
-input[type="text"]:focus,
-input[type="file"]:focus,
-input[type="number"]:focus {
-  border-color: #007bff;
-}
-
-button {
+form button {
   background-color: #007bff;
   color: white;
-  padding: 10px 15px;
-  margin-top: 15px;
   border: none;
-  border-radius: 4px;
+  padding: 10px 15px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
   transition: background-color 0.3s;
 }
 
-button:hover {
+form button:hover {
   background-color: #0056b3;
 }
 
+/* Estilo para la vista de tarjetas */
+.sector-card {
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.card-img-top {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 15px;
+  background-color: #fff;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.card-text {
+  font-size: 1rem;
+  color: #555;
+}
+
+.card button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-right: 10px;
+}
+
+.card button.btn-danger {
+  background-color: #dc3545;
+}
+
+.card button:hover {
+  opacity: 0.9;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+ul li {
+  list-style: disc;
+  color: #333;
+}
