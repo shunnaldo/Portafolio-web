@@ -28,6 +28,12 @@
       <input type="number" [(ngModel)]="newSector.capacidad" name="capacidad" min="1" />
     </div>
 
+    <!-- Seleccionar duración -->
+    <div>
+      <label for="duration">Duración (horas):</label>
+      <input type="number" [(ngModel)]="duration" name="duration" min="0.5" step="0.5" (change)="resetHorarios()" required />
+    </div>
+
     <!-- Botones para seleccionar días -->
     <div class="dias-seleccion">
       <h3>Selecciona un día para agregar horarios:</h3>
@@ -48,9 +54,13 @@
     <span class="close" (click)="cerrarModal()">&times;</span>
     <h4>Seleccionar horarios para {{ diaSeleccionado | titlecase }}</h4>
 
+    <!-- Lista de horarios disponibles, ajustando la hora fin con la duración -->
     <div *ngFor="let hora of horariosPorDia[diaSeleccionado]">
-      <input type="checkbox" [checked]="horariosSeleccionados[diaSeleccionado].includes(hora)"
-             (change)="toggleHorario(diaSeleccionado, hora)"> {{ hora }}:00 - {{ hora + 1 }}:00
+      <input 
+        type="checkbox" 
+        [checked]="isHorarioSelected(diaSeleccionado, hora)" 
+        (change)="toggleHorario(diaSeleccionado, hora)"> 
+      {{ formatHour(hora) }} - {{ formatHour(hora + duration) }}
     </div>
 
     <button class="guardar-btn" type="button" (click)="guardarHorariosPorDia()">Guardar horarios para {{ diaSeleccionado | titlecase }}</button>
