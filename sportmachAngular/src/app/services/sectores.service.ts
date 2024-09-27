@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
-import { sectores } from '../models/sectores.models';
+import { Sectores } from '../models/sectores.models';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { finalize } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -16,49 +18,49 @@ export class SectoresService {
     private storage: AngularFireStorage
   ) { }
 
-  // Agregar Sector con generación de ID
-  addSector(sector: sectores): Promise<any> {
-    const id = this.firestore.createId(); // Generar una ID única
-    sector.idSector = id; // Asignar la ID al sector
+  addSector(sector: Sectores, file?: File): Promise<any> {
+    const id = this.firestore.createId();
+    sector.idSector = id;
 
-    if (sector.image) {
-      const filePath = `sectores/${sector.image.name}`;
+    if (file) {
+      const filePath = `sectores/${id}/${file.name}`;
       const fileRef = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, file);
 
-      return this.storage.upload(filePath, sector.image).then(() => {
-        return fileRef.getDownloadURL().toPromise().then((url) => {
-          const sectorData = {
-            idSector: sector.idSector,
-            nombre: sector.nombre,
-            image: url, // Asignar la URL de la imagen
-            description: sector.description,
-            horarios: sector.horarios, // Aquí cambiamos a 'horarios', ya que es un array
-            capacidad: sector.capacidad,
-          };
-          return this.firestore.collection(this.collectionName).doc(id).set(sectorData); // Guardar el sector con la ID generada
-        });
+      return new Promise((resolve, reject) => {
+        task.snapshotChanges().pipe(
+          finalize(() => {
+            fileRef.getDownloadURL().subscribe(url => {
+              sector.image = url;
+              // Usar el spread operator para convertir `sector` en un objeto plano
+              this.firestore.collection(this.collectionName).doc(id).set({ ...sector })
+                .then(() => resolve(null))
+                .catch(err => reject(err));
+            }, err => reject(err));
+          })
+        ).subscribe();
       });
     } else {
-      // Si no hay imagen, guardar el sector directamente
-      return this.firestore.collection(this.collectionName).doc(id).set({
-        ...sector,
-        horarios: sector.horarios // Asegurarse de que 'horarios' esté presente en el set
-      });
+      // Usar el spread operator para convertir `sector` en un objeto plano
+      return this.firestore.collection(this.collectionName).doc(id).set({ ...sector });
     }
   }
 
-  // Eliminar Sector
   deleteSector(idSector: string): Promise<void> {
     return this.firestore.collection(this.collectionName).doc(idSector).delete();
   }
 
-  // Actualizar Sector
-  updateSector(idSector: string, sector: sectores): Promise<void> {
-    return this.firestore.collection(this.collectionName).doc(idSector).update(sector);
+  updateSector(idSector: string, sector: Sectores): Promise<void> {
+    return this.firestore.collection(this.collectionName).doc(idSector).update({ ...sector });
   }
 
-  // Obtener Sectores
-  getSectores(): Observable<sectores[]> {
-    return this.firestore.collection<sectores>(this.collectionName).valueChanges();
+  getSectores(): Observable<Sectores[]> {
+    return this.firestore.collection<Sectores>(this.collectionName).snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Sectores;
+        const id = a.payload.doc.id;
+        return { ...data, idSector: id };
+      }))
+    );
   }
 }

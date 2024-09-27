@@ -1,44 +1,58 @@
-<form (ngSubmit)="addSector()">
-  <label for="nombre">Nombre:</label>
-  <input type="text" id="nombre" [(ngModel)]="newSector.nombre" name="nombre" required>
-
-  <label for="image">Imagen:</label>
-  <input type="file" id="image" (change)="onFileChange($event)" required>
-
-  <label for="horarios">Horarios:</label>
-  <input type="text" [(ngModel)]="horarioInput" name="horarios" placeholder="Ej: lunes: 12 a 2, martes: 2 a 4" />
-  <button type="button" (click)="addHorarios()">Agregar Horario</button>
-
-  <div *ngFor="let h of newSector.horarios; let i = index">
-    <p>{{ h }} <button type="button" (click)="removeHorario(i)">Eliminar</button></p>
-  </div>
-
-  <label for="description">Descripción:</label>
-  <input type="text" id="description" [(ngModel)]="newSector.description" name="description">
-
-  <label for="capacidad">Capacidad:</label>
-  <input type="number" id="capacidad" [(ngModel)]="newSector.capacidad" name="capacidad">
-
-  <button type="submit">Agregar Sector</button>
-</form>
-
-
-<br><br><br><br>
-
-<div class="sector-card" *ngFor="let sector of sectores$ | async">
-  <div class="card">
-    <img [src]="sector.image" alt="{{ sector.nombre }} image" class="card-img-top">
-    <div class="card-body">
-      <h5 class="card-title">{{ sector.nombre }}</h5>
-      <p class="card-text">{{ sector.description }}</p>
-      <p class="card-text"><strong>Horarios:</strong></p>
-      <ul>
-        <li *ngFor="let horario of sector.horarios">{{ horario }}</li>
-      </ul>
-      <p class="card-text"><strong>Capacidad:</strong> {{ sector.capacidad }}</p>
-      <button (click)="deleteSector(sector.idSector)" class="btn btn-danger">Eliminar</button>
-      <button (click)="editSector(sector)" class="btn btn-primary">Editar</button>
-
+<div class="sector-form">
+  <h2>{{ isEditing ? 'Editar Sector' : 'Agregar Sector' }}</h2>
+  <form (ngSubmit)="addOrUpdateSector()">
+    <!-- Nombre del sector -->
+    <div>
+      <label for="nombre">Nombre:</label>
+      <input id="nombre" [(ngModel)]="newSector.nombre" name="nombre" required />
     </div>
+
+    <!-- Imagen del sector -->
+    <div>
+      <label for="image">Imagen:</label>
+      <input type="file" (change)="onFileChange($event)" />
+      <div *ngIf="newSector.image">
+        <img [src]="newSector.image" alt="{{ newSector.nombre }}" width="100" />
+      </div>
+    </div>
+
+    <!-- Descripción del sector -->
+    <div>
+      <label for="description">Descripción:</label>
+      <textarea id="description" [(ngModel)]="newSector.description" name="description"></textarea>
+    </div>
+
+    <!-- Capacidad del sector -->
+    <div>
+      <label for="capacidad">Capacidad:</label>
+      <input type="number" [(ngModel)]="newSector.capacidad" name="capacidad" min="1" />
+    </div>
+
+    <!-- Botones para seleccionar días -->
+    <div class="dias-seleccion">
+      <h3>Selecciona un día para agregar horarios:</h3>
+      <div *ngFor="let dia of dias">
+        <button type="button" (click)="abrirModal(dia)">{{ dia | titlecase }}</button>
+      </div>
+    </div>
+
+    <!-- Botones para agregar o actualizar el sector -->
+    <button type="submit">{{ isEditing ? 'Actualizar' : 'Agregar' }} Sector</button>
+    <button type="button" (click)="resetForm()">Cancelar</button>
+  </form>
+</div>
+
+<!-- Modal (Pop-up) para seleccionar horarios -->
+<div class="modal" [ngClass]="{'active': modalAbierto}">
+  <div class="modal-content">
+    <span class="close" (click)="cerrarModal()">&times;</span>
+    <h4>Seleccionar horarios para {{ diaSeleccionado | titlecase }}</h4>
+
+    <div *ngFor="let hora of horariosPorDia[diaSeleccionado]">
+      <input type="checkbox" [checked]="horariosSeleccionados[diaSeleccionado].includes(hora)"
+             (change)="toggleHorario(diaSeleccionado, hora)"> {{ hora }}:00 - {{ hora + 1 }}:00
+    </div>
+
+    <button class="guardar-btn" type="button" (click)="guardarHorariosPorDia()">Guardar horarios para {{ diaSeleccionado | titlecase }}</button>
   </div>
 </div>

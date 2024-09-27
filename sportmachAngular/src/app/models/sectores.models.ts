@@ -1,16 +1,25 @@
-export class sectores {
+import { Horario } from './horario.models';
+
+export class Sectores {
   idSector: string;
   nombre: string;
-  image: File | null;
+  image: string | null;
   description?: string;
-  horarios: string[]; // Asegúrate de que esta propiedad sea un array
+  horarios: Horario[];
   capacidad?: number;
 
-  constructor(idSector: string, nombre: string, image: File | null, horarios: string[], description?: string, capacidad?: number) {
+  constructor(
+    idSector: string,
+    nombre: string,
+    image: string | null,
+    horarios: Horario[],
+    description?: string,
+    capacidad?: number
+  ) {
     this.idSector = idSector;
     this.nombre = nombre;
     this.image = image;
-    this.horarios = horarios; // Cambia 'horario' por 'horarios'
+    this.horarios = horarios;
     this.description = description;
     this.capacidad = capacidad;
   }

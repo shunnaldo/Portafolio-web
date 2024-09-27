@@ -9,6 +9,8 @@ import { FormsModule } from '@angular/forms';
 import { SectoresComponent } from './components/sectores/sectores.component';
 import { EventosComponent } from './components/eventos/eventos.component';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 
@@ -24,7 +26,9 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
     FormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatSnackBarModule,
 
   ],
   providers: [],
