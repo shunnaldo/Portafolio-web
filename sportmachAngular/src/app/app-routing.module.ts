@@ -19,6 +19,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'registro', component: RegistroComponent },
   { path: 'verificarEmail', component: VerificarEmailComponent },
+  { path: '**', component: HomeComponent }
 ];
 
 @NgModule({
