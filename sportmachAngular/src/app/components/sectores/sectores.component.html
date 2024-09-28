@@ -28,12 +28,6 @@
       <input type="number" [(ngModel)]="newSector.capacidad" name="capacidad" min="1" />
     </div>
 
-    <!-- Seleccionar duración -->
-    <div>
-      <label for="duration">Duración (horas):</label>
-      <input type="number" [(ngModel)]="duration" name="duration" min="0.5" step="0.5" (change)="resetHorarios()" required />
-    </div>
-
     <!-- Botones para seleccionar días -->
     <div class="dias-seleccion">
       <h3>Selecciona un día para agregar horarios:</h3>
@@ -48,19 +42,55 @@
   </form>
 </div>
 
-<!-- Modal (Pop-up) para seleccionar horarios -->
+<!-- Visualización de sectores existentes -->
+<div class="sectores-list">
+  <h3>Sectores Existentes</h3>
+  <ul>
+    <li *ngFor="let sector of sectores$ | async">
+      <div class="sector-item">
+        <div class="sector-info">
+          <h4>{{ sector.nombre }}</h4>
+          <img *ngIf="sector.image" [src]="sector.image" alt="{{ sector.nombre }}" width="50">
+          <p>{{ sector.description }}</p>
+          <p>Capacidad: {{ sector.capacidad }}</p>
+        </div>
+        <div class="sector-actions">
+          <button (click)="editSector(sector)">Editar</button>
+          <button (click)="deleteSector(sector.idSector)">Eliminar</button>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Modal (Pop-up) para seleccionar horarios y ajustar la duración por día -->
 <div class="modal" [ngClass]="{'active': modalAbierto}">
   <div class="modal-content">
     <span class="close" (click)="cerrarModal()">&times;</span>
     <h4>Seleccionar horarios para {{ diaSeleccionado | titlecase }}</h4>
 
-    <!-- Lista de horarios disponibles, ajustando la hora fin con la duración -->
+    <!-- Campo para ajustar la duración por día -->
+    <div>
+      <label for="duration">Duración para {{ diaSeleccionado | titlecase }} (horas):</label>
+      <input
+        type="number"
+        [(ngModel)]="duracionesPorDia[diaSeleccionado]"
+        name="duration"
+        min="0.5"
+        step="0.5"
+        (change)="resetHorarios(diaSeleccionado)"
+        required
+      />
+    </div>
+
+    <!-- Lista de horarios disponibles ajustando la duración por día -->
     <div *ngFor="let hora of horariosPorDia[diaSeleccionado]">
-      <input 
-        type="checkbox" 
-        [checked]="isHorarioSelected(diaSeleccionado, hora)" 
-        (change)="toggleHorario(diaSeleccionado, hora)"> 
-      {{ formatHour(hora) }} - {{ formatHour(hora + duration) }}
+      <input
+        type="checkbox"
+        [checked]="isHorarioSelected(diaSeleccionado, hora)"
+        (change)="toggleHorario(diaSeleccionado, hora)"
+      />
+      {{ formatHour(hora) }} - {{ formatHour(hora + duracionesPorDia[diaSeleccionado]) }}
     </div>
 
     <button class="guardar-btn" type="button" (click)="guardarHorariosPorDia()">Guardar horarios para {{ diaSeleccionado | titlecase }}</button>
