@@ -13,8 +13,10 @@ import { LoginComponent } from './components/login/login.component';
 import { RecuperarContrasenaComponent } from './components/recuperar-contrasena/recuperar-contrasena.component';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { HomeComponent } from './components/home/home.component';
-import { VerificarEmailComponent } from './verificar-email/verificar-email.component';
+import { VerificarEmailComponent } from './components/verificar-email/verificar-email.component';
 
+import { AuthService } from './services/auth.service';
+import { ReactiveFormsModule } from '@angular/forms';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -74,7 +76,7 @@ import { FirestoreModule } from '@angular/fire/firestore';
     BrowserModule,
         AppRoutingModule,
         BrowserAnimationsModule,
-
+        ReactiveFormsModule,
         AngularFireModule.initializeApp(environment.firebaseConfig),
         FirestoreModule,
         MatAutocompleteModule,

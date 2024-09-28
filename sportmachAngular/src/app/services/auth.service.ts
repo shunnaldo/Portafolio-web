@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, User, onAuthStateChanged, sendPasswordResetEmail, signOut } from '@angular/fire/auth';
 import { AngularFireAuth } from "@angular/fire/compat/auth";
-import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { Firestore, doc, setDoc } from '@angular/fire/firestore';
+import { Firestore, collection, doc, setDoc, addDoc } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +13,7 @@ export class AuthService {
 
   userLoggedIn: boolean;
 
-  constructor(private router: Router, private afAuth: AngularFireAuth, private afs: AngularFirestore, private auth: Auth) {
+  constructor(private router: Router, private afAuth: AngularFireAuth, private afs: Firestore, private auth: Auth) {
     this.userLoggedIn = false;
 
     onAuthStateChanged(this.auth, (user) => {
@@ -109,13 +108,17 @@ logoutUser(): Promise<void> {
         });
 }
 
-setUserInfo(payload: object) {
-    console.log('Auth Service: saving user info...');
-    this.afs.collection('users')
-        .add(payload).then(function (res: any) {
-            console.log("Auth Service: setUserInfo response...")
-            console.log(res);
-        })
+setUserInfo(payload: object): void {
+  console.log('Auth Service: saving user info...');
+  
+  const usersCollectionRef = collection(this.afs, 'users');  // Referencia a la colección 'users'
+  
+  addDoc(usersCollectionRef, payload).then((res: any) => {
+    console.log("Auth Service: setUserInfo response...");
+    console.log(res);
+  }).catch((error: any) => {
+    console.error("Error saving user info:", error);
+  });
 }
 
 getCurrentUser() {

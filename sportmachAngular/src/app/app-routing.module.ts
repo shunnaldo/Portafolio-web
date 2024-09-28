@@ -6,7 +6,7 @@ import { RecuperarContrasenaComponent } from './components/recuperar-contrasena/
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegistroComponent } from './components/registro/registro.component';
-import { VerificarEmailComponent } from './verificar-email/verificar-email.component';
+import { VerificarEmailComponent } from './components/verificar-email/verificar-email.component';
 import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
@@ -19,7 +19,6 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'registro', component: RegistroComponent },
   { path: 'verificarEmail', component: VerificarEmailComponent },
-  { path: '**', component: HomeComponent },
 ];
 
 @NgModule({
