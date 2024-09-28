@@ -2,11 +2,11 @@ export const environment = {
 
     production: false,
     firebaseConfig:{
-    apiKey: "AIzaSyBYGCbdr-FSDMtB_-PvDKf7OIJuo1-a5nE",
-    authDomain: "sportmach-fc07f.firebaseapp.com",
-    projectId: "sportmach-fc07f",
-    storageBucket: "sportmach-fc07f.appspot.com",
-    messagingSenderId: "276809292205",
-    appId: "1:276809292205:web:fcef7335a06702d4496924"
+        apiKey: "AIzaSyCOC-wF43xqu0z88HL4FXqiThUyTXfZigA",
+        authDomain: "sportmatch-432ff.firebaseapp.com",
+        projectId: "sportmatch-432ff",
+        storageBucket: "sportmatch-432ff.appspot.com",
+        messagingSenderId: "59990486642",
+        appId: "1:59990486642:web:88f0f07f221f84f19e9ceb",
     }
 };
