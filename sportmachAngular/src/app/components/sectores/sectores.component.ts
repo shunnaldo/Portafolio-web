@@ -76,6 +76,13 @@ export class SectoresComponent implements OnInit {
     const file = event.target.files[0];
     if (file) {
       this.selectedFile = file;
+
+      // Utilizamos FileReader para mostrar la imagen antes de subirla
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.newSector.image = e.target.result; // Esto establecerá la imagen para previsualización
+      };
+      reader.readAsDataURL(file);
     }
   }
 
@@ -130,9 +137,9 @@ export class SectoresComponent implements OnInit {
       const horasDuracion = Math.floor(duracionMinutos / 60);
       const minutosDuracion = duracionMinutos % 60;
 
-      this.duracionesPorDia[dia] = { 
-        horas: horasDuracion, 
-        minutos: minutosDuracion 
+      this.duracionesPorDia[dia] = {
+        horas: horasDuracion,
+        minutos: minutosDuracion
       };
 
       this.horariosSeleccionados[dia] = [
@@ -217,11 +224,11 @@ export class SectoresComponent implements OnInit {
       inicio: this.formatHour(h.inicio),  // Guardar como 'HH:mm'
       fin: this.formatHour(h.fin)         // Guardar como 'HH:mm'
     }));
-  
+
     // Filtrar los horarios anteriores para el día seleccionado y reemplazarlos con los nuevos
     this.newSector.horarios = this.newSector.horarios.filter(h => h.dia !== this.diaSeleccionado);
     this.newSector.horarios.push(...horariosDiaSeleccionado);
-  
+
     this.snackBar.open(`Horarios para ${this.diaSeleccionado} guardados`, 'Cerrar', { duration: 2000 });
     this.cerrarModal();
   }
@@ -229,19 +236,22 @@ export class SectoresComponent implements OnInit {
   limpiarHorarios(dia: string) {
     // Eliminar los horarios seleccionados para el día en particular
     this.horariosSeleccionados[dia] = [];
-  
+
     // Filtrar los horarios del sector para eliminar los horarios del día seleccionado
     this.newSector.horarios = this.newSector.horarios.filter(h => h.dia !== dia);
-  
+
     // Mostrar notificación de que los horarios han sido limpiados
     const diaTitulo = this.capitalizeFirstLetter(dia);
     this.snackBar.open(`Horarios para ${diaTitulo} limpiados`, 'Cerrar', { duration: 2000 });
   }
-  
+
   capitalizeFirstLetter(text: string): string {
     return text.charAt(0).toUpperCase() + text.slice(1);
   }
-  
-  
-  
+
+
+
+
+
+
 }
