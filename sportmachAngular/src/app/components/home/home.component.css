@@ -1,3 +1,59 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0; /* Eliminar padding del body */
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Centrar verticalmente */
+}
+
+.container {
+    text-align: center; /* Centra el texto dentro del contenedor */
+    width: 100%; /* Asegura que el contenedor use todo el espacio disponible */
+    padding: 20px; /* Añadir padding para que no esté pegado a los bordes */
+    box-sizing: border-box; /* Incluye el padding en el ancho total */
+}
+
+.button-section {
+    margin-bottom: 20px;
+}
+
 button {
-    margin-left: 8px;
+    margin: 10px; /* Espaciado uniforme entre los botones */
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #0056b3; /* Cambia el color al pasar el ratón */
+    transform: scale(1.05); /* Efecto de crecimiento */
+}
+
+mat-card {
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centra el contenido del mat-card */
+}
+
+mat-card mat-icon {
+    margin-right: 10px;
+    color: #00796b; /* Color del ícono */
+}
+
+mat-card span {
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
+    button {
+        display: block; /* Cambia a bloque en pantallas pequeñas */
+        width: 100%;
+        margin-bottom: 10px;
+    }
 }
