@@ -108,31 +108,42 @@ export class SectoresComponent implements OnInit {
     this.isEditing = true;
     this.editingSectorId = sector.idSector;
     this.newSector = { ...sector };
-  
+
     this.horariosSeleccionados = {};
-  
+
     sector.horarios.forEach(horario => {
       const dia = horario.dia;
-  
-      const horasInicio = Math.floor(horario.inicio / 60);
-      const minutosInicio = horario.inicio % 60;
-      const horasFin = Math.floor(horario.fin / 60);
-      const minutosFin = horario.fin % 60;
-  
-      const duracionHoras = horasFin - horasInicio;
-      const duracionMinutos = minutosFin - minutosInicio;
-  
-      this.duracionesPorDia[dia] = { horas: duracionHoras, minutos: duracionMinutos };
-  
+      const [horaInicio, minutoInicio] = horario.inicio.split(':').map(Number);
+      const [horaFin, minutoFin] = horario.fin.split(':').map(Number);
+
+      const totalMinutosInicio = horaInicio * 60 + minutoInicio;
+      const totalMinutosFin = horaFin * 60 + minutoFin;
+
+      // Calcular la diferencia en minutos
+      let duracionMinutos = totalMinutosFin - totalMinutosInicio;
+
+      // Ajustar la duración si es negativa (error en los cálculos)
+      if (duracionMinutos < 0) {
+        duracionMinutos += 24 * 60; // En caso de que la hora de fin sea después de la medianoche
+      }
+
+      const horasDuracion = Math.floor(duracionMinutos / 60);
+      const minutosDuracion = duracionMinutos % 60;
+
+      this.duracionesPorDia[dia] = { 
+        horas: horasDuracion, 
+        minutos: minutosDuracion 
+      };
+
       this.horariosSeleccionados[dia] = [
         ...this.horariosSeleccionados[dia] || [],
-        { inicio: horario.inicio, fin: horario.fin }
+        { inicio: totalMinutosInicio, fin: totalMinutosFin }
       ];
     });
-  
+
     this.dias.forEach(dia => this.generarHorariosPorDia(dia));
   }
-  
+
   isHorarioSelected(dia: string, hora: number): boolean {
     return this.horariosSeleccionados[dia]?.some(h => h.inicio === hora) ?? false;
   }
@@ -140,7 +151,7 @@ export class SectoresComponent implements OnInit {
   formatHour(hourInMinutes: number): string {
     const hours = Math.floor(hourInMinutes / 60);
     const minutes = hourInMinutes % 60;
-    return `${hours}:${minutes < 10 ? '0' + minutes : minutes}`;
+    return `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`;
   }
 
   abrirModal(dia: string) {
@@ -203,14 +214,34 @@ export class SectoresComponent implements OnInit {
   guardarHorariosPorDia() {
     const horariosDiaSeleccionado = this.horariosSeleccionados[this.diaSeleccionado].map(h => ({
       dia: this.diaSeleccionado,
-      inicio: h.inicio,
-      fin: h.fin
+      inicio: this.formatHour(h.inicio),  // Guardar como 'HH:mm'
+      fin: this.formatHour(h.fin)         // Guardar como 'HH:mm'
     }));
-
+  
+    // Filtrar los horarios anteriores para el día seleccionado y reemplazarlos con los nuevos
     this.newSector.horarios = this.newSector.horarios.filter(h => h.dia !== this.diaSeleccionado);
     this.newSector.horarios.push(...horariosDiaSeleccionado);
-
+  
     this.snackBar.open(`Horarios para ${this.diaSeleccionado} guardados`, 'Cerrar', { duration: 2000 });
     this.cerrarModal();
   }
+
+  limpiarHorarios(dia: string) {
+    // Eliminar los horarios seleccionados para el día en particular
+    this.horariosSeleccionados[dia] = [];
+  
+    // Filtrar los horarios del sector para eliminar los horarios del día seleccionado
+    this.newSector.horarios = this.newSector.horarios.filter(h => h.dia !== dia);
+  
+    // Mostrar notificación de que los horarios han sido limpiados
+    const diaTitulo = this.capitalizeFirstLetter(dia);
+    this.snackBar.open(`Horarios para ${diaTitulo} limpiados`, 'Cerrar', { duration: 2000 });
+  }
+  
+  capitalizeFirstLetter(text: string): string {
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
+  
+  
+  
 }

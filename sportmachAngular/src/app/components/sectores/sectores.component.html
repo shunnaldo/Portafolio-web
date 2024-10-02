@@ -69,6 +69,8 @@
     <span class="close" (click)="cerrarModal()">&times;</span>
     <h4>Seleccionar horarios para {{ diaSeleccionado | titlecase }}</h4>
 
+    <!-- Botón para limpiar los horarios del día seleccionado -->
+
     <!-- Campos para ajustar la duración por día -->
     <div *ngIf="duracionesPorDia[diaSeleccionado]">
       <label for="durationHours">Horas para {{ diaSeleccionado | titlecase }}:</label>
@@ -104,6 +106,9 @@
       />
       {{ formatHour(hora) }} - {{ formatHour(hora + duracionTotalEnMinutos(diaSeleccionado)) }}
     </div>
+    <br>
+
+    <button class="limpiar-btn" type="button" (click)="limpiarHorarios(diaSeleccionado)">Limpiar Horarios</button>
 
     <button class="guardar-btn" type="button" (click)="guardarHorariosPorDia()">Guardar horarios para {{ diaSeleccionado | titlecase }}</button>
   </div>
