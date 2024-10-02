@@ -1,172 +1,90 @@
-/* Estilos generales */
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f7f9fc;
-  color: #333;
-  margin: 0;
-  padding: 0;
-}
-
-h2 {
-  text-align: center;
-  font-size: 1.8rem;
-  color: #333;
-  margin-bottom: 20px;
-}
-
+/* General form styles */
 .sector-form {
-  max-width: 500px;
-  margin: 40px auto;
   padding: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-form div {
+.sector-form h2 {
   margin-bottom: 20px;
 }
 
-label {
+.sector-form label {
   display: block;
   margin-bottom: 5px;
-  font-weight: bold;
-  color: #555;
 }
 
-input,
-textarea,
-select {
+.sector-form input,
+.sector-form textarea {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
-  color: #333;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  outline: none;
-  border-color: #4a90e2;
-}
-
-button {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  background-color: #4a90e2;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
-  margin-bottom: 10px;
-  transition: background-color 0.2s ease-in-out;
-}
-
-button:hover {
-  background-color: #357abd;
-}
-
-button[type="submit"] {
-  background-color: #00b894;
-}
-
-button[type="submit"]:hover {
-  background-color: #019a79;
-}
-
-button[type="button"] {
-  background-color: #e74c3c;
-}
-
-button[type="button"]:hover {
-  background-color: #c0392b;
-}
-
-/* Estilos para los días de la semana */
-.dias-seleccion h3 {
-  color: #333;
-  font-size: 1.2rem;
+  padding: 8px;
   margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.sector-form button {
+  margin-right: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .dias-seleccion button {
-  background-color: #4a90e2;
+  padding: 10px 15px;
   margin: 5px;
-  padding: 8px 15px;
+  background-color: #28a745;
+  color: white;
   border: none;
-  border-radius: 4px;
-  color: #fff;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
 }
 
-.dias-seleccion button:hover {
-  background-color: #357abd;
-}
-
-/* Estilos para la imagen cargada */
-img {
-  border-radius: 4px;
-  margin-top: 10px;
-  max-width: 100%;
-}
-
-/* Modal */
+/* Modal styles */
 .modal {
+  display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  z-index: 1000;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .modal.active {
-  opacity: 1;
-  visibility: visible;
+  display: block;
 }
 
 .modal-content {
-  background-color: #ffffff;
   padding: 20px;
-  border-radius: 8px;
-  text-align: center;
-  position: relative;
-  width: 400px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.modal-content h4 {
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.modal-content .close {
+.close {
+  font-size: 1.5rem;
   position: absolute;
   top: 10px;
-  right: 10px;
-  font-size: 1.5rem;
-  color: #555;
+  right: 20px;
   cursor: pointer;
 }
 
 .guardar-btn {
   margin-top: 20px;
-  background-color: #00b894;
+  display: block;
   width: 100%;
   padding: 10px;
-  border-radius: 4px;
-}
-
-.guardar-btn:hover {
-  background-color: #019a79;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
