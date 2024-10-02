@@ -26,5 +26,6 @@ export class eventos{
         this.date = date
         }
 
+        
 }
 
