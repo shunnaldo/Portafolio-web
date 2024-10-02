@@ -1,0 +1,115 @@
+<div class="sector-form">
+  <h2>{{ isEditing ? 'Editar Sector' : 'Agregar Sector' }}</h2>
+  <form (ngSubmit)="addOrUpdateSector()">
+    <!-- Nombre del sector -->
+    <div>
+      <label for="nombre">Nombre:</label>
+      <input id="nombre" [(ngModel)]="newSector.nombre" name="nombre" required />
+    </div>
+
+    <!-- Imagen del sector -->
+    <div>
+      <label for="image">Imagen:</label>
+      <input type="file" (change)="onFileChange($event)" />
+      <div *ngIf="newSector.image">
+        <img [src]="newSector.image" alt="{{ newSector.nombre }}" width="100" />
+      </div>
+    </div>
+
+    <!-- Descripción del sector -->
+    <div>
+      <label for="description">Descripción:</label>
+      <textarea id="description" [(ngModel)]="newSector.description" name="description"></textarea>
+    </div>
+
+    <!-- Capacidad del sector -->
+    <div>
+      <label for="capacidad">Capacidad:</label>
+      <input type="number" [(ngModel)]="newSector.capacidad" name="capacidad" min="1" />
+    </div>
+
+    <!-- Botones para seleccionar días -->
+    <div class="dias-seleccion">
+      <h3>Selecciona un día para agregar horarios:</h3>
+      <div *ngFor="let dia of dias">
+        <button type="button" (click)="abrirModal(dia)">{{ dia | titlecase }}</button>
+      </div>
+    </div>
+
+    <!-- Botones para agregar o actualizar el sector -->
+    <button type="submit">{{ isEditing ? 'Actualizar' : 'Agregar' }} Sector</button>
+    <button type="button" (click)="resetForm()">Cancelar</button>
+  </form>
+</div>
+
+<!-- Visualización de sectores existentes -->
+<div class="sectores-list">
+  <h3>Sectores Existentes</h3>
+  <ul>
+    <li *ngFor="let sector of sectores$ | async">
+      <div class="sector-item">
+        <div class="sector-info">
+          <h4>{{ sector.nombre }}</h4>
+          <img *ngIf="sector.image" [src]="sector.image" alt="{{ sector.nombre }}" width="50">
+          <p>{{ sector.description }}</p>
+          <p>Capacidad: {{ sector.capacidad }}</p>
+        </div>
+        <div class="sector-actions">
+          <button (click)="editSector(sector)">Editar</button>
+          <button (click)="deleteSector(sector.idSector)">Eliminar</button>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Modal para seleccionar horarios y ajustar la duración por día -->
+<div class="modal" [ngClass]="{'active': modalAbierto}">
+  <div class="modal-content">
+    <span class="close" (click)="cerrarModal()">&times;</span>
+    <h4>Seleccionar horarios para {{ diaSeleccionado | titlecase }}</h4>
+
+    <!-- Botón para limpiar los horarios del día seleccionado -->
+
+    <!-- Campos para ajustar la duración por día -->
+    <div *ngIf="duracionesPorDia[diaSeleccionado]">
+      <label for="durationHours">Horas para {{ diaSeleccionado | titlecase }}:</label>
+      <input
+        type="number"
+        [(ngModel)]="duracionesPorDia[diaSeleccionado].horas"
+        name="durationHours"
+        min="0"
+        step="1"
+        (change)="resetHorarios(diaSeleccionado)"
+        required
+      />
+
+      <label for="durationMinutes">Minutos para {{ diaSeleccionado | titlecase }}:</label>
+      <input
+        type="number"
+        [(ngModel)]="duracionesPorDia[diaSeleccionado].minutos"
+        name="durationMinutes"
+        min="1"
+        max="59"
+        step="1"
+        (change)="resetHorarios(diaSeleccionado)"
+        required
+      />
+    </div>
+
+    <!-- Lista de horarios disponibles ajustando la duración por día -->
+    <div *ngFor="let hora of horariosPorDia[diaSeleccionado]">
+      <input
+        type="checkbox"
+        [checked]="isHorarioSelected(diaSeleccionado, hora)"
+        (change)="toggleHorario(diaSeleccionado, hora)"
+      />
+      {{ formatHour(hora) }} - {{ formatHour(hora + duracionTotalEnMinutos(diaSeleccionado)) }}
+    </div>
+    <br>
+
+    <button class="limpiar-btn" type="button" (click)="limpiarHorarios(diaSeleccionado)">Limpiar Horarios</button>
+
+    <button class="guardar-btn" type="button" (click)="guardarHorariosPorDia()">Guardar horarios para {{ diaSeleccionado | titlecase }}</button>
+  </div>
+</div>
