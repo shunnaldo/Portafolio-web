@@ -6,7 +6,6 @@ body {
 }
 
 .container {
-    
     flex: 1; /* Permite que el contenedor ocupe el espacio restante */
     display: flex;
     flex-direction: column; /* Cambia la dirección a columna */
@@ -14,10 +13,8 @@ body {
     text-align: center; /* Centra el texto dentro del contenedor */
     width: 100%; /* Asegura que el contenedor use todo el espacio disponible */
     box-sizing: border-box; /* Incluye el padding en el ancho total */
-    flex: 1; /* Permitir que el contenedor use el espacio restante */
     background-color: #e0e0e0; /* Fondo gris para el contenedor */
 }
-
 
 .header {
     background-color: #616161; /* Fondo gris oscuro para el header */
@@ -36,6 +33,7 @@ body {
     padding: 10px 0; /* Espaciado en el footer */
     text-align: center; /* Centra el texto */
     width: 100%; /* Asegura que use todo el ancho */
+    margin-top: auto; /* Asegura que el footer se desplace hacia el final */
 }
 
 .button-section {
