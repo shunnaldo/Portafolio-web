@@ -1,6 +1,6 @@
 export const environment = {
 
-    production: false,
+    production: true,
     firebaseConfig:{
         apiKey: "AIzaSyCOC-wF43xqu0z88HL4FXqiThUyTXfZigA",
         authDomain: "sportmatch-432ff.firebaseapp.com",

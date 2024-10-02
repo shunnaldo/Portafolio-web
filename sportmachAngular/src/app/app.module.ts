@@ -55,8 +55,10 @@ import { MatTreeModule } from '@angular/material/tree';
 
 
 import { HttpClientModule } from '@angular/common/http';
-
 import { FirestoreModule } from '@angular/fire/firestore';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+
+
 
 // import { AngularFireStorageModule } from '@angular/fire/storage';
 
@@ -113,9 +115,13 @@ import { FirestoreModule } from '@angular/fire/firestore';
         MatToolbarModule,
         MatTooltipModule,
         MatTreeModule,
-
+        provideAuth(() => getAuth()),
         FormsModule,
         HttpClientModule,
+        AngularFireModule.initializeApp(environment.firebaseConfig),
+        AngularFireModule,
+        provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+
   ],
   providers: [],
   bootstrap: [AppComponent]
