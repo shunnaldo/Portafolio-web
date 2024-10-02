@@ -22,6 +22,9 @@ export class SectoresComponent implements OnInit {
   diaSeleccionado: string = '';
   modalAbierto: boolean = false;
 
+  // Nueva propiedad para controlar visibilidad de horarios
+  showHorarios: { [key: string]: boolean } = {};
+
   constructor(private sectoresService: SectoresService, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
@@ -32,9 +35,12 @@ export class SectoresComponent implements OnInit {
     this.resetHorarios();
   }
 
+  toggleHorarios(sectorId: string) {
+    this.showHorarios[sectorId] = !this.showHorarios[sectorId];
+  }
+
   // Método para agregar o actualizar un sector
   addOrUpdateSector() {
-    // Validamos que el sector tenga nombre, capacidad y horarios seleccionados
     if (!this.newSector.nombre || !this.newSector.capacidad || this.newSector.horarios.length === 0) {
       this.snackBar.open('Por favor, completa todos los campos requeridos y selecciona los horarios', 'Cerrar', {
         duration: 3000
@@ -42,7 +48,6 @@ export class SectoresComponent implements OnInit {
       return;
     }
 
-    // Lógica para actualizar un sector si se está editando
     if (this.isEditing && this.editingSectorId) {
       this.sectoresService.updateSector(this.editingSectorId, this.newSector)
         .then(() => {
@@ -54,7 +59,6 @@ export class SectoresComponent implements OnInit {
           this.snackBar.open('Error al actualizar el sector', 'Cerrar', { duration: 3000 });
         });
     } else {
-      // Lógica para agregar un nuevo sector
       this.sectoresService.addSector(this.newSector, this.selectedFile || undefined)
         .then(() => {
           this.snackBar.open('Sector agregado exitosamente', 'Cerrar', { duration: 3000 });
@@ -75,7 +79,6 @@ export class SectoresComponent implements OnInit {
     }
   }
 
-  // Método para resetear el formulario
   resetForm() {
     this.newSector = new Sectores('', '', null, []);
     this.selectedFile = null;
@@ -88,7 +91,6 @@ export class SectoresComponent implements OnInit {
     this.resetHorarios();
   }
 
-  // Método para eliminar un sector
   deleteSector(idSector: string) {
     if (confirm('¿Estás seguro de que deseas eliminar este sector?')) {
       this.sectoresService.deleteSector(idSector)
@@ -102,52 +104,57 @@ export class SectoresComponent implements OnInit {
     }
   }
 
-  // Método para editar un sector
   editSector(sector: Sectores) {
     this.isEditing = true;
     this.editingSectorId = sector.idSector;
     this.newSector = { ...sector };
-    this.dias.forEach(dia => {
-      this.duracionesPorDia[dia] = { horas: 1, minutos: 0 };
-    });
+  
+    this.horariosSeleccionados = {};
+  
     sector.horarios.forEach(horario => {
-      this.horariosSeleccionados[horario.dia] = [
-        ...this.horariosSeleccionados[horario.dia],
+      const dia = horario.dia;
+  
+      const horasInicio = Math.floor(horario.inicio / 60);
+      const minutosInicio = horario.inicio % 60;
+      const horasFin = Math.floor(horario.fin / 60);
+      const minutosFin = horario.fin % 60;
+  
+      const duracionHoras = horasFin - horasInicio;
+      const duracionMinutos = minutosFin - minutosInicio;
+  
+      this.duracionesPorDia[dia] = { horas: duracionHoras, minutos: duracionMinutos };
+  
+      this.horariosSeleccionados[dia] = [
+        ...this.horariosSeleccionados[dia] || [],
         { inicio: horario.inicio, fin: horario.fin }
       ];
     });
+  
+    this.dias.forEach(dia => this.generarHorariosPorDia(dia));
   }
-
-  // Método para verificar si un horario ya está seleccionado
+  
   isHorarioSelected(dia: string, hora: number): boolean {
     return this.horariosSeleccionados[dia]?.some(h => h.inicio === hora) ?? false;
   }
 
-  // Método para formatear las horas de manera legible
   formatHour(hourInMinutes: number): string {
     const hours = Math.floor(hourInMinutes / 60);
     const minutes = hourInMinutes % 60;
     return `${hours}:${minutes < 10 ? '0' + minutes : minutes}`;
   }
 
-  // Método para abrir el modal y seleccionar el día
   abrirModal(dia: string) {
     this.diaSeleccionado = dia;
-
-    // Verificamos si duracionesPorDia[dia] ya existe, si no, lo inicializamos
     if (!this.duracionesPorDia[dia]) {
-      this.duracionesPorDia[dia] = { horas: 1, minutos: 0 }; // Valor por defecto
+      this.duracionesPorDia[dia] = { horas: 1, minutos: 0 };
     }
-
     this.modalAbierto = true;
   }
 
-  // Método para cerrar el modal
   cerrarModal() {
     this.modalAbierto = false;
   }
 
-  // Método para resetear los horarios por día
   resetHorarios(dia?: string) {
     if (dia) {
       this.generarHorariosPorDia(dia);
@@ -156,30 +163,25 @@ export class SectoresComponent implements OnInit {
     }
   }
 
-  // Método para obtener la duración total en minutos
   duracionTotalEnMinutos(dia: string): number {
     return (this.duracionesPorDia[dia].horas * 60) + this.duracionesPorDia[dia].minutos;
   }
 
-  // Método para generar horarios por día
   generarHorariosPorDia(dia: string) {
     const horasPorDia = [];
-    let horaActual = 9 * 60; // Representamos las 9:00 como minutos
-    const horaFinDia = 23 * 60; // Representamos las 23:00 como minutos
+    let horaActual = 9 * 60;
+    const horaFinDia = 23 * 60;
     const duracionTotalEnMinutos = this.duracionTotalEnMinutos(dia);
 
-    // Generar los horarios sumando los minutos totales
     while (horaActual + duracionTotalEnMinutos <= horaFinDia) {
       horasPorDia.push(horaActual);
-      horaActual += duracionTotalEnMinutos; // Incrementar en minutos
+      horaActual += duracionTotalEnMinutos;
     }
 
-    // Almacenamos las horas generadas en minutos
     this.horariosPorDia[dia] = horasPorDia;
     this.horariosSeleccionados[dia] = this.horariosSeleccionados[dia] || [];
   }
 
-  // Método para alternar la selección de un horario
   toggleHorario(dia: string, hora: number) {
     const duracionTotalEnMinutos = this.duracionTotalEnMinutos(dia);
     const horaFin = hora + duracionTotalEnMinutos;
@@ -198,7 +200,6 @@ export class SectoresComponent implements OnInit {
     }
   }
 
-  // Método para guardar los horarios seleccionados por día
   guardarHorariosPorDia() {
     const horariosDiaSeleccionado = this.horariosSeleccionados[this.diaSeleccionado].map(h => ({
       dia: this.diaSeleccionado,
