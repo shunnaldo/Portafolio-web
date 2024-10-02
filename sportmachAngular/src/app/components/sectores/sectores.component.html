@@ -63,21 +63,33 @@
   </ul>
 </div>
 
-<!-- Modal (Pop-up) para seleccionar horarios y ajustar la duración por día -->
+<!-- Modal para seleccionar horarios y ajustar la duración por día -->
 <div class="modal" [ngClass]="{'active': modalAbierto}">
   <div class="modal-content">
     <span class="close" (click)="cerrarModal()">&times;</span>
     <h4>Seleccionar horarios para {{ diaSeleccionado | titlecase }}</h4>
 
-    <!-- Campo para ajustar la duración por día -->
-    <div>
-      <label for="duration">Duración para {{ diaSeleccionado | titlecase }} (horas):</label>
+    <!-- Campos para ajustar la duración por día -->
+    <div *ngIf="duracionesPorDia[diaSeleccionado]">
+      <label for="durationHours">Horas para {{ diaSeleccionado | titlecase }}:</label>
       <input
         type="number"
-        [(ngModel)]="duracionesPorDia[diaSeleccionado]"
-        name="duration"
-        min="0.5"
-        step="0.5"
+        [(ngModel)]="duracionesPorDia[diaSeleccionado].horas"
+        name="durationHours"
+        min="0"
+        step="1"
+        (change)="resetHorarios(diaSeleccionado)"
+        required
+      />
+
+      <label for="durationMinutes">Minutos para {{ diaSeleccionado | titlecase }}:</label>
+      <input
+        type="number"
+        [(ngModel)]="duracionesPorDia[diaSeleccionado].minutos"
+        name="durationMinutes"
+        min="1"
+        max="59"
+        step="1"
         (change)="resetHorarios(diaSeleccionado)"
         required
       />
@@ -90,7 +102,7 @@
         [checked]="isHorarioSelected(diaSeleccionado, hora)"
         (change)="toggleHorario(diaSeleccionado, hora)"
       />
-      {{ formatHour(hora) }} - {{ formatHour(hora + duracionesPorDia[diaSeleccionado]) }}
+      {{ formatHour(hora) }} - {{ formatHour(hora + duracionTotalEnMinutos(diaSeleccionado)) }}
     </div>
 
     <button class="guardar-btn" type="button" (click)="guardarHorariosPorDia()">Guardar horarios para {{ diaSeleccionado | titlecase }}</button>
