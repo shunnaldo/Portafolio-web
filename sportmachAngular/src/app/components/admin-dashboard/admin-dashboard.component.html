@@ -1,22 +1,31 @@
-Admin Dashboard
-
+<div class="header">
+    <h1>SportMatch</h1>
+</div>
 <br>
 <br>
-<button mat-raised-button color="primary" routerLink="/home">
-    <mat-icon>home</mat-icon>
-    <span>Home</span>
-</button>
+<div class="container">
+    <h1>Admin Dashboard</h1>
 
-
-<br>
-<br>
-
-<div *ngIf="(user | async)?.accountType == 'admin'; else notAdmin">
-    hello admin!
     <br>
-    this is a simple test for admin status. a more rigorous test is to edit the auth.guard.ts file :)
+    <br>
+    <button mat-raised-button color="primary" routerLink="/home">
+        <mat-icon>home</mat-icon>
+        <span>Volver al Menu</span>
+    </button>
+
+    <br>
+    <br>
+
+    <div *ngIf="(user | async)?.accountType == 'admin'; else notAdmin">
+        <p>Usuario Administrador</p>
+        <br>
+    </div>
+
+    <ng-template #notAdmin>
+        <p>Usuario no Administrador</p>
+    </ng-template>
 </div>
 
-<ng-template #notAdmin>
-    Not admin
-</ng-template>
+<div class="footer">
+    <p>&copy; 2024 SportMatch. Todos los derechos reservados.</p>
+</div>

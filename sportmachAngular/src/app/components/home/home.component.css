@@ -1,39 +1,41 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0; /* Eliminar padding del body */
-    background-color: #e0e0e0; /* Fondo gris claro */
+    margin: 0; /* Eliminar márgenes por defecto */
     display: flex;
     flex-direction: column; /* Cambia la dirección a columna */
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Centrar verticalmente */
+    height: 100vh; /* Asegura que el body ocupe toda la altura de la ventana */
 }
 
 .container {
+    
+    flex: 1; /* Permite que el contenedor ocupe el espacio restante */
+    display: flex;
+    flex-direction: column; /* Cambia la dirección a columna */
+    justify-content: flex-start; /* Alínea el contenido desde la parte superior */
     text-align: center; /* Centra el texto dentro del contenedor */
     width: 100%; /* Asegura que el contenedor use todo el espacio disponible */
-    padding: 20px; /* Añadir padding para que no esté pegado a los bordes */
     box-sizing: border-box; /* Incluye el padding en el ancho total */
     flex: 1; /* Permitir que el contenedor use el espacio restante */
-    background-color: #bdbdbd; /* Fondo gris para el contenedor */
-    border-radius: 8px; /* Opcional: para bordes redondeados */
+    background-color: #e0e0e0; /* Fondo gris para el contenedor */
 }
 
 
 .header {
-    background-color: #757575; /* Fondo gris oscuro */
+    background-color: #616161; /* Fondo gris oscuro para el header */
     color: white; /* Color del texto */
-    padding: 15px 0; /* Espaciado en el header */
+    padding: 10px 0; /* Espaciado en el header */
+    text-align: center; /* Centra el texto */
+    width: 100%; /* Asegura que use todo el ancho */
+    top: 0; /* Posición en la parte superior */
+    left: 0; /* Alineación a la izquierda */
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
 }
 
 .footer {
-    background-color: #757575; /* Fondo gris oscuro */
+    background-color: #616161; /* Fondo gris oscuro para el footer */
     color: white; /* Color del texto */
     padding: 10px 0; /* Espaciado en el footer */
-    position: relative;
-    bottom: 0;
-    width: 100%; /* Asegura que el footer use todo el ancho */
+    text-align: center; /* Centra el texto */
+    width: 100%; /* Asegura que use todo el ancho */
 }
 
 .button-section {

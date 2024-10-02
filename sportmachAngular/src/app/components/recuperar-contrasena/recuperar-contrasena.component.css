@@ -1,0 +1,53 @@
+body {
+    margin: 0; /* Eliminar márgenes por defecto del body */
+    height: 100vh; /* Asegurarse de que el body ocupe toda la altura de la ventana */
+}
+
+.container {
+    font-family: Arial, sans-serif;
+    flex-direction: column; /* Cambia la dirección a columna */
+    justify-content: center; /* Centra verticalmente */
+    align-items: center; /* Centra horizontalmente */
+    background-color: #e0e0e0; /* Fondo gris claro */
+    height: 100%; /* Asegura que use toda la altura */
+}
+
+.header {
+    background-color: #616161; /* Fondo gris oscuro para el header */
+    color: white; /* Color del texto */
+    padding: 10px 0; /* Espaciado en el header */
+    text-align: center; /* Centra el texto */
+    width: 100%; /* Asegura que use todo el ancho */
+}
+
+.recover-section {
+    text-align: center; /* Centra el texto dentro de la sección de recuperación */
+    margin-top: 0; /* Eliminar margen superior */
+    width: 100%; /* Asegura que use todo el ancho */
+}
+
+.form-card {
+    margin: 20px auto; /* Espaciado en la parte superior e inferior, centrado horizontalmente */
+    background-color: #bdbdbd; /* Fondo gris claro para el formulario */
+    padding: 20px; /* Padding adicional para el formulario */
+    border-radius: 8px; /* Bordes redondeados */
+    max-width: 400px; /* Ancho máximo de la tarjeta */
+    width: 90%; /* Cambia a un ancho del 90% para el responsivo */
+}
+
+.footer {
+    background-color: #616161; /* Fondo gris oscuro para el footer */
+    color: white; /* Color del texto */
+    padding: 10px 0; /* Espaciado en el footer */
+    text-align: center; /* Centra el texto */
+    width: 100%; /* Asegura que use todo el ancho */
+}
+
+.error-style {
+    color: red; /* Color para mensajes de error */
+}
+
+.progressIndicator {
+    margin-top: 20px; /* Espaciado superior para el spinner */
+    justify-content: center; /* Centra verticalmente */
+}

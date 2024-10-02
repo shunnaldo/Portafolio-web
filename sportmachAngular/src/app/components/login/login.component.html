@@ -1,33 +1,43 @@
-Login
-<br>
-<br>
-<button mat-raised-button color="primary" routerLink="/home">
-    <mat-icon>home</mat-icon>
-    <span>Home</span>
-</button>
+<div class="container">
+    <header class="header">
+        <h1>SportMatch</h1>
+    </header>
 
-<mat-card>
-    <form [formGroup]="loginForm" (ngSubmit)="loginUser()" type="">
-        <p>
-            <mat-form-field appearance="outline">
-                <mat-label>Email</mat-label>
-                <input autocomplete="off" formControlName="email" type="email" matInput placeholder="Email">
-            </mat-form-field>
-        </p>
-        <p>
-            <mat-form-field appearance="outline">
-                <mat-label>Password</mat-label>
-                <input autocomplete="off" formControlName="password" type="password" matInput placeholder="Password">
-            </mat-form-field>
-        </p>
-        <div *ngIf="firebaseErrorMessage != ''" class="error-style">
-            <span>{{ firebaseErrorMessage }}</span>
+    <section class="login-section">
+        <h2>Inicio de Sesión</h2>
+        <button mat-raised-button color="primary" routerLink="/home">
+            <mat-icon>home</mat-icon>
+            <span>Volver al Menu</span>
+        </button>
+
+        <mat-card>
+            <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
+                <p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Correo</mat-label>
+                        <input autocomplete="off" formControlName="email" type="email" matInput placeholder="Email">
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Contraseña</mat-label>
+                        <input autocomplete="off" formControlName="password" type="password" matInput placeholder="Password">
+                    </mat-form-field>
+                </p>
+                <div *ngIf="firebaseErrorMessage != ''" class="error-style">
+                    <span>{{ firebaseErrorMessage }}</span>
+                </div>
+
+                <button mat-raised-button color="primary">Iniciar Sesion</button>
+            </form>
+        </mat-card>
+
+        <div class="progressIndicator" [style.display]="isProgressVisible ? 'inline' : 'none'">
+            <mat-progress-spinner class="example-margin" color="primary" mode="indeterminate"></mat-progress-spinner>
         </div>
+    </section>
 
-        <button mat-raised-button color="primary">Login</button>
-    </form>
-</mat-card>
-
-<div class="progressIndicator" [style.display]="isProgressVisible ? 'inline' : 'none' ">
-    <mat-progress-spinner class=" example-margin" color="primary" mode="indeterminate"></mat-progress-spinner>
+    <footer class="footer">
+        <p>&copy; 2024 SportMatch. Todos los derechos reservados.</p>
+    </footer>
 </div>
