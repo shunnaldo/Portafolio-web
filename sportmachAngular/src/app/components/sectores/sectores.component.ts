@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./sectores.component.css']
 })
 export class SectoresComponent implements OnInit {
+
   sectores$: Observable<Sectores[]> = new Observable();
   newSector: Sectores = new Sectores('', '', null, []);
   selectedFile: File | null = null;
@@ -21,6 +22,10 @@ export class SectoresComponent implements OnInit {
   duracionesPorDia: { [key: string]: { horas: number, minutos: number } } = {};
   diaSeleccionado: string = '';
   modalAbierto: boolean = false;
+  diasConHorarios: string[] = ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo'];
+  acordionesAbiertos: Set<string> = new Set();
+  sectorSeleccionado: Sectores | null = null;
+  modalSectorAbierto: boolean = false;
 
   // Nueva propiedad para controlar visibilidad de horarios
   showHorarios: { [key: string]: boolean } = {};
@@ -33,10 +38,40 @@ export class SectoresComponent implements OnInit {
       this.duracionesPorDia[dia] = { horas: 1, minutos: 0 };
     });
     this.resetHorarios();
+
   }
+
+  toggleAccordion(dia: string): void {
+    if (this.acordionesAbiertos.has(dia)) {
+      this.acordionesAbiertos.delete(dia);
+    } else {
+      this.acordionesAbiertos.add(dia);
+    }
+  }
+
+  isAccordionOpen(dia: string): boolean {
+    return this.acordionesAbiertos.has(dia);
+  }
+
+  getHorariosByDay(dia: string): any[] {
+    return this.sectorSeleccionado?.horarios.filter(horario => horario.dia === dia) || [];
+  }
+
 
   toggleHorarios(sectorId: string) {
     this.showHorarios[sectorId] = !this.showHorarios[sectorId];
+  }
+
+
+  abrirModalSector(sector: Sectores) {
+    this.sectorSeleccionado = { ...sector, horarios: sector.horarios || [] };
+    this.modalSectorAbierto = true;
+  }
+
+
+  cerrarModalSector() {
+    this.modalSectorAbierto = false;
+    this.sectorSeleccionado = null;
   }
 
   // Método para agregar o actualizar un sector
@@ -150,6 +185,8 @@ export class SectoresComponent implements OnInit {
 
     this.dias.forEach(dia => this.generarHorariosPorDia(dia));
   }
+
+
 
   isHorarioSelected(dia: string, hora: number): boolean {
     return this.horariosSeleccionados[dia]?.some(h => h.inicio === hora) ?? false;

@@ -59,27 +59,6 @@
   </form>
 </div>
 
-<!-- Visualización de sectores existentes -->
-<div class="sectores-list">
-  <h3>Sectores Existentes</h3>
-  <ul>
-    <li *ngFor="let sector of sectores$ | async">
-      <div class="sector-item">
-        <div class="sector-info">
-          <h4>{{ sector.nombre }}</h4>
-          <img *ngIf="sector.image" [src]="sector.image" alt="{{ sector.nombre }}" width="50">
-          <p>{{ sector.description }}</p>
-          <p>Capacidad: {{ sector.capacidad }}</p>
-        </div>
-        <div class="sector-actions">
-          <button (click)="editSector(sector)">Editar</button>
-          <button (click)="deleteSector(sector.idSector)">Eliminar</button>
-        </div>
-      </div>
-    </li>
-  </ul>
-</div>
-
 <!-- Modal para seleccionar horarios y ajustar la duración por día -->
 <div class="modal" [ngClass]="{'active': modalAbierto}" (click)="cerrarModal()">
   <div class="modal-content" (click)="$event.stopPropagation()">
@@ -88,7 +67,6 @@
 
     <!-- Campos para ajustar la duración por día -->
     <div *ngIf="duracionesPorDia[diaSeleccionado]" class="time-inputs">
-
       <div class="circle-inputs">
         <input
           type="number"
@@ -112,7 +90,6 @@
       </div>
     </div>
 
-
     <!-- Lista de horarios disponibles ajustando la duración por día -->
     <div *ngFor="let hora of horariosPorDia[diaSeleccionado]">
       <input
@@ -125,7 +102,62 @@
     <br>
 
     <button class="limpiar-btn" type="button" (click)="limpiarHorarios(diaSeleccionado)">Limpiar Horarios</button>
-
     <button class="guardar-btn" type="button" (click)="guardarHorariosPorDia()">Guardar horarios</button>
+  </div>
+</div>
+
+<!-- Vista previa de sectores como tarjetas -->
+<div class="sectores-list">
+  <h2 class="titulo">Sectores Existentes</h2>
+  <br>
+  <div class="card-container">
+    <div class="sector-card" *ngFor="let sector of sectores$ | async">
+      <img *ngIf="sector.image" [src]="sector.image" alt="{{ sector.nombre }}" class="sector-image">
+      <div class="sector-info">
+        <h4>{{ sector.nombre }}</h4>
+        <button (click)="abrirModalSector(sector)">Más información</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para mostrar más información del sector -->
+<div class="modal" [ngClass]="{'active': modalSectorAbierto}" (click)="cerrarModalSector()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <span class="close" (click)="cerrarModalSector()">&times;</span>
+    <h4>{{ sectorSeleccionado?.nombre }}</h4>
+    <p>Capacidad:{{ sectorSeleccionado?.capacidad }}</p>
+    <p>Descripción:{{ sectorSeleccionado?.description }}</p>
+
+    <!-- Verifica si horarios está definido y tiene longitud mayor a 0 -->
+    <div *ngIf="sectorSeleccionado?.horarios?.length">
+      <h5>Horarios:</h5>
+
+      <!-- Solo mostramos los días que tienen horarios -->
+      <div *ngFor="let dia of diasConHorarios">
+        <ng-container *ngIf="getHorariosByDay(dia).length > 0">
+          <button class="accordion" (click)="toggleAccordion(dia)">
+            {{ dia | titlecase }}
+          </button>
+          <div class="panel" [ngClass]="{'active': isAccordionOpen(dia)}">
+            <ul>
+              <li *ngFor="let horario of getHorariosByDay(dia)">
+                {{ horario.inicio }} - {{ horario.fin }}
+              </li>
+            </ul>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Botones de acción: Editar y Eliminar -->
+    <div class="modal-actions" *ngIf="sectorSeleccionado">
+      <button class="action-btn edit-btn" (click)="editSector(sectorSeleccionado)">
+        <i class="fas fa-edit"></i> Editar
+      </button>
+      <button class="action-btn delete-btn" (click)="deleteSector(sectorSeleccionado.idSector)">
+        <i class="fas fa-trash"></i> Eliminar
+      </button>
+    </div>
   </div>
 </div>
