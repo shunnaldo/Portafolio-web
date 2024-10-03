@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./sectores.component.css']
 })
 export class SectoresComponent implements OnInit {
+
   sectores$: Observable<Sectores[]> = new Observable();
   newSector: Sectores = new Sectores('', '', null, []);
   selectedFile: File | null = null;
@@ -21,6 +22,10 @@ export class SectoresComponent implements OnInit {
   duracionesPorDia: { [key: string]: { horas: number, minutos: number } } = {};
   diaSeleccionado: string = '';
   modalAbierto: boolean = false;
+  diasConHorarios: string[] = ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo'];
+  acordionesAbiertos: Set<string> = new Set();
+  sectorSeleccionado: Sectores | null = null;
+  modalSectorAbierto: boolean = false;
 
   // Nueva propiedad para controlar visibilidad de horarios
   showHorarios: { [key: string]: boolean } = {};
@@ -33,10 +38,40 @@ export class SectoresComponent implements OnInit {
       this.duracionesPorDia[dia] = { horas: 1, minutos: 0 };
     });
     this.resetHorarios();
+
   }
+
+  toggleAccordion(dia: string): void {
+    if (this.acordionesAbiertos.has(dia)) {
+      this.acordionesAbiertos.delete(dia);
+    } else {
+      this.acordionesAbiertos.add(dia);
+    }
+  }
+
+  isAccordionOpen(dia: string): boolean {
+    return this.acordionesAbiertos.has(dia);
+  }
+
+  getHorariosByDay(dia: string): any[] {
+    return this.sectorSeleccionado?.horarios.filter(horario => horario.dia === dia) || [];
+  }
+
 
   toggleHorarios(sectorId: string) {
     this.showHorarios[sectorId] = !this.showHorarios[sectorId];
+  }
+
+
+  abrirModalSector(sector: Sectores) {
+    this.sectorSeleccionado = { ...sector, horarios: sector.horarios || [] };
+    this.modalSectorAbierto = true;
+  }
+
+
+  cerrarModalSector() {
+    this.modalSectorAbierto = false;
+    this.sectorSeleccionado = null;
   }
 
   // Método para agregar o actualizar un sector
@@ -76,6 +111,13 @@ export class SectoresComponent implements OnInit {
     const file = event.target.files[0];
     if (file) {
       this.selectedFile = file;
+
+      // Utilizamos FileReader para mostrar la imagen antes de subirla
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.newSector.image = e.target.result; // Esto establecerá la imagen para previsualización
+      };
+      reader.readAsDataURL(file);
     }
   }
 
@@ -130,9 +172,9 @@ export class SectoresComponent implements OnInit {
       const horasDuracion = Math.floor(duracionMinutos / 60);
       const minutosDuracion = duracionMinutos % 60;
 
-      this.duracionesPorDia[dia] = { 
-        horas: horasDuracion, 
-        minutos: minutosDuracion 
+      this.duracionesPorDia[dia] = {
+        horas: horasDuracion,
+        minutos: minutosDuracion
       };
 
       this.horariosSeleccionados[dia] = [
@@ -143,6 +185,8 @@ export class SectoresComponent implements OnInit {
 
     this.dias.forEach(dia => this.generarHorariosPorDia(dia));
   }
+
+
 
   isHorarioSelected(dia: string, hora: number): boolean {
     return this.horariosSeleccionados[dia]?.some(h => h.inicio === hora) ?? false;
@@ -217,11 +261,11 @@ export class SectoresComponent implements OnInit {
       inicio: this.formatHour(h.inicio),  // Guardar como 'HH:mm'
       fin: this.formatHour(h.fin)         // Guardar como 'HH:mm'
     }));
-  
+
     // Filtrar los horarios anteriores para el día seleccionado y reemplazarlos con los nuevos
     this.newSector.horarios = this.newSector.horarios.filter(h => h.dia !== this.diaSeleccionado);
     this.newSector.horarios.push(...horariosDiaSeleccionado);
-  
+
     this.snackBar.open(`Horarios para ${this.diaSeleccionado} guardados`, 'Cerrar', { duration: 2000 });
     this.cerrarModal();
   }
@@ -229,19 +273,22 @@ export class SectoresComponent implements OnInit {
   limpiarHorarios(dia: string) {
     // Eliminar los horarios seleccionados para el día en particular
     this.horariosSeleccionados[dia] = [];
-  
+
     // Filtrar los horarios del sector para eliminar los horarios del día seleccionado
     this.newSector.horarios = this.newSector.horarios.filter(h => h.dia !== dia);
-  
+
     // Mostrar notificación de que los horarios han sido limpiados
     const diaTitulo = this.capitalizeFirstLetter(dia);
     this.snackBar.open(`Horarios para ${diaTitulo} limpiados`, 'Cerrar', { duration: 2000 });
   }
-  
+
   capitalizeFirstLetter(text: string): string {
     return text.charAt(0).toUpperCase() + text.slice(1);
   }
-  
-  
-  
+
+
+
+
+
+
 }

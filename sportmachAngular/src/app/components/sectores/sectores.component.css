@@ -1,222 +1,468 @@
-/* General form styles */
+.titulo{
+  text-align: center;
+  color: #ff914d;
+}
+
 .sector-form {
+  background-color: rgb(255, 255, 255);
   padding: 20px;
-  background-color: #f9f9f9;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: black;
+  max-width: 900px;
+  margin: 50px auto;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.form-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.image-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  padding: 20px;
+  width: 250px;
+  height: 200px;
+}
+
+.image-icon-label i {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.image-preview img {
+  max-width: 100%;
+  max-height: 100%;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.form-section {
+  flex: 1;
+}
+
+.input-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
   margin-bottom: 20px;
 }
 
-.sector-form h2 {
-  margin-bottom: 20px;
-  font-size: 1.8rem;
-  color: #333;
+.input-group {
+  flex: 1;
 }
 
-.sector-form label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-.sector-form input,
-.sector-form textarea {
+.input-group input,
+.input-group textarea {
   width: 100%;
-  padding: 8px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
+  padding: 10px;
   border-radius: 5px;
+  border: 1px solid #ccc;
   box-sizing: border-box;
 }
 
-.sector-form button {
-  margin-right: 10px;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.sector-form button:hover {
-  background-color: #0056b3;
-}
-
-/* Dias seleccion styles */
 .dias-seleccion {
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
-.dias-seleccion h3 {
-  margin-bottom: 10px;
-  color: #333;
+.dias-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
-.dias-seleccion button {
-  padding: 10px 15px;
-  margin: 5px;
-  background-color: #28a745;
+.fila-superior,
+.fila-inferior {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #ff7f50;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 20px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-.dias-seleccion button:hover {
-  background-color: #218838;
+button:hover {
+  background-color: #ff5722;
 }
 
-/* Sectores list styles */
-.sectores-list {
-  margin-top: 30px;
-  background-color: #f9f9f9;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.sectores-list h3 {
-  margin-bottom: 15px;
-  color: #333;
-}
-
-.sectores-list ul {
-  list-style: none;
-  padding: 0;
-}
-
-.sectores-list li {
-  margin-bottom: 15px;
-}
-
-.sector-item {
+.action-buttons {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 15px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
 }
 
-.sector-info h4 {
-  margin: 0;
-  font-size: 1.2rem;
-  color: #333;
-}
-
-.sector-info p {
-  margin: 5px 0;
-  color: #555;
-}
-
-.sector-actions button {
-  margin-left: 10px;
-  padding: 8px 12px;
-  background-color: #007bff;
+.agregar-btn,
+.cancelar-btn {
+  padding: 10px 20px;
+  background-color: #ff7f50;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 20px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-.sector-actions button:hover {
-  background-color: #0056b3;
+.cancelar-btn {
+  background-color: #d9534f;
 }
 
-/* Modal styles */
+.agregar-btn:hover,
+.cancelar-btn:hover {
+  opacity: 0.8;
+}
+
 .modal {
   display: none;
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 400px;
-  z-index: 1000;
-  max-height: 80vh;
-  overflow-y: auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
 }
 
 .modal.active {
-  display: block;
+  display: flex;
 }
 
 .modal-content {
+  background-color: white;
   padding: 20px;
+  border-radius: 10px;
+  text-align: center;
   position: relative;
+  width: 500px; /* Aumentamos el ancho */
+  max-height: 90vh; /* Para evitar que se salga de la pantalla */
+  overflow-y: auto; /* Para añadir un scroll si el contenido es demasiado largo */
 }
 
+
 .close {
-  font-size: 1.5rem;
   position: absolute;
   top: 10px;
   right: 20px;
+  font-size: 24px;
   cursor: pointer;
 }
 
-.guardar-btn {
-  margin-top: 20px;
-  display: block;
-  width: 100%;
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
 
-.guardar-btn:hover {
-  background-color: #0056b3;
-}
-
-/* Botón Limpiar Horarios */
-.limpiar-btn {
-  display: block;
-  margin-bottom: 15px;
-  width: 100%;
-  padding: 10px;
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.limpiar-btn:hover {
-  background-color: #c82333;
-}
-
-/* Checkbox styles for horarios */
-.modal-content input[type="checkbox"] {
-  margin-right: 10px;
-  transform: scale(1.2);
-  cursor: pointer;
+.modal-content input[type="number"] {
+  width: 60px; /* Ajustamos el ancho a 60px para hacerlo más pequeño */
+  padding: 5px; /* Reducimos el padding para hacer que el campo sea más compacto */
+  text-align: center; /* Alineamos el texto al centro para una mejor presentación */
+  font-size: 14px; /* Ajustamos el tamaño del texto */
+  margin-right: 10px; /* Añadimos margen entre los inputs para separarlos */
 }
 
 .modal-content label {
   display: inline-block;
-  margin-bottom: 10px;
   font-weight: bold;
-  color: #333;
+  margin-bottom: 5px;
+  margin-right: 5px;
 }
 
-/* Ajuste de inputs dentro del modal */
-.modal-content input[type="number"] {
-  width: calc(50% - 10px);
-  margin-bottom: 15px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+  width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
 }
+
+.time-inputs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Aseguramos que el contenido esté centrado vertical y horizontalmente */
+  margin-bottom: 15px;
+}
+
+.time-label {
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.circle-inputs {
+  display: flex;
+  justify-content: center; /* Centramos los inputs horizontalmente */
+  gap: 20px;
+}
+
+.circle-inputs input[type="number"] {
+  width: 60px; /* Ancho del círculo */
+  height: 60px; /* Altura del círculo */
+  border-radius: 50%; /* Hace el input circular */
+  border: 0.5px solid black; /* Borde negro para darle visibilidad */
+  text-align: center; /* Texto centrado */
+  font-size: 18px; /* Tamaño del texto */
+  outline: none; /* Quitamos el contorno al hacer clic */
+}
+
+.circle-inputs input[type="number"]:focus {
+  border-color: #ff7f50; /* Color del borde cuando está enfocado */
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: flex-end; /* Mueve los botones a la derecha */
+  gap: 10px; /* Espacio entre los botones */
+  margin-top: 20px;
+  padding-right: 20px; /* Añadimos un padding derecho para separarlos de la esquina */
+}
+
+.agregar-btn,
+.cancelar-btn {
+  padding: 10px 20px;
+  background-color: #ff7f50;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.cancelar-btn {
+  background-color: #d9534f;
+}
+
+.agregar-btn:hover,
+.cancelar-btn:hover {
+  opacity: 0.8;
+}
+
+/* Contenedor de las tarjetas */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Card de cada sector */
+.sector-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+  width: 200px;
+  transition: transform 0.3s ease;
+}
+
+.sector-card:hover {
+  transform: scale(1.05);
+}
+
+.sector-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.sector-info {
+  padding: 15px;
+}
+
+.sector-info h4 {
+  margin: 10px 0;
+  font-size: 18px;
+}
+
+.sector-info button {
+  background-color: #ff7f50;
+  border: none;
+  padding: 10px;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.sector-info button:hover {
+  background-color: #ff5722;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+  width: 400px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.modal-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-actions button {
+  padding: 10px 20px;
+  background-color: #ff7f50;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-actions button:hover {
+  background-color: #ff5722;
+}
+
+.modal-actions button:last-child {
+  background-color: #d9534f;
+}
+
+.modal-actions button:last-child:hover {
+  background-color: #c9302c;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+  width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  transition: transform 0.3s ease-in-out;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.accordion {
+  background-color: #ff7f50;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  text-align: left;
+  outline: none;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.panel {
+  padding: 0 18px;
+  background-color: white;
+  display: none;
+  overflow: hidden;
+  border-left: 5px solid #ff7f50;
+  transition: max-height 0.3s ease-out;
+}
+
+.panel.active {
+  display: block;
+}
+
+.modal-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.action-btn {
+  padding: 10px 20px;
+  background-color: #ff7f50;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-btn i {
+  margin-right: 10px;
+}
+
+.edit-btn {
+  background-color: #4caf50;
+}
+
+.delete-btn {
+  background-color: #f44336;
+}
+
+.action-btn:hover {
+  opacity: 0.8;
+}
+
+.modal-content h4 {
+  color: #ff7f50; /* Color del nombre del sector */
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.modal-content p strong {
+  color: #000000; /* Color para las etiquetas (Capacidad, Descripción) */
+  font-weight: bold;
+}
+
+.modal-content p {
+  color: #333; /* Color para el texto de la capacidad y descripción */
+  font-size: 16px;
+}
+
+h5 {
+  color: #ff5722; /* Color para el título de horarios */
+  margin-top: 20px;
+}
+
+
