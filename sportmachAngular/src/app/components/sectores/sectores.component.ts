@@ -36,9 +36,9 @@ export class SectoresComponent implements OnInit {
     this.sectores$ = this.sectoresService.getSectores();
     this.dias.forEach(dia => {
       this.duracionesPorDia[dia] = { horas: 1, minutos: 0 };
+      this.horariosSeleccionados[dia] = []; // Inicializamos horarios seleccionados para cada día
     });
     this.resetHorarios();
-
   }
 
   toggleAccordion(dia: string): void {
@@ -48,9 +48,18 @@ export class SectoresComponent implements OnInit {
       this.acordionesAbiertos.add(dia);
     }
   }
+  getDiasConHorarios(): string[] {
+    if (!this.sectorSeleccionado?.horarios?.length) {
+      return [];
+    }
 
-  isAccordionOpen(dia: string): boolean {
-    return this.acordionesAbiertos.has(dia);
+    const diasConHorarios = new Set<string>();
+
+    this.sectorSeleccionado.horarios.forEach(horario => {
+      diasConHorarios.add(horario.dia);  // Añadir el día que tiene al menos un horario
+    });
+
+    return Array.from(diasConHorarios);  // Convertir el Set a un array
   }
 
   getHorariosByDay(dia: string): any[] {
@@ -58,16 +67,20 @@ export class SectoresComponent implements OnInit {
   }
 
 
+  isAccordionOpen(dia: string): boolean {
+    return this.acordionesAbiertos.has(dia);
+  }
+
+
+
   toggleHorarios(sectorId: string) {
     this.showHorarios[sectorId] = !this.showHorarios[sectorId];
   }
-
 
   abrirModalSector(sector: Sectores) {
     this.sectorSeleccionado = { ...sector, horarios: sector.horarios || [] };
     this.modalSectorAbierto = true;
   }
-
 
   cerrarModalSector() {
     this.modalSectorAbierto = false;
@@ -186,8 +199,6 @@ export class SectoresComponent implements OnInit {
     this.dias.forEach(dia => this.generarHorariosPorDia(dia));
   }
 
-
-
   isHorarioSelected(dia: string, hora: number): boolean {
     return this.horariosSeleccionados[dia]?.some(h => h.inicio === hora) ?? false;
   }
@@ -203,6 +214,7 @@ export class SectoresComponent implements OnInit {
     if (!this.duracionesPorDia[dia]) {
       this.duracionesPorDia[dia] = { horas: 1, minutos: 0 };
     }
+    this.generarHorariosPorDia(dia);
     this.modalAbierto = true;
   }
 
@@ -256,14 +268,23 @@ export class SectoresComponent implements OnInit {
   }
 
   guardarHorariosPorDia() {
+    // Verificar si hay horarios seleccionados para el día actual
+    if (!this.horariosSeleccionados[this.diaSeleccionado] || this.horariosSeleccionados[this.diaSeleccionado].length === 0) {
+      this.snackBar.open(`No hay horarios seleccionados para ${this.diaSeleccionado}`, 'Cerrar', { duration: 2000 });
+      return;
+    }
+
+    // Mapeamos los horarios seleccionados a un formato 'HH:mm'
     const horariosDiaSeleccionado = this.horariosSeleccionados[this.diaSeleccionado].map(h => ({
       dia: this.diaSeleccionado,
       inicio: this.formatHour(h.inicio),  // Guardar como 'HH:mm'
       fin: this.formatHour(h.fin)         // Guardar como 'HH:mm'
     }));
 
-    // Filtrar los horarios anteriores para el día seleccionado y reemplazarlos con los nuevos
+    // Filtramos los horarios anteriores del día seleccionado
     this.newSector.horarios = this.newSector.horarios.filter(h => h.dia !== this.diaSeleccionado);
+
+    // Agregamos los nuevos horarios del día seleccionado
     this.newSector.horarios.push(...horariosDiaSeleccionado);
 
     this.snackBar.open(`Horarios para ${this.diaSeleccionado} guardados`, 'Cerrar', { duration: 2000 });
@@ -285,10 +306,6 @@ export class SectoresComponent implements OnInit {
   capitalizeFirstLetter(text: string): string {
     return text.charAt(0).toUpperCase() + text.slice(1);
   }
-
-
-
-
 
 
 }

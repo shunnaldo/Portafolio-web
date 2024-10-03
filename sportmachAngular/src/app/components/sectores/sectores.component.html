@@ -121,32 +121,31 @@
   </div>
 </div>
 
+
 <!-- Modal para mostrar más información del sector -->
 <div class="modal" [ngClass]="{'active': modalSectorAbierto}" (click)="cerrarModalSector()">
   <div class="modal-content" (click)="$event.stopPropagation()">
     <span class="close" (click)="cerrarModalSector()">&times;</span>
     <h4>{{ sectorSeleccionado?.nombre }}</h4>
-    <p>Capacidad:{{ sectorSeleccionado?.capacidad }}</p>
-    <p>Descripción:{{ sectorSeleccionado?.description }}</p>
+    <p>Capacidad: {{ sectorSeleccionado?.capacidad }}</p>
+    <p>Descripción: {{ sectorSeleccionado?.description }}</p>
 
     <!-- Verifica si horarios está definido y tiene longitud mayor a 0 -->
     <div *ngIf="sectorSeleccionado?.horarios?.length">
       <h5>Horarios:</h5>
 
-      <!-- Solo mostramos los días que tienen horarios -->
-      <div *ngFor="let dia of diasConHorarios">
-        <ng-container *ngIf="getHorariosByDay(dia).length > 0">
-          <button class="accordion" (click)="toggleAccordion(dia)">
-            {{ dia | titlecase }}
-          </button>
-          <div class="panel" [ngClass]="{'active': isAccordionOpen(dia)}">
-            <ul>
-              <li *ngFor="let horario of getHorariosByDay(dia)">
-                {{ horario.inicio }} - {{ horario.fin }}
-              </li>
-            </ul>
-          </div>
-        </ng-container>
+      <!-- Mostrar solo los días que tienen horarios -->
+      <div *ngFor="let dia of getDiasConHorarios()">
+        <button class="accordion" (click)="toggleAccordion(dia)">
+          {{ dia | titlecase }}
+        </button>
+        <div class="panel" [ngClass]="{'active': isAccordionOpen(dia)}">
+          <ul>
+            <li *ngFor="let horario of getHorariosByDay(dia)">
+              {{ horario.inicio }} - {{ horario.fin }}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
 
