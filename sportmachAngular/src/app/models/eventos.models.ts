@@ -6,16 +6,16 @@ export class eventos{
     descripcion: string;
     creator: string;
     status: boolean;
-    date: Date;
 
-    constructor( 
+
+    constructor(
         idEventosAdmin:string,
         idSector: string,
         titulo: string,
         descripcion: string,
         creator: string,
         status: boolean,
-        date: Date )
+      )
         {
         this.idEventosAdmin = idEventosAdmin
         this.idSector = idSector
@@ -23,9 +23,9 @@ export class eventos{
         this.descripcion = descripcion
         this. creator = creator
         this. status = status
-        this.date = date
+
         }
 
-        
+
 }
 

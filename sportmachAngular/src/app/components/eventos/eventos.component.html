@@ -1,0 +1,45 @@
+<div class="form-container">
+  <form (ngSubmit)="onSubmit()" #eventForm="ngForm">
+    <div>
+      <label for="idSector">Sector</label>
+      <select id="idSector" [(ngModel)]="newEvento.idSector" name="idSector" (change)="onSectorChange($event)" required>
+        <option *ngFor="let sector of sectores" [value]="sector.idSector">
+          {{ sector.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Mostrar horarios del sector seleccionado -->
+    <div *ngIf="horariosDisponibles.length > 0">
+      <label for="horario">Seleccione un horario</label>
+      <select id="horario" [(ngModel)]="selectedHorario" name="horario" required>
+        <option *ngFor="let horario of horariosDisponibles" [value]="horario">
+          {{ horario.dia }}: {{ horario.inicio }} - {{ horario.fin }}
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <label for="titulo">Título</label>
+      <input id="titulo" [(ngModel)]="newEvento.titulo" name="titulo" required />
+    </div>
+
+    <div>
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" [(ngModel)]="newEvento.descripcion" name="descripcion" required></textarea>
+    </div>
+
+    <div>
+      <label for="creator">Creador</label>
+      <input id="creator" [(ngModel)]="newEvento.creator" name="creator" required />
+    </div>
+
+
+    <div>
+      <label for="status">Estado</label>
+      <input id="status" type="checkbox" [(ngModel)]="newEvento.status" name="status" />
+    </div>
+
+    <button type="submit" [disabled]="eventForm.invalid">Crear Evento</button>
+  </form>
+</div>

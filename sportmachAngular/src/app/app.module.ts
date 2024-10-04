@@ -11,7 +11,7 @@ import { EventosComponent } from './components/eventos/eventos.component';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
 
@@ -30,7 +30,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatSnackBarModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    BsDatepickerModule.forRoot()
 
   ],
   providers: [],
