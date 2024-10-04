@@ -1,7 +1,9 @@
 <div class="form-container">
   <form (ngSubmit)="onSubmit()" #eventForm="ngForm">
+
+    <!-- Sector Selection -->
     <div>
-      <label for="idSector">Sector</label>
+      <label for="idSector">Seleccione un sector</label>
       <select id="idSector" [(ngModel)]="newEvento.idSector" name="idSector" (change)="onSectorChange($event)" required>
         <option *ngFor="let sector of sectores" [value]="sector.idSector">
           {{ sector.nombre }}
@@ -9,7 +11,13 @@
       </select>
     </div>
 
-    <!-- Mostrar horarios del sector seleccionado -->
+    <!-- Date Selection -->
+    <div>
+      <label for="fecha">Seleccione una fecha</label>
+      <input type="date" id="fecha" [(ngModel)]="selectedDate" name="fecha" required (change)="onDateChange()" />
+    </div>
+
+    <!-- Show available horarios for the selected date -->
     <div *ngIf="horariosDisponibles.length > 0">
       <label for="horario">Seleccione un horario</label>
       <div class="horarios-container">
@@ -18,31 +26,42 @@
           *ngFor="let horario of horariosDisponibles"
           [ngClass]="{'selected': horario === selectedHorario, 'not-available': !horario.disponible}"
           (click)="selectHorario(horario)">
-          {{ horario.dia }}: {{ horario.inicio }} - {{ horario.fin }}
+          {{ horario.inicio }} - {{ horario.fin }}
         </button>
       </div>
     </div>
 
+    <!-- Message when no horarios are available -->
+    <div *ngIf="horariosDisponibles.length === 0 && selectedDate">
+      <p>No hay horarios disponibles para el día seleccionado.</p>
+    </div>
+
+    <!-- Event Title -->
     <div>
       <label for="titulo">Título</label>
       <input id="titulo" [(ngModel)]="newEvento.titulo" name="titulo" required />
     </div>
 
+    <!-- Event Description -->
     <div>
       <label for="descripcion">Descripción</label>
       <textarea id="descripcion" [(ngModel)]="newEvento.descripcion" name="descripcion" required></textarea>
     </div>
 
+    <!-- Event Creator -->
     <div>
       <label for="creator">Creador</label>
       <input id="creator" [(ngModel)]="newEvento.creator" name="creator" required />
     </div>
 
+    <!-- Event Status -->
     <div>
       <label for="status">Estado</label>
       <input id="status" type="checkbox" [(ngModel)]="newEvento.status" name="status" />
     </div>
 
+    <!-- Submit Button -->
     <button type="submit" [disabled]="eventForm.invalid">Crear Evento</button>
+
   </form>
 </div>

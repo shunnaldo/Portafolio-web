@@ -16,6 +16,19 @@ export class EventosComponent implements OnInit {
   horariosDisponibles: Horario[] = [];
   newEvento: eventos = new eventos('', '', '', '', '', false);
   selectedHorario: Horario | null = null;
+  selectedDate: string | null = null;
+  selectedSectorId: string | null = null;  // Añadimos una variable para almacenar el sector seleccionado
+
+  // Definir el mapeo de días a números
+  daysOrder = {
+    'lunes': 1,
+    'martes': 2,
+    'miércoles': 3,
+    'jueves': 4,
+    'viernes': 5,
+    'sábado': 6,
+    'domingo': 7
+  };
 
   constructor(
     private eventosService: EventosService,
@@ -33,57 +46,64 @@ export class EventosComponent implements OnInit {
   }
 
   onSectorChange(event: any): void {
-    const selectedSectorId = event.target.value;
-    const sectorSeleccionado = this.sectores.find(sector => sector.idSector === selectedSectorId);
+    this.selectedSectorId = event.target.value;  // Almacenar el ID del sector seleccionado
+    this.filterHorarios();
+  }
 
-    if (sectorSeleccionado) {
-      this.horariosDisponibles = sectorSeleccionado.horarios
-        .slice()
-        .sort((a, b) => this.compareDayAndTime(a, b));
+  onDateChange(): void {
+    if (this.selectedDate) {
+      // Convertimos la fecha seleccionada a un formato ISO correcto (ya sin ajustes de zona horaria)
+      const formattedDate = new Date(this.selectedDate + 'T00:00:00'); // Forzamos la hora a la medianoche local
+      this.selectedDate = formattedDate.toISOString().split('T')[0]; // Obtenemos el formato YYYY-MM-DD
+      this.filterHorarios();
     }
   }
 
-  daysOrder = {
-    'Lunes': 1,
-    'Martes': 2,
-    'Miércoles': 3,
-    'Jueves': 4,
-    'Viernes': 5,
-    'Sábado': 6,
-    'Domingo': 7
-  };
 
-  compareDayAndTime(horario1: Horario, horario2: Horario): number {
-    const day1 = this.daysOrder[horario1.dia as keyof typeof this.daysOrder];
-    const day2 = this.daysOrder[horario2.dia as keyof typeof this.daysOrder];
-    const dayComparison = day1 - day2;
 
-    if (dayComparison !== 0) {
-      return dayComparison;
-    }
+  filterHorarios(): void {
+    if (this.selectedSectorId && this.selectedDate) {
+      const selectedSector = this.sectores.find(sector => sector.idSector === this.selectedSectorId);
+      const dayOfWeek = this.getDayOfWeek(this.selectedDate).toLowerCase();  // Convertimos a minúsculas para evitar problemas de capitalización
+      console.log("Selected Date: ", this.selectedDate);
+      console.log("Day of Week: ", dayOfWeek);
 
-    return this.compareTime(horario1.inicio, horario2.inicio);
-  }
-
-  compareTime(time1: string, time2: string): number {
-    const [hours1, minutes1] = time1.split(':').map(Number);
-    const [hours2, minutes2] = time2.split(':').map(Number);
-
-    if (hours1 !== hours2) {
-      return hours1 - hours2;
-    } else {
-      return minutes1 - minutes2;
+      if (selectedSector) {
+        console.log("Horarios del sector: ", selectedSector.horarios);
+        // Comparamos ambos en minúsculas para asegurar la coincidencia
+        this.horariosDisponibles = selectedSector.horarios.filter(horario => {
+          console.log("Comparando horario: ", horario.dia.toLowerCase(), " con ", dayOfWeek);
+          return horario.dia.toLowerCase() === dayOfWeek;
+        });
+        console.log("Filtered Horarios: ", this.horariosDisponibles);
+      }
     }
   }
+
+
+
+
+
+  getDayOfWeek(dateString: string): string {
+    const date = new Date(dateString + 'T00:00:00');  // Forzar la fecha a medianoche en la zona horaria local
+    const days = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+
+    // Obtenemos el día de la semana basado en la zona horaria local
+    const day = days[date.getDay()];
+    console.log("Calculated day: ", day);  // Verificamos que este valor sea correcto
+    return day;
+  }
+
+
 
   selectHorario(horario: Horario): void {
     this.selectedHorario = horario;
   }
 
   onSubmit(): void {
-    if (this.selectedHorario) {
-      // Asignamos solo el día y la hora seleccionada como idSector
-      this.newEvento.idSector = `${this.selectedHorario.dia} ${this.selectedHorario.inicio}-${this.selectedHorario.fin}`;
+    if (this.selectedHorario && this.selectedDate) {
+      // Asignamos solo la fecha y la hora seleccionada como idSector
+      this.newEvento.idSector = `${this.selectedDate} ${this.selectedHorario.inicio}-${this.selectedHorario.fin}`;
 
       // Añadir la hora seleccionada a la descripción
       this.newEvento.descripcion += `\nHorario seleccionado: ${this.selectedHorario.dia} de ${this.selectedHorario.inicio} a ${this.selectedHorario.fin}`;
@@ -100,11 +120,13 @@ export class EventosComponent implements OnInit {
       });
   }
 
-
-
   resetForm(): void {
     this.newEvento = new eventos('', '', '', '', '', false);
     this.selectedHorario = null;
     this.horariosDisponibles = [];
+    this.selectedDate = null;
+    this.selectedSectorId = null;
   }
+
+
 }

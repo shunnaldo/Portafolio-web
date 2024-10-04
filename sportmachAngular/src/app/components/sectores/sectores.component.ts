@@ -77,6 +77,8 @@ export class SectoresComponent implements OnInit {
     this.showHorarios[sectorId] = !this.showHorarios[sectorId];
   }
 
+
+
   abrirModalSector(sector: Sectores) {
     this.sectorSeleccionado = { ...sector, horarios: sector.horarios || [] };
     this.modalSectorAbierto = true;
@@ -214,9 +216,11 @@ export class SectoresComponent implements OnInit {
     if (!this.duracionesPorDia[dia]) {
       this.duracionesPorDia[dia] = { horas: 1, minutos: 0 };
     }
+    // Asegúrate de que los horarios se generen correctamente para el día seleccionado
     this.generarHorariosPorDia(dia);
     this.modalAbierto = true;
   }
+
 
   cerrarModal() {
     this.modalAbierto = false;
