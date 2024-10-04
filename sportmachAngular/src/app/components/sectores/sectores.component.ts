@@ -278,7 +278,8 @@ export class SectoresComponent implements OnInit {
     const horariosDiaSeleccionado = this.horariosSeleccionados[this.diaSeleccionado].map(h => ({
       dia: this.diaSeleccionado,
       inicio: this.formatHour(h.inicio),  // Guardar como 'HH:mm'
-      fin: this.formatHour(h.fin)         // Guardar como 'HH:mm'
+      fin: this.formatHour(h.fin),        // Guardar como 'HH:mm'
+      disponible: true                    // Establecer la disponibilidad a true por defecto
     }));
 
     // Filtramos los horarios anteriores del día seleccionado
@@ -290,6 +291,7 @@ export class SectoresComponent implements OnInit {
     this.snackBar.open(`Horarios para ${this.diaSeleccionado} guardados`, 'Cerrar', { duration: 2000 });
     this.cerrarModal();
   }
+
 
   limpiarHorarios(dia: string) {
     // Eliminar los horarios seleccionados para el día en particular

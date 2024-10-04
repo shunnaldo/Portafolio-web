@@ -12,11 +12,15 @@
     <!-- Mostrar horarios del sector seleccionado -->
     <div *ngIf="horariosDisponibles.length > 0">
       <label for="horario">Seleccione un horario</label>
-      <select id="horario" [(ngModel)]="selectedHorario" name="horario" required>
-        <option *ngFor="let horario of horariosDisponibles" [value]="horario">
+      <div class="horarios-container">
+        <button
+          type="button"
+          *ngFor="let horario of horariosDisponibles"
+          [ngClass]="{'selected': horario === selectedHorario, 'not-available': !horario.disponible}"
+          (click)="selectHorario(horario)">
           {{ horario.dia }}: {{ horario.inicio }} - {{ horario.fin }}
-        </option>
-      </select>
+        </button>
+      </div>
     </div>
 
     <div>
@@ -33,7 +37,6 @@
       <label for="creator">Creador</label>
       <input id="creator" [(ngModel)]="newEvento.creator" name="creator" required />
     </div>
-
 
     <div>
       <label for="status">Estado</label>
