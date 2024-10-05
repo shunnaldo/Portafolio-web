@@ -17,18 +17,7 @@ export class EventosComponent implements OnInit {
   newEvento: eventos = new eventos('', '', '', '', '', false);
   selectedHorario: Horario | null = null;
   selectedDate: string | null = null;
-  selectedSectorId: string | null = null;  // Añadimos una variable para almacenar el sector seleccionado
-
-  // Definir el mapeo de días a números
-  daysOrder = {
-    'lunes': 1,
-    'martes': 2,
-    'miércoles': 3,
-    'jueves': 4,
-    'viernes': 5,
-    'sábado': 6,
-    'domingo': 7
-  };
+  selectedSectorId: string | null = null;
 
   constructor(
     private eventosService: EventosService,
@@ -46,19 +35,17 @@ export class EventosComponent implements OnInit {
   }
 
   onSectorChange(event: any): void {
-    this.selectedSectorId = event.target.value;  // Almacenar el ID del sector seleccionado
+    this.selectedSectorId = event.target.value;
     this.filterHorarios();
   }
 
   onDateChange(): void {
     if (this.selectedDate) {
-      // Convertimos la fecha seleccionada a un formato ISO correcto (ya sin ajustes de zona horaria)
-      const formattedDate = new Date(this.selectedDate + 'T00:00:00'); // Forzamos la hora a la medianoche local
-      this.selectedDate = formattedDate.toISOString().split('T')[0]; // Obtenemos el formato YYYY-MM-DD
+      const formattedDate = new Date(this.selectedDate + 'T00:00:00');
+      this.selectedDate = formattedDate.toISOString().split('T')[0];
       this.filterHorarios();
     }
   }
-
 
   filterHorarios(): void {
     if (this.selectedSectorId && this.selectedDate) {
@@ -69,10 +56,12 @@ export class EventosComponent implements OnInit {
         this.horariosDisponibles = selectedSector.horarios.filter(horario => {
           const isSameDayOfWeek = this.normalizeDayName(horario.dia) === dayOfWeek;
 
-          // Comprobar si la fecha seleccionada está en las fechas reservadas del horario
-          const isDateReserved = this.selectedDate && horario.fechasReservadas?.includes(this.selectedDate);
+          let isDateReserved = false;
+          if (this.selectedDate) {  // Aseguramos que selectedDate no es null
+            isDateReserved = horario.fechasReservadas?.includes(this.selectedDate) || false;
+          }
 
-          // Mostrar el horario, pero marcarlo como no disponible si la fecha está reservada
+          // Marcar el horario como no disponible visualmente pero mostrarlo
           horario.disponible = !isDateReserved;
           return isSameDayOfWeek;
         });
@@ -81,26 +70,15 @@ export class EventosComponent implements OnInit {
   }
 
 
-
-normalizeDayName(day: string): string {
-  return day.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-}
-
-
-
-
-
-  getDayOfWeek(dateString: string): string {
-    const date = new Date(dateString + 'T00:00:00');  // Forzar la fecha a medianoche en la zona horaria local
-    const days = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
-
-    // Obtenemos el día de la semana basado en la zona horaria local
-    const day = days[date.getDay()];
-    console.log("Calculated day: ", day);  // Verificamos que este valor sea correcto
-    return day;
+  normalizeDayName(day: string): string {
+    return day.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
   }
 
-
+  getDayOfWeek(dateString: string): string {
+    const date = new Date(dateString + 'T00:00:00');
+    const days = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+    return days[date.getDay()];
+  }
 
   selectHorario(horario: Horario): void {
     this.selectedHorario = horario;
@@ -108,24 +86,20 @@ normalizeDayName(day: string): string {
 
   onSubmit(): void {
     if (this.selectedHorario && this.selectedDate) {
-      // Asignamos la fecha y la hora seleccionada como idSector
       this.newEvento.idSector = `${this.selectedDate} ${this.selectedHorario.inicio}-${this.selectedHorario.fin}`;
-
-      // Añadir la hora seleccionada a la descripción
       this.newEvento.descripcion += `\nHorario seleccionado: ${this.selectedHorario.dia} de ${this.selectedHorario.inicio} a ${this.selectedHorario.fin} en la fecha ${this.selectedDate}`;
 
-      // Marcar el horario como no disponible solo para la fecha seleccionada
       if (!this.selectedHorario.fechasReservadas) {
-        this.selectedHorario.fechasReservadas = [];  // Creamos el array si no existe
+        this.selectedHorario.fechasReservadas = [];
       }
-      this.selectedHorario.fechasReservadas.push(this.selectedDate);  // Agregamos la fecha reservada
+      this.selectedHorario.fechasReservadas.push(this.selectedDate);
 
-      // Guardar el evento
       this.eventosService.createEvento(this.newEvento)
         .then(() => {
+          this.updateSectorHorario();
           alert('Evento creado exitosamente');
           this.resetForm();
-          this.filterHorarios();  // Actualizar horarios disponibles después de crear el evento
+          this.filterHorarios();
         })
         .catch(error => {
           console.error('Error creando el evento: ', error);
@@ -134,7 +108,18 @@ normalizeDayName(day: string): string {
     }
   }
 
-
+  updateSectorHorario(): void {
+    if (this.selectedSectorId) {
+      const selectedSector = this.sectores.find(sector => sector.idSector === this.selectedSectorId);
+      if (selectedSector) {
+        this.sectoresService.updateSector(this.selectedSectorId, selectedSector).then(() => {
+          console.log('Sector actualizado con horarios reservados');
+        }).catch(error => {
+          console.error('Error actualizando el sector:', error);
+        });
+      }
+    }
+  }
 
   resetForm(): void {
     this.newEvento = new eventos('', '', '', '', '', false);
@@ -143,6 +128,4 @@ normalizeDayName(day: string): string {
     this.selectedDate = null;
     this.selectedSectorId = null;
   }
-
-
 }
