@@ -17,19 +17,20 @@
       <input type="date" id="fecha" [(ngModel)]="selectedDate" name="fecha" required (change)="onDateChange()" />
     </div>
 
-    <!-- Show available horarios for the selected date -->
     <div *ngIf="horariosDisponibles.length > 0">
       <label for="horario">Seleccione un horario</label>
       <div class="horarios-container">
         <button
           type="button"
           *ngFor="let horario of horariosDisponibles"
+          [disabled]="!horario.disponible"
           [ngClass]="{'selected': horario === selectedHorario, 'not-available': !horario.disponible}"
           (click)="selectHorario(horario)">
           {{ horario.inicio }} - {{ horario.fin }}
         </button>
       </div>
     </div>
+
 
     <!-- Message when no horarios are available -->
     <div *ngIf="horariosDisponibles.length === 0 && selectedDate">

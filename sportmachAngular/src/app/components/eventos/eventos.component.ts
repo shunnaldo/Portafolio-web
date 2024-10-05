@@ -60,25 +60,27 @@ export class EventosComponent implements OnInit {
   }
 
 
-
   filterHorarios(): void {
     if (this.selectedSectorId && this.selectedDate) {
       const selectedSector = this.sectores.find(sector => sector.idSector === this.selectedSectorId);
       const dayOfWeek = this.normalizeDayName(this.getDayOfWeek(this.selectedDate));
 
-      console.log("Selected Date: ", this.selectedDate);
-      console.log("Day of Week: ", dayOfWeek);
-
       if (selectedSector) {
-        console.log("Horarios del sector: ", selectedSector.horarios);
         this.horariosDisponibles = selectedSector.horarios.filter(horario => {
-          console.log("Comparando horario: ", this.normalizeDayName(horario.dia), " con ", dayOfWeek);
-          return this.normalizeDayName(horario.dia) === dayOfWeek;
+          const isSameDayOfWeek = this.normalizeDayName(horario.dia) === dayOfWeek;
+
+          // Comprobar si la fecha seleccionada está en las fechas reservadas del horario
+          const isDateReserved = this.selectedDate && horario.fechasReservadas?.includes(this.selectedDate);
+
+          // Mostrar el horario, pero marcarlo como no disponible si la fecha está reservada
+          horario.disponible = !isDateReserved;
+          return isSameDayOfWeek;
         });
-        console.log("Filtered Horarios: ", this.horariosDisponibles);
       }
     }
   }
+
+
 
 normalizeDayName(day: string): string {
   return day.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
@@ -106,23 +108,33 @@ normalizeDayName(day: string): string {
 
   onSubmit(): void {
     if (this.selectedHorario && this.selectedDate) {
-      // Asignamos solo la fecha y la hora seleccionada como idSector
+      // Asignamos la fecha y la hora seleccionada como idSector
       this.newEvento.idSector = `${this.selectedDate} ${this.selectedHorario.inicio}-${this.selectedHorario.fin}`;
 
       // Añadir la hora seleccionada a la descripción
-      this.newEvento.descripcion += `\nHorario seleccionado: ${this.selectedHorario.dia} de ${this.selectedHorario.inicio} a ${this.selectedHorario.fin}`;
-    }
+      this.newEvento.descripcion += `\nHorario seleccionado: ${this.selectedHorario.dia} de ${this.selectedHorario.inicio} a ${this.selectedHorario.fin} en la fecha ${this.selectedDate}`;
 
-    this.eventosService.createEvento(this.newEvento)
-      .then(() => {
-        alert('Evento creado exitosamente');
-        this.resetForm();
-      })
-      .catch(error => {
-        console.error('Error creando el evento: ', error);
-        alert('Hubo un error al crear el evento');
-      });
+      // Marcar el horario como no disponible solo para la fecha seleccionada
+      if (!this.selectedHorario.fechasReservadas) {
+        this.selectedHorario.fechasReservadas = [];  // Creamos el array si no existe
+      }
+      this.selectedHorario.fechasReservadas.push(this.selectedDate);  // Agregamos la fecha reservada
+
+      // Guardar el evento
+      this.eventosService.createEvento(this.newEvento)
+        .then(() => {
+          alert('Evento creado exitosamente');
+          this.resetForm();
+          this.filterHorarios();  // Actualizar horarios disponibles después de crear el evento
+        })
+        .catch(error => {
+          console.error('Error creando el evento: ', error);
+          alert('Hubo un error al crear el evento');
+        });
+    }
   }
+
+
 
   resetForm(): void {
     this.newEvento = new eventos('', '', '', '', '', false);

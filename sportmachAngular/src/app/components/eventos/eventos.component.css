@@ -20,3 +20,12 @@ button.not-available {
   background-color: #ccc;
   cursor: not-allowed;
 }
+
+.horarios-container button.not-available {
+  background-color: #cccccc; /* Color plomo o gris */
+  color: #666666; /* Color de texto más claro */
+  cursor: not-allowed; /* Cambiar el cursor para indicar que está deshabilitado */
+  opacity: 0.7; /* Hacerlo un poco transparente */
+  border: 1px solid #999999; /* Bordes grisáceos */
+}
+
