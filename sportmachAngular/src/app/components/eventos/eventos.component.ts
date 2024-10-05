@@ -64,21 +64,25 @@ export class EventosComponent implements OnInit {
   filterHorarios(): void {
     if (this.selectedSectorId && this.selectedDate) {
       const selectedSector = this.sectores.find(sector => sector.idSector === this.selectedSectorId);
-      const dayOfWeek = this.getDayOfWeek(this.selectedDate).toLowerCase();  // Convertimos a minúsculas para evitar problemas de capitalización
+      const dayOfWeek = this.normalizeDayName(this.getDayOfWeek(this.selectedDate));
+
       console.log("Selected Date: ", this.selectedDate);
       console.log("Day of Week: ", dayOfWeek);
 
       if (selectedSector) {
         console.log("Horarios del sector: ", selectedSector.horarios);
-        // Comparamos ambos en minúsculas para asegurar la coincidencia
         this.horariosDisponibles = selectedSector.horarios.filter(horario => {
-          console.log("Comparando horario: ", horario.dia.toLowerCase(), " con ", dayOfWeek);
-          return horario.dia.toLowerCase() === dayOfWeek;
+          console.log("Comparando horario: ", this.normalizeDayName(horario.dia), " con ", dayOfWeek);
+          return this.normalizeDayName(horario.dia) === dayOfWeek;
         });
         console.log("Filtered Horarios: ", this.horariosDisponibles);
       }
     }
   }
+
+normalizeDayName(day: string): string {
+  return day.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+}
 
 
 
