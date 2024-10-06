@@ -18,11 +18,19 @@ export class EventosComponent implements OnInit {
   selectedHorario: Horario | null = null;
   selectedDate: string | null = null;
   selectedSectorId: string | null = null;
+  availableDays: Set<string> = new Set(); // Aquí almacenaremos los días que tienen horas disponibles.
+  minDate: string;
+  maxDate: string;
 
   constructor(
     private eventosService: EventosService,
     private sectoresService: SectoresService
-  ) {}
+  ) {
+    const today = new Date();
+    this.minDate = today.toISOString().split('T')[0];
+    const nextYear = new Date(today.setFullYear(today.getFullYear() + 1));
+    this.maxDate = nextYear.toISOString().split('T')[0];
+  }
 
   ngOnInit(): void {
     this.loadSectores();
@@ -31,7 +39,25 @@ export class EventosComponent implements OnInit {
   loadSectores(): void {
     this.sectoresService.getSectores().subscribe(sectores => {
       this.sectores = sectores;
+      this.populateAvailableDays();  // Llamamos a la función para llenar los días disponibles
     });
+  }
+
+  populateAvailableDays(): void {
+    this.sectores.forEach(sector => {
+      sector.horarios.forEach(horario => {
+        if (horario.disponible) {
+          const dayWithAvailableHours = horario.fechasReservadas || [];  // Verifica las fechas disponibles
+          dayWithAvailableHours.forEach(fecha => {
+            this.availableDays.add(fecha);  // Almacenamos las fechas en el Set
+          });
+        }
+      });
+    });
+  }
+
+  isDayAvailable(date: string): boolean {
+    return this.availableDays.has(date);  // Verificamos si el día tiene horas disponibles
   }
 
   onSectorChange(event: any): void {
@@ -55,20 +81,16 @@ export class EventosComponent implements OnInit {
       if (selectedSector) {
         this.horariosDisponibles = selectedSector.horarios.filter(horario => {
           const isSameDayOfWeek = this.normalizeDayName(horario.dia) === dayOfWeek;
-
           let isDateReserved = false;
-          if (this.selectedDate) {  // Aseguramos que selectedDate no es null
+          if (this.selectedDate) {
             isDateReserved = horario.fechasReservadas?.includes(this.selectedDate) || false;
           }
-
-          // Marcar el horario como no disponible visualmente pero mostrarlo
           horario.disponible = !isDateReserved;
           return isSameDayOfWeek;
         });
       }
     }
   }
-
 
   normalizeDayName(day: string): string {
     return day.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();

@@ -14,9 +14,20 @@
     <!-- Date Selection -->
     <div>
       <label for="fecha">Seleccione una fecha</label>
-      <input type="date" id="fecha" [(ngModel)]="selectedDate" name="fecha" required (change)="onDateChange()" />
+      <input
+        type="date"
+        id="fecha"
+        [(ngModel)]="selectedDate"
+        name="fecha"
+        required
+        (change)="onDateChange()"
+        [min]="minDate"
+        [max]="maxDate"
+        [ngClass]="{'disabled': selectedDate && !isDayAvailable(selectedDate)}"
+      />
     </div>
 
+    <!-- Horario Selection -->
     <div *ngIf="horariosDisponibles.length > 0">
       <label for="horario">Seleccione un horario</label>
       <div class="horarios-container">
@@ -30,7 +41,6 @@
         </button>
       </div>
     </div>
-
 
     <!-- Message when no horarios are available -->
     <div *ngIf="horariosDisponibles.length === 0 && selectedDate">
