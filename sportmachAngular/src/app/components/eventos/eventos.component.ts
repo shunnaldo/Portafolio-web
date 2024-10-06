@@ -18,9 +18,13 @@ export class EventosComponent implements OnInit {
   selectedHorario: Horario | null = null;
   selectedDate: string | null = null;
   selectedSectorId: string | null = null;
-  availableDays: Set<string> = new Set(); // Aquí almacenaremos los días que tienen horas disponibles.
+  availableDays: Set<string> = new Set();
   minDate: string;
   maxDate: string;
+  currentStep: number = 1;
+
+  // Nueva propiedad para la imagen del sector seleccionado
+  selectedSectorImage: string | null = null;
 
   constructor(
     private eventosService: EventosService,
@@ -34,12 +38,40 @@ export class EventosComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadSectores();
+    this.sectoresService.getSectores().subscribe(sectores => {
+      this.sectores = sectores;
+    });
+  }
+
+  nextStep(): void {
+    if (this.currentStep < 3) {
+      this.currentStep++;
+      this.updateActiveCircle();
+    }
+  }
+
+  previousStep(): void {
+    if (this.currentStep > 1) {
+      this.currentStep--;
+      this.updateActiveCircle();
+    }
+  }
+
+  updateActiveCircle(): void {
+    const circles = document.querySelectorAll('.circle');
+    circles.forEach((circle, index) => {
+      if (index + 1 === this.currentStep) {
+        circle.classList.add('active');
+      } else {
+        circle.classList.remove('active');
+      }
+    });
   }
 
   loadSectores(): void {
     this.sectoresService.getSectores().subscribe(sectores => {
       this.sectores = sectores;
-      this.populateAvailableDays();  // Llamamos a la función para llenar los días disponibles
+      this.populateAvailableDays();
     });
   }
 
@@ -47,9 +79,9 @@ export class EventosComponent implements OnInit {
     this.sectores.forEach(sector => {
       sector.horarios.forEach(horario => {
         if (horario.disponible) {
-          const dayWithAvailableHours = horario.fechasReservadas || [];  // Verifica las fechas disponibles
+          const dayWithAvailableHours = horario.fechasReservadas || [];
           dayWithAvailableHours.forEach(fecha => {
-            this.availableDays.add(fecha);  // Almacenamos las fechas en el Set
+            this.availableDays.add(fecha);
           });
         }
       });
@@ -57,12 +89,20 @@ export class EventosComponent implements OnInit {
   }
 
   isDayAvailable(date: string): boolean {
-    return this.availableDays.has(date);  // Verificamos si el día tiene horas disponibles
+    return this.availableDays.has(date);
   }
 
   onSectorChange(event: any): void {
     this.selectedSectorId = event.target.value;
     this.filterHorarios();
+
+    // Buscar el sector seleccionado para obtener la imagen
+    const selectedSector = this.sectores.find(sector => sector.idSector === this.selectedSectorId);
+    if (selectedSector && selectedSector.image) {
+      this.selectedSectorImage = selectedSector.image;
+    } else {
+      this.selectedSectorImage = null;
+    }
   }
 
   onDateChange(): void {
@@ -142,6 +182,12 @@ export class EventosComponent implements OnInit {
       }
     }
   }
+  getSectorNombre(sectorId: string): string {
+    console.log(this.sectores);  // Verifica si la lista de sectores está cargada correctamente
+    const sector = this.sectores.find(s => s.idSector === sectorId);
+    return sector ? sector.nombre : 'Sector no encontrado';
+  }
+
 
   resetForm(): void {
     this.newEvento = new eventos('', '', '', '', '', false);
@@ -149,5 +195,6 @@ export class EventosComponent implements OnInit {
     this.horariosDisponibles = [];
     this.selectedDate = null;
     this.selectedSectorId = null;
+    this.selectedSectorImage = null;
   }
 }
