@@ -19,7 +19,7 @@
     <form (ngSubmit)="onSubmit()" #eventForm="ngForm">
       <!-- Paso 1: Selección de sector -->
       <div class="step-content" [ngClass]="{'active-step': currentStep === 1}">
-        <h1 class="titulo">Sectores</h1>
+        <h1 style="text-align: center;">Sectores</h1>
         <br>
         <div class="form-grid">
           <div class="form-fields">
@@ -69,7 +69,7 @@
 
       <!-- Paso 2: Título, Descripción, Creador, Estado -->
       <div class="step-content" [ngClass]="{'active-step': currentStep === 2}">
-        <h1 class="titulo">Planificación de evento</h1>
+        <h1 style="text-align: center;">Planificar evento</h1>
         <br>
         <div>
           <input id="titulo" [(ngModel)]="newEvento.titulo" name="titulo" placeholder="Título" required />
@@ -92,24 +92,31 @@
       </div>
 
       <!-- Paso 3: Visualización del Evento -->
-      <div class="step-content" [ngClass]="{'active-step': currentStep === 3}">
+   <div class="step-content" [ngClass]="{'active-step': currentStep === 3}">
+        <div class="card-header">
+          <h1 style="text-align: center;">Visualización de evento</h1>
+        </div>
         <div class="card">
-          <div class="card-header">
-            <h1 class="titulo">Visualización del Evento</h1>
-          </div>
+
           <div class="card-content">
+            <!-- Imagen del sector seleccionado -->
+            <div class="sector-image-preview" *ngIf="selectedSectorImage">
+              <img [src]="selectedSectorImage" alt="Imagen del sector seleccionado" />
+            </div>
+            <br><br>
             <div class="sector-horario">
-              <p><strong>Sector </strong> {{ getSectorNombre(newEvento.idSector) }}</p>
-              <p><strong>Horario </strong> {{ selectedHorario ? (selectedHorario.inicio + ' - ' + selectedHorario.fin) : 'No seleccionado' }}</p>
+              <p><strong>Sector: </strong>{{ getSectorNombre(newEvento.idSector) }}</p>
+              <p><strong>Horario: </strong>{{ selectedHorario ? (selectedHorario.inicio + ' - ' + selectedHorario.fin) : 'No seleccionado' }}</p>
             </div>
             <br>
-            <h3 class="card-header"> {{ newEvento.titulo }}</h3>
-            <p><strong>Descripción</strong> <br>{{ newEvento.descripcion }}</p>
-            <br><br>
+            <h3 class="card-header">{{ newEvento.titulo }}</h3>
+            <p><strong>Descripción:</strong><br>{{ newEvento.descripcion }}</p>
+            <br>
             <div class="sector-horario">
               <p>{{ newEvento.creator }}</p>
               <p><strong>Visible:</strong> {{ newEvento.status ? 'Sí' : 'No' }}</p>
             </div>
+
           </div>
         </div>
       </div>

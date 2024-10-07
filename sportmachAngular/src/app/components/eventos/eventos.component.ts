@@ -14,7 +14,7 @@ export class EventosComponent implements OnInit {
 
   sectores: Sectores[] = [];
   horariosDisponibles: Horario[] = [];
-  newEvento: eventos = new eventos('', '', '', '', '', false);
+  newEvento: eventos = new eventos('', '', '', '', '', false, '');
   selectedHorario: Horario | null = null;
   selectedDate: string | null = null;
   selectedSectorId: string | null = null;
@@ -100,10 +100,13 @@ export class EventosComponent implements OnInit {
     const selectedSector = this.sectores.find(sector => sector.idSector === this.selectedSectorId);
     if (selectedSector && selectedSector.image) {
       this.selectedSectorImage = selectedSector.image;
+      this.newEvento.image = selectedSector.image; // Asigna la imagen del sector al evento
     } else {
       this.selectedSectorImage = null;
+      this.newEvento.image = ''; // Si no hay imagen, asigna una cadena vacía
     }
   }
+
 
   onDateChange(): void {
     if (this.selectedDate) {
@@ -156,6 +159,7 @@ export class EventosComponent implements OnInit {
       }
       this.selectedHorario.fechasReservadas.push(this.selectedDate);
 
+      // Crear el evento con la imagen del sector ya asignada en `newEvento.image`
       this.eventosService.createEvento(this.newEvento)
         .then(() => {
           this.updateSectorHorario();
@@ -169,6 +173,7 @@ export class EventosComponent implements OnInit {
         });
     }
   }
+
 
   updateSectorHorario(): void {
     if (this.selectedSectorId) {
@@ -190,7 +195,7 @@ export class EventosComponent implements OnInit {
 
 
   resetForm(): void {
-    this.newEvento = new eventos('', '', '', '', '', false);
+    this.newEvento = new eventos('', '', '', '', '', false, '');
     this.selectedHorario = null;
     this.horariosDisponibles = [];
     this.selectedDate = null;
