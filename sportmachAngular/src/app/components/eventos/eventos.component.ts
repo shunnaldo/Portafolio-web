@@ -44,7 +44,7 @@ export class EventosComponent implements OnInit {
   }
 
   nextStep(): void {
-    if (this.currentStep < 3) {
+    if (this.canProceedToNextStep() && this.currentStep < 3) {
       this.currentStep++;
       this.updateActiveCircle();
     }
@@ -197,4 +197,23 @@ export class EventosComponent implements OnInit {
     this.selectedSectorId = null;
     this.selectedSectorImage = null;
   }
+
+  canProceedToNextStep(): boolean {
+    switch (this.currentStep) {
+      case 1:
+        // Validar que el sector y la fecha estén seleccionados
+        return !!this.newEvento.idSector && !!this.selectedDate && !!this.selectedHorario;
+      case 2:
+        // Validar que el título, descripción y creador estén completos
+        return !!this.newEvento.titulo && !!this.newEvento.descripcion && !!this.newEvento.creator;
+      case 3:
+        // No se aplica ya que es el paso final
+        return true;
+      default:
+        return false;
+    }
+  }
+
+
+
 }

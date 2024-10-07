@@ -84,9 +84,8 @@
         </div>
 
         <div class="checkbox-container">
-
           <label for="status">
-            <h4 >Visible</h4>
+            <h4>Visible</h4>
           </label>
           <input id="status" type="checkbox" [(ngModel)]="newEvento.status" name="status" />
         </div>
@@ -94,20 +93,32 @@
 
       <!-- Paso 3: Visualización del Evento -->
       <div class="step-content" [ngClass]="{'active-step': currentStep === 3}">
-        <h1 class="titulo">Visualizacion del evento</h1>
-        <br>
-        <p><strong>Sector:</strong> {{ getSectorNombre(newEvento.idSector) }}</p>
-        <p>{{ selectedHorario ? (selectedHorario.inicio + ' - ' + selectedHorario.fin) : 'No seleccionado' }}</p>
-        <p><strong>Título:</strong> {{ newEvento.titulo }}</p>
-        <p><strong>Descripción:</strong> {{ newEvento.descripcion }}</p>
-        <p><strong>Creador:</strong> {{ newEvento.creator }}</p>
-        <p><strong>Visible:</strong> {{ newEvento.status ? 'si' : 'no' }}</p>
+        <div class="card">
+          <div class="card-header">
+            <h1 class="titulo">Visualización del Evento</h1>
+          </div>
+          <div class="card-content">
+            <div class="sector-horario">
+              <p><strong>Sector </strong> {{ getSectorNombre(newEvento.idSector) }}</p>
+              <p><strong>Horario </strong> {{ selectedHorario ? (selectedHorario.inicio + ' - ' + selectedHorario.fin) : 'No seleccionado' }}</p>
+            </div>
+            <br>
+            <h3 class="card-header"> {{ newEvento.titulo }}</h3>
+            <p><strong>Descripción</strong> <br>{{ newEvento.descripcion }}</p>
+            <br><br>
+            <div class="sector-horario">
+              <p>{{ newEvento.creator }}</p>
+              <p><strong>Visible:</strong> {{ newEvento.status ? 'Sí' : 'No' }}</p>
+            </div>
+          </div>
+        </div>
       </div>
+
 
       <!-- Botones de navegación -->
       <div class="step-navigation">
         <button type="button" (click)="previousStep()" [disabled]="currentStep === 1">Anterior</button>
-        <button type="button" (click)="nextStep()" [disabled]="currentStep === 3">Siguiente</button>
+        <button type="button" (click)="nextStep()" [disabled]="!canProceedToNextStep()">Siguiente</button>
         <button type="submit" [disabled]="eventForm.invalid || currentStep !== 3">Crear Evento</button>
       </div>
     </form>
