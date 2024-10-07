@@ -16,12 +16,14 @@ import { MatInputModule } from '@angular/material/input'; // Añadir MatInputMod
 import { MatButtonModule } from '@angular/material/button'; // Añadir MatButtonModule
 import { MatNativeDateModule } from '@angular/material/core'; // Añadir MatNativeDateModule
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { EventosListComponent } from './components/eventos-list/eventos-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SectoresComponent,
-    EventosComponent
+    EventosComponent,
+    EventosListComponent
   ],
   imports: [
     BrowserModule,
