@@ -7,7 +7,7 @@
         <h2>Inicio de Sesión</h2>
         <button mat-raised-button color="primary" routerLink="/home">
             <mat-icon>home</mat-icon>
-            <span>Volver al Menu</span>
+            <span>Volver al Menú</span>
         </button>
 
         <mat-card>
@@ -28,12 +28,16 @@
                     <span>{{ firebaseErrorMessage }}</span>
                 </div>
 
-                <button mat-raised-button color="primary">Iniciar Sesion</button>
+                <button mat-raised-button color="primary">Iniciar Sesión</button>
             </form>
         </mat-card>
 
-        <div class="progressIndicator" [style.display]="isProgressVisible ? 'inline' : 'none'">
+        <div class="progressIndicator" [style.display]="isProgressVisible ? 'flex' : 'none'">
             <mat-progress-spinner class="example-margin" color="primary" mode="indeterminate"></mat-progress-spinner>
+        </div>
+
+        <div class="register-section">
+            <p>¿No tienes una cuenta? <button mat-button color="accent" routerLink="/registro">Regístrate aquí</button></p>
         </div>
     </section>
 

@@ -57,6 +57,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { HttpClientModule } from '@angular/common/http';
 import { FirestoreModule } from '@angular/fire/firestore';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { DeportesComponent } from './components/deportes/deportes.component';
 
 
 
@@ -72,7 +73,8 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
     RecuperarContrasenaComponent,
     AdminDashboardComponent,
     HomeComponent,
-    VerificarEmailComponent
+    VerificarEmailComponent,
+    DeportesComponent
   ],
   imports: [
     BrowserModule,

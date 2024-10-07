@@ -1,0 +1,115 @@
+<div class="container">
+  <header class="header">
+    <h1>SportMatch</h1>
+    <div class="header-actions">
+      <button mat-icon-button color="primary" routerLink="/login" aria-label="Iniciar Sesión">
+        <mat-icon>login</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" (click)="logout()" aria-label="Cerrar Sesión">
+        <mat-icon>logout</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" routerLink="/registro" aria-label="Registrarse">
+        <mat-icon>person_add</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" routerLink="/recuperar-contrasena" aria-label="Recuperar Contraseña">
+        <mat-icon>help_outline</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" routerLink="/verificarEmail" aria-label="Reenviar Verificación de Email">
+        <mat-icon>help_outline</mat-icon>
+      </button>
+    </div>
+  </header>
+
+  <div class="content">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <section class="button-section">
+        <h2>Acciones administrativas</h2>
+        <button mat-raised-button color="primary" routerLink="/dashboard">
+          <mat-icon>dashboard</mat-icon>
+          <span>Información de Cuenta</span>
+        </button>
+        <button mat-raised-button color="primary" routerLink="/admin">
+          <mat-icon>admin_panel_settings</mat-icon>
+          <span>Admin Dashboard</span>
+        </button>
+        <button mat-raised-button color="primary" routerLink="/deportes">
+          <mat-icon>sports</mat-icon>
+          <span>Gestionar Deportes</span>
+        </button>
+        <button mat-raised-button color="primary" routerLink="/gestion-usuarios">
+          <mat-icon>group</mat-icon>
+          <span>Gestionar Usuarios</span>
+        </button>
+        <button mat-raised-button color="primary" routerLink="/reportes">
+          <mat-icon>assessment</mat-icon>
+          <span>Ver Reportes</span>
+        </button>
+        <button mat-raised-button color="primary" routerLink="/configuracion">
+          <mat-icon>settings</mat-icon>
+          <span>Configuración</span>
+        </button>
+      </section>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <h2>Gestionar Deportes</h2>
+
+      <!-- Formulario para agregar/modificar deportes -->
+      <form [formGroup]="deporteForm" (ngSubmit)="guardarDeporte()">
+        <mat-form-field>
+          <mat-label>Nombre del Deporte</mat-label>
+          <input matInput formControlName="nombre" placeholder="Nombre del Deporte">
+        </mat-form-field>
+      
+        <mat-form-field>
+          <mat-label>Descripción</mat-label>
+          <input matInput formControlName="description" placeholder="Descripción del Deporte">
+        </mat-form-field>
+      
+        <!-- Botón centrado debajo del formulario -->
+        <button mat-raised-button color="primary" type="submit">
+          {{ isEditMode ? 'Actualizar Deporte' : 'Agregar Deporte' }}
+        </button>
+      </form>
+
+      <!-- Tabla de deportes -->
+      <table mat-table [dataSource]="sports" class="mat-elevation-z8">
+        <!-- Nombre del deporte -->
+        <ng-container matColumnDef="nombre">
+          <th mat-header-cell *matHeaderCellDef> Nombre del Deporte </th>
+          <td mat-cell *matCellDef="let sport"> {{ sport.name }} </td>
+        </ng-container>
+
+        <!-- Descripción del deporte -->
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef> Descripción </th>
+          <td mat-cell *matCellDef="let sport"> {{ sport.description || 'Sin descripción' }} </td>
+        </ng-container>
+
+        <!-- Botones de Acción en la Tabla -->
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef> Acciones </th>
+          <td mat-cell *matCellDef="let sport">
+            <button mat-icon-button color="warn" (click)="eliminarDeporte(sport.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-icon-button color="primary" (click)="editarDeporte(sport)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+
+        <!-- Encabezados y filas de la tabla -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2024 SportMatch. Todos los derechos reservados.</p>
+  </footer>
+</div>

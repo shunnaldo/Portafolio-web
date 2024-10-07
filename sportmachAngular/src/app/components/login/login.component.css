@@ -1,46 +1,50 @@
 .login-section {
-    text-align: center; /* Centra el texto dentro de la sección de login */
-    margin-top: 0px; /* Espacio superior para separación */
-    background-color: #e0e0e0; /* Fondo gris claro para la sección */
-    padding: 20px; /* Padding para separar el contenido del borde */
-    border-radius: 8px; /* Opcional: bordes redondeados */
+    text-align: center;
+    margin-top: 0px;
+    background-color: #e0e0e0;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra horizontalmente el contenido */
 }
 
-
 mat-card {
-    padding: 20px; /* Padding adicional para el formulario */
-    margin: 20px auto; /* Espaciado en la parte superior e inferior, centrado horizontalmente */
+    padding: 20px;
+    margin: 20px auto;
     border-radius: 8px;
-    background-color: #9e9e9e; /* Fondo gris más oscuro */
-    max-width: 400px; /* Ancho máximo de la tarjeta */
-    width: 100%; /* Asegura que use todo el ancho hasta el máximo */
+    background-color: #9e9e9e;
+    max-width: 400px;
+    width: 100%;
 }
 
 .error-style {
-    color: red; /* Color del mensaje de error */
-    margin-top: 10px; /* Espacio superior para el mensaje de error */
+    color: red;
+    margin-top: 10px;
 }
 
 .progressIndicator {
-    margin-top: 20px; /* Espacio superior para el spinner */
-    justify-content: center; /* Centra verticalmente */
-
+    display: flex;
+    justify-content: center; /* Asegura que el spinner se centre horizontalmente */
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+    height: 100px; /* Ajusta la altura del contenedor para centrar verticalmente si es necesario */
 }
 
 .header {
-    background-color: #616161; /* Fondo gris oscuro para el header */
-    color: white; /* Color del texto */
-    padding: 15px 0; /* Espaciado en el header */
-    text-align: center; /* Centra el texto */
+    background-color: #616161;
+    color: white;
+    padding: 15px 0;
+    text-align: center;
 }
 
 .footer {
-    background-color: #616161; /* Fondo gris oscuro para el footer */
-    color: white; /* Color del texto */
-    padding: 10px 0; /* Espaciado en el footer */
+    background-color: #616161;
+    color: white;
+    padding: 10px 0;
     position: relative;
     bottom: 0;
-    width: 100%; /* Asegura que el footer use todo el ancho */
-    text-align: center; /* Centra el texto */
+    width: 100%;
+    text-align: center;
 }
-

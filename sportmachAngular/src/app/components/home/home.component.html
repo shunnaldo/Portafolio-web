@@ -1,58 +1,91 @@
 <div class="container">
     <header class="header">
         <h1>SportMatch</h1>
+        <div class="header-actions">
+            <button mat-icon-button color="primary" routerLink="/login" aria-label="Iniciar Sesión">
+                <mat-icon>login</mat-icon>
+            </button>
+            <button mat-icon-button color="primary" (click)="logout()" aria-label="Cerrar Sesión">
+                <mat-icon>logout</mat-icon>
+            </button>
+            <button mat-icon-button color="primary" routerLink="/registro" aria-label="Registrarse">
+                <mat-icon>person_add</mat-icon>
+            </button>
+            <button mat-icon-button color="primary" routerLink="/recuperar-contrasena" aria-label="Recuperar Contraseña">
+                <mat-icon>help_outline</mat-icon>
+            </button>
+            <button mat-icon-button color="primary" routerLink="/verificarEmail" aria-label="Reenviar Verificación de Email">
+                <mat-icon>help_outline</mat-icon>
+            </button>
+        </div>
     </header>
 
-    <section class="button-section">
-        <h2>Acciones de la cuenta</h2>
-        <button mat-raised-button color="primary" routerLink="/login">
-            <mat-icon>login</mat-icon>
-            <span>Iniciar Sesion</span>
-        </button>
-        <button mat-raised-button color="primary" (click)="logout()">
-            <mat-icon>logout</mat-icon>
-            <span>Cerrar sesion</span>
-        </button>
-        <button mat-raised-button color="primary" routerLink="/registro">
-            <mat-icon>person_add</mat-icon>
-            <span>Registrarse</span>
-        </button>
-        <button mat-raised-button color="primary" routerLink="/recuperar-contrasena">
-            <mat-icon>help_outline</mat-icon>
-            <span>Recuperar Contraseña</span>
-        </button>
-        <button mat-raised-button color="primary" routerLink="/verificarEmail">
-            <mat-icon>help_outline</mat-icon>
-            <span>Reenviar Verificacion de Email</span>
-        </button>
-    </section>
+    <div class="content">
+        <aside class="sidebar">
+            <section class="button-section">
+                <h2>Acciones administrativas</h2>
+                <button mat-raised-button color="primary" routerLink="/dashboard">
+                    <mat-icon>dashboard</mat-icon>
+                    <span>Información de Cuenta</span>
+                </button>
+                <button mat-raised-button color="primary" routerLink="/admin">
+                    <mat-icon>admin_panel_settings</mat-icon>
+                    <span>Admin Dashboard</span>
+                </button>
+                <button mat-raised-button color="primary" routerLink="/deportes">
+                    <mat-icon>sports</mat-icon>
+                    <span>Gestionar Deportes</span>
+                </button>
+            </section>
+        </aside>
 
-    <section class="button-section">
-        <h2>Acciones administrativas</h2>
-        <button mat-raised-button color="primary" routerLink="/dashboard">
-            <mat-icon>dashboard</mat-icon>
-            <span>Dashboard</span>
-        </button>
-        <button mat-raised-button color="primary" routerLink="/admin">
-            <mat-icon>admin_panel_settings</mat-icon>
-            <span>Admin Dashboard</span>
-        </button>
-    </section>
+        <main class="main-content">
+            <div class="status-section">
+                <mat-card class="status-card" *ngIf="(user$ | async)">
+                    <mat-icon>check_circle</mat-icon>
+                    <span>El usuario ha iniciado sesión</span>
+                </mat-card>
+                <mat-card class="status-card" *ngIf="!(user$ | async)">
+                    <mat-icon>do_not_disturb</mat-icon>
+                    <span>El usuario no ha iniciado sesión</span>
+                </mat-card>
+            </div>
 
-    <div class="status-section">
-        <mat-card class="status-card" *ngIf="(user$ | async)">
-            <mat-icon>check_circle</mat-icon>
-            <span>El usuario ha iniciado sesion</span>
-        </mat-card>
-        <mat-card class="status-card" *ngIf="!(user$ | async)">
-            <mat-icon>do_not_disturb</mat-icon>
-            <span>El usuario no ha iniciado sesion</span>
-        </mat-card>
+            <!-- Panel de Resumen y Estadísticas -->
+            <section class="home-dashboard">
+                <h2>Panel de Resumen y Estadísticas</h2>
+                
+                <!-- Sección de estadísticas -->
+                <div class="stats-cards">
+                    <mat-card>
+                        <h3>Usuarios Registrados</h3>
+                        <p>{{ usersCount$ | async }}</p>
+                    </mat-card>
+                    <mat-card>
+                        <h3>Eventos Activos</h3>
+                        <p>{{ eventsCount$ | async }}</p>
+                    </mat-card>
+                </div>
+                
+                <!-- Botones de accesos rápidos en forma horizontal -->
+                <section class="actions-section">
+                    <h2>Accesos Rápidos</h2>
+                    <div class="quick-access-buttons">
+                        <button mat-raised-button color="primary" routerLink="/gestion-usuarios">
+                            Gestionar Usuarios
+                        </button>
+                        <button mat-raised-button color="accent" routerLink="/reportes">
+                            Ver Reportes
+                        </button>
+                        <button mat-raised-button color="warn" routerLink="/configuracion">
+                            Configuración
+                        </button>
+                    </div>
+                </section>
+            </section>
+        </main>
     </div>
-    <hr>
-    <hr>
-    <hr>
-    <hr>
+
     <footer class="footer">
         <p>&copy; 2024 SportMatch. Todos los derechos reservados.</p>
     </footer>

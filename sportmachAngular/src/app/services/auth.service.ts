@@ -39,19 +39,20 @@ loginUser(email: string, password: string): Promise<any> {
 }
 
 signupUser(user: any): Promise<any> {
-  return createUserWithEmailAndPassword(this.auth, user.email, user.password) 
+  return createUserWithEmailAndPassword(this.auth, user.email, user.password)
     .then((result) => {
       const emailLower = user.email.toLowerCase();
-
-  
-      return setDoc(doc(this.afs, 'users', emailLower), {
+      
+      // Usamos addDoc para dejar que Firestore genere automáticamente el ID del documento
+      const usersCollection = collection(this.afs, 'users');
+      return addDoc(usersCollection, {
         accountType: 'endUser',
         displayName: user.displayName,
         displayName_lower: user.displayName.toLowerCase(),
         email: user.email,
         email_lower: emailLower
       }).then(() => {
-        return sendEmailVerification(result.user);
+        return sendEmailVerification(result.user);  // Enviamos verificación de email
       });
     })
     .catch((error) => {
@@ -62,6 +63,7 @@ signupUser(user: any): Promise<any> {
       return { isValid: false, message: 'Unknown error' };
     });
 }
+
 
 resetPassword(email: string): Promise<any> {
   return sendPasswordResetEmail(this.auth, email)

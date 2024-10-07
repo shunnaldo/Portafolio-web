@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth, authState } from '@angular/fire/auth';  // Importamos Auth y authState
+import { Auth, authState } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
+import { Firestore, collection, collectionData } from '@angular/fire/firestore'; // Importamos Firestore
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -10,13 +12,27 @@ import { Observable } from 'rxjs';
 export class HomeComponent implements OnInit {
 
   user$: Observable<any | null>;  // Observable para rastrear el estado del usuario
+  usersCount$: Observable<number>;  // Observable para el conteo de usuarios
+  eventsCount$: Observable<number>; // Observable para el conteo de eventos
 
-  constructor(private auth: Auth) {
+  constructor(private auth: Auth, private firestore: Firestore) {
     this.user$ = authState(this.auth);  // Observamos el estado de autenticación
+
+    // Obtenemos la colección de usuarios desde Firestore
+    const usersCollection = collection(this.firestore, 'users');
+    this.usersCount$ = collectionData(usersCollection).pipe(
+      map(users => users.length)  // Obtenemos la longitud de los usuarios
+    );
+
+    // Obtenemos la colección de eventos desde Firestore
+    const eventsCollection = collection(this.firestore, 'events');
+    this.eventsCount$ = collectionData(eventsCollection).pipe(
+      map(events => events.length)  // Obtenemos la longitud de los eventos
+    );
   }
 
   ngOnInit(): void {
-    // Cualquier lógica adicional para la inicialización del componente
+    // Lógica adicional si es necesario
   }
 
   logout(): void {
