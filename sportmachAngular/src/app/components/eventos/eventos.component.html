@@ -16,6 +16,7 @@
 
   <!-- Contenedor del formulario -->
   <div class="form-container">
+    <!-- Asegúrate de que no haya formularios anidados y que esta etiqueta abra y cierre correctamente -->
     <form (ngSubmit)="onSubmit()" #eventForm="ngForm">
       <!-- Paso 1: Selección de sector -->
       <div class="step-content" [ngClass]="{'active-step': currentStep === 1}">
@@ -92,12 +93,11 @@
       </div>
 
       <!-- Paso 3: Visualización del Evento -->
-   <div class="step-content" [ngClass]="{'active-step': currentStep === 3}">
+      <div class="step-content" [ngClass]="{'active-step': currentStep === 3}">
         <div class="card-header">
           <h1 style="text-align: center;">Visualización de evento</h1>
         </div>
         <div class="card">
-
           <div class="card-content">
             <!-- Imagen del sector seleccionado -->
             <div class="sector-image-preview" *ngIf="selectedSectorImage">
@@ -116,11 +116,9 @@
               <p>{{ newEvento.creator }}</p>
               <p><strong>Visible:</strong> {{ newEvento.status ? 'Sí' : 'No' }}</p>
             </div>
-
           </div>
         </div>
       </div>
-
 
       <!-- Botones de navegación -->
       <div class="step-navigation">
@@ -128,11 +126,9 @@
         <button type="button" (click)="nextStep()" [disabled]="!canProceedToNextStep()">Siguiente</button>
         <button type="submit" [disabled]="eventForm.invalid || currentStep !== 3">Crear Evento</button>
       </div>
-    </form>
+    </form> <!-- Esta es la única etiqueta de cierre de form -->
   </div>
 </div>
-
-
 
 <br><br>
 
@@ -150,16 +146,14 @@
       <div *ngFor="let evento of eventos">
         <div>{{ evento | json }}</div> <!-- Esto imprimirá los datos del evento -->
         <button *ngIf="evento.idSector || evento.fechaReservada"
-        (click)="removeReservation(evento)"
-        style="display: block; margin-top: 10px; background-color: red; color: white; padding: 10px;">
-  Eliminar Reserva
-</button>
+              (click)="removeReservation(evento)"
+              style="display: block; margin-top: 10px; background-color: red; color: white; padding: 10px;">
+                Eliminar Reserva
+        </button>
 
+        <button (click)="editEvent(evento)">Modificar</button>
 
       </div>
-
-
     </div>
   </div>
 </div>
-
