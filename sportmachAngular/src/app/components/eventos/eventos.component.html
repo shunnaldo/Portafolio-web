@@ -131,3 +131,35 @@
     </form>
   </div>
 </div>
+
+
+
+<br><br>
+
+<h1 class="tituloo">Lista de eventos</h1>
+
+<div class="eventos-list">
+  <div class="card" *ngFor="let evento of eventos">
+    <div class="card-image">
+      <img [src]="evento.image" alt="{{ evento.titulo }}" />
+    </div>
+    <div class="card-info">
+      <h2>{{ evento.titulo }}</h2>
+
+      <!-- Mostrar botón de eliminar reserva solo si hay sector y fecha reservada -->
+      <div *ngFor="let evento of eventos">
+        <div>{{ evento | json }}</div> <!-- Esto imprimirá los datos del evento -->
+        <button *ngIf="evento.idSector || evento.fechaReservada"
+        (click)="removeReservation(evento)"
+        style="display: block; margin-top: 10px; background-color: red; color: white; padding: 10px;">
+  Eliminar Reserva
+</button>
+
+
+      </div>
+
+
+    </div>
+  </div>
+</div>
+

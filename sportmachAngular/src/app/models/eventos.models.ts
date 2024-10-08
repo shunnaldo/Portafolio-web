@@ -6,6 +6,7 @@ export class eventos {
   creator: string;
   status: boolean;
   image: string;  // Campo para la URL de la imagen
+  fechaReservada: string;
 
   constructor(
     idEventosAdmin: string,
@@ -14,7 +15,8 @@ export class eventos {
     descripcion: string,
     creator: string,
     status: boolean,
-    image: string  // Incluir la imagen en el constructor
+    image: string ,
+    fechaReservada: string
   ) {
     this.idEventosAdmin = idEventosAdmin;
     this.idSector = idSector;
@@ -23,5 +25,6 @@ export class eventos {
     this.creator = creator;
     this.status = status;
     this.image = image;
+    this.fechaReservada = fechaReservada;
   }
 }

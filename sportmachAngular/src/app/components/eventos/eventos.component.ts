@@ -14,7 +14,7 @@ export class EventosComponent implements OnInit {
 
   sectores: Sectores[] = [];
   horariosDisponibles: Horario[] = [];
-  newEvento: eventos = new eventos('', '', '', '', '', false, '');
+  newEvento: eventos = new eventos('', '', '', '', '', false, '', '');
   selectedHorario: Horario | null = null;
   selectedDate: string | null = null;
   selectedSectorId: string | null = null;
@@ -22,6 +22,7 @@ export class EventosComponent implements OnInit {
   minDate: string;
   maxDate: string;
   currentStep: number = 1;
+  eventos: eventos[] = [];
 
   // Nueva propiedad para la imagen del sector seleccionado
   selectedSectorImage: string | null = null;
@@ -40,6 +41,15 @@ export class EventosComponent implements OnInit {
     this.loadSectores();
     this.sectoresService.getSectores().subscribe(sectores => {
       this.sectores = sectores;
+    });
+
+    this.loadEvento();
+  }
+
+  loadEvento(): void {
+    this.eventosService.getEventos().subscribe(eventos => {
+      this.eventos = eventos;
+      this.populateAvailableDays();
     });
   }
 
@@ -107,7 +117,6 @@ export class EventosComponent implements OnInit {
     }
   }
 
-
   onDateChange(): void {
     if (this.selectedDate) {
       const formattedDate = new Date(this.selectedDate + 'T00:00:00');
@@ -151,7 +160,16 @@ export class EventosComponent implements OnInit {
 
   onSubmit(): void {
     if (this.selectedHorario && this.selectedDate) {
-      this.newEvento.idSector = `${this.selectedDate} ${this.selectedHorario.inicio}-${this.selectedHorario.fin}`;
+      // Asegurarte de que selectedSectorId no es null antes de asignar
+      if (this.selectedSectorId) {
+        this.newEvento.idSector = this.selectedSectorId;
+      } else {
+        console.error('El ID del sector no está definido.');
+        return;  // Detener el envío si no hay un sector seleccionado
+      }
+
+      // Asignar la fecha reservada y la información del horario a otros campos
+      this.newEvento.fechaReservada = this.selectedDate;
       this.newEvento.descripcion += `\nHorario seleccionado: ${this.selectedHorario.dia} de ${this.selectedHorario.inicio} a ${this.selectedHorario.fin} en la fecha ${this.selectedDate}`;
 
       if (!this.selectedHorario.fechasReservadas) {
@@ -159,43 +177,49 @@ export class EventosComponent implements OnInit {
       }
       this.selectedHorario.fechasReservadas.push(this.selectedDate);
 
-      // Crear el evento con la imagen del sector ya asignada en `newEvento.image`
-      this.eventosService.createEvento(this.newEvento)
-        .then(() => {
-          this.updateSectorHorario();
-          alert('Evento creado exitosamente');
-          this.resetForm();
-          this.filterHorarios();
-        })
-        .catch(error => {
-          console.error('Error creando el evento: ', error);
-          alert('Hubo un error al crear el evento');
-        });
-    }
-  }
-
-
-  updateSectorHorario(): void {
-    if (this.selectedSectorId) {
       const selectedSector = this.sectores.find(sector => sector.idSector === this.selectedSectorId);
+
       if (selectedSector) {
-        this.sectoresService.updateSector(this.selectedSectorId, selectedSector).then(() => {
-          console.log('Sector actualizado con horarios reservados');
-        }).catch(error => {
-          console.error('Error actualizando el sector:', error);
-        });
+        this.eventosService.createEvento(this.newEvento)
+          .then(() => {
+            this.updateSectorHorario(selectedSector); // Pasar el sector actualizado
+            alert('Evento creado exitosamente');
+            this.resetForm();
+            this.filterHorarios();
+          })
+          .catch(error => {
+            console.error('Error creando el evento: ', error);
+            alert('Hubo un error al crear el evento');
+          });
+      } else {
+        console.error('No se encontró el sector seleccionado.');
       }
     }
   }
+
+
+  updateSectorHorario(selectedSector: Sectores): Promise<void> {
+    if (selectedSector.idSector) {
+      return this.sectoresService.updateSector(selectedSector.idSector, selectedSector)
+        .then(() => {
+          console.log('Sector actualizado con horarios reservados actualizados.');
+        })
+        .catch(error => {
+          console.error('Error actualizando el sector:', error);
+          throw error; // Propagar el error si ocurre
+        });
+    }
+    return Promise.reject('No se encontró el ID del sector.');
+  }
+
+
   getSectorNombre(sectorId: string): string {
-    console.log(this.sectores);  // Verifica si la lista de sectores está cargada correctamente
     const sector = this.sectores.find(s => s.idSector === sectorId);
     return sector ? sector.nombre : 'Sector no encontrado';
   }
 
-
   resetForm(): void {
-    this.newEvento = new eventos('', '', '', '', '', false, '');
+    this.newEvento = new eventos('', '', '', '', '', false, '', '');
     this.selectedHorario = null;
     this.horariosDisponibles = [];
     this.selectedDate = null;
@@ -206,19 +230,79 @@ export class EventosComponent implements OnInit {
   canProceedToNextStep(): boolean {
     switch (this.currentStep) {
       case 1:
-        // Validar que el sector y la fecha estén seleccionados
         return !!this.newEvento.idSector && !!this.selectedDate && !!this.selectedHorario;
       case 2:
-        // Validar que el título, descripción y creador estén completos
         return !!this.newEvento.titulo && !!this.newEvento.descripcion && !!this.newEvento.creator;
       case 3:
-        // No se aplica ya que es el paso final
         return true;
       default:
         return false;
     }
   }
+  removeReservation(evento: any): void {
+    console.log('Evento recibido:', evento); // Imprimir el evento para verificar los datos
+
+    // Encontrar el sector seleccionado por su ID
+    const selectedSector = this.sectores.find(sector => sector.idSector === evento.idSector);
+    console.log('Sector encontrado:', selectedSector); // Imprimir el sector encontrado
+
+    if (selectedSector && evento.fechaReservada) {
+      console.log('Fecha reservada en el evento:', evento.fechaReservada); // Imprimir la fecha reservada
+
+      // Buscar el horario que contiene la fecha reservada
+      const horario = selectedSector.horarios.find(h => h.fechasReservadas?.includes(evento.fechaReservada));
+      console.log('Horario encontrado:', horario); // Imprimir el horario encontrado
+
+      if (horario && horario.fechasReservadas) {
+        // Encontrar el índice de la fecha que se quiere eliminar
+        const index = horario.fechasReservadas.indexOf(evento.fechaReservada);
+        console.log('Índice de la fecha reservada:', index); // Imprimir el índice de la fecha
+
+        if (index !== -1) {
+          // Eliminar la fecha reservada del array
+          horario.fechasReservadas.splice(index, 1);
+
+          // Si ya no quedan fechas reservadas, marcar el horario como disponible
+          if (horario.fechasReservadas.length === 0) {
+            horario.disponible = true;
+          }
+
+          // Actualizar el sector en Firestore pasando el sector actualizado
+          this.updateSectorHorario(selectedSector)
+            .then(() => {
+              // Una vez que el horario ha sido actualizado, eliminar el evento
+              this.eventosService.deleteEvento(evento.idEventosAdmin)
+                .then(() => {
+                  alert('Reserva y evento eliminados exitosamente.');
+                  // Aquí puedes actualizar la lista de eventos si es necesario
+                  this.loadEvento();  // Volver a cargar los eventos
+                })
+                .catch(error => {
+                  console.error('Error al eliminar el evento:', error);
+                });
+            })
+            .catch(error => {
+              console.error('Error al actualizar el sector:', error);
+            });
+        } else {
+          console.error('Fecha no encontrada en el horario.');
+        }
+      } else {
+        console.error('No se encontró el horario con la fecha reservada.');
+      }
+    } else {
+      console.error('No se encontró el sector o la fecha reservada.');
+    }
+  }
 
 
+
+  hasReservedHorario(evento: any): boolean {
+    const selectedSector = this.sectores.find(sector => sector.idSector === evento.idSector);
+    if (selectedSector && evento.fechaReservada) {
+      return selectedSector.horarios.some(h => h.fechasReservadas?.includes(evento.fechaReservada));
+    }
+    return false;
+  }
 
 }
