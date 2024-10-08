@@ -1,9 +1,43 @@
+<h1 class="tituloo">Lista de eventos</h1>
+
 <div class="eventos-list">
   <div class="card" *ngFor="let evento of eventos">
-    <img [src]="evento.image" alt="{{ evento.titulo }}" class="evento-image" />
-    <div class="card-content">
-      <h3>{{ evento.titulo }}</h3>
-      <p>{{ evento.descripcion }}</p>
+    <div class="card-image">
+      <img [src]="evento.image" alt="{{ evento.titulo }}" />
     </div>
+    <div class="card-info">
+      <h2>{{ evento.titulo }}</h2>
+      <button (click)="showDetails(evento)">Más información</button>
+    </div>
+  </div>
+</div>
+
+<!-- Contenedor de detalles -->
+<div class="event-details" *ngIf="selectedEvento">
+  <h1 class="titulooCard">{{ selectedEvento?.titulo }}</h1>
+
+  <div class="details-container">
+    <!-- Imagen del sector seleccionado -->
+    <div class="image-section">
+      <img [src]="selectedEvento?.image || 'placeholder-image-url.jpg'" alt="{{ selectedEvento?.titulo }}" />
+      <!-- Fecha y Creador debajo de la imagen -->
+      <div class="image-info">
+        <p><strong>Creador:</strong> {{ selectedEvento?.creator }}</p>
+        <br>
+        <p><strong>Fecha:     </strong> {{ selectedEvento?.idSector }}</p>
+      </div>
+    </div>
+
+    <!-- Detalles del evento centrado -->
+    <div class="">
+      <p class="info-section"><strong>Descripción:</strong> {{ selectedEvento?.descripcion }}</p>
+      <p class="visible"><strong>Visible:</strong> {{ selectedEvento?.status ? 'Sí' : 'No' }}</p>
+    </div>
+  </div>
+
+  <!-- Botones de acción -->
+  <div class="action-buttons">
+    <button >Editar</button>
+    <button >Eliminar</button>
   </div>
 </div>
