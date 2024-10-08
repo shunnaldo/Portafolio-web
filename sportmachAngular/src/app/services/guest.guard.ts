@@ -17,7 +17,7 @@ export class GuestGuard implements CanActivate {
       map(user => {
         if (user) {
           // Si el usuario está autenticado, lo redirigimos al dashboard o home
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/home']);
           return false; // Bloquea el acceso a las páginas de login, registro, etc.
         } else {
           return true; // Permite el acceso si no está autenticado

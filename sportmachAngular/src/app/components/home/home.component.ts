@@ -3,6 +3,7 @@ import { Auth, authState } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 import { Firestore, collection, collectionData } from '@angular/fire/firestore'; // Importamos Firestore
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,7 @@ export class HomeComponent implements OnInit {
   usersCount$: Observable<number>;  // Observable para el conteo de usuarios
   eventsCount$: Observable<number>; // Observable para el conteo de eventos
 
-  constructor(private auth: Auth, private firestore: Firestore) {
+  constructor(private auth: Auth, private firestore: Firestore, private router: Router) {
     this.user$ = authState(this.auth);  // Observamos el estado de autenticación
 
     // Obtenemos la colección de usuarios desde Firestore
@@ -37,7 +38,7 @@ export class HomeComponent implements OnInit {
 
   logout(): void {
     this.auth.signOut().then(() => {
-      console.log('User signed out');
+      this.router.navigate(['/login']);
     }).catch((error) => {
       console.error('Sign out error', error);
     });
