@@ -1,21 +1,12 @@
 <div class="container">
     <header class="header">
-        <h1>SportMatch</h1>
+        <div class="logo-container">
+            <img src="https://firebasestorage.googleapis.com/v0/b/sportmatch-432ff.appspot.com/o/logo_a.png?alt=media&token=bd17e540-3492-43b8-a47f-8a32b7c6f96b" alt="SportMatch Logo" class="header-logo">
+        </div>
+        <h1 class="title">SportMatch</h1>
         <div class="header-actions">
-            <button mat-icon-button color="primary" routerLink="/login" aria-label="Iniciar Sesión">
-                <mat-icon>login</mat-icon>
-            </button>
             <button mat-icon-button color="primary" (click)="logout()" aria-label="Cerrar Sesión">
                 <mat-icon>logout</mat-icon>
-            </button>
-            <button mat-icon-button color="primary" routerLink="/registro" aria-label="Registrarse">
-                <mat-icon>person_add</mat-icon>
-            </button>
-            <button mat-icon-button color="primary" routerLink="/recuperar-contrasena" aria-label="Recuperar Contraseña">
-                <mat-icon>help_outline</mat-icon>
-            </button>
-            <button mat-icon-button color="primary" routerLink="/verificarEmail" aria-label="Reenviar Verificación de Email">
-                <mat-icon>help_outline</mat-icon>
             </button>
         </div>
     </header>
@@ -23,33 +14,19 @@
     <div class="content">
         <aside class="sidebar">
             <section class="button-section">
-                <h2>Acciones administrativas</h2>
-                <button mat-raised-button color="primary" routerLink="/dashboard">
-                    <mat-icon>dashboard</mat-icon>
-                    <span>Información de Cuenta</span>
-                </button>
-                <button mat-raised-button color="primary" routerLink="/admin">
+                <a routerLink="/home" routerLinkActive="active-link" class="sidebar-link">
                     <mat-icon>admin_panel_settings</mat-icon>
                     <span>Admin Dashboard</span>
-                </button>
-                <button mat-raised-button color="primary" routerLink="/deportes">
+                </a>
+                <a routerLink="/deportes" routerLinkActive="active-link" class="sidebar-link">
                     <mat-icon>sports</mat-icon>
                     <span>Gestionar Deportes</span>
-                </button>
+                </a>
             </section>
         </aside>
+        
 
         <main class="main-content">
-            <div class="status-section">
-                <mat-card class="status-card" *ngIf="(user$ | async)">
-                    <mat-icon>check_circle</mat-icon>
-                    <span>El usuario ha iniciado sesión</span>
-                </mat-card>
-                <mat-card class="status-card" *ngIf="!(user$ | async)">
-                    <mat-icon>do_not_disturb</mat-icon>
-                    <span>El usuario no ha iniciado sesión</span>
-                </mat-card>
-            </div>
 
             <!-- Panel de Resumen y Estadísticas -->
             <section class="home-dashboard">

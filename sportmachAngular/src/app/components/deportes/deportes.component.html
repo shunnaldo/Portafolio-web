@@ -1,56 +1,29 @@
 <div class="container">
   <header class="header">
-    <h1>SportMatch</h1>
-    <div class="header-actions">
-      <button mat-icon-button color="primary" routerLink="/login" aria-label="Iniciar Sesión">
-        <mat-icon>login</mat-icon>
-      </button>
-      <button mat-icon-button color="primary" (click)="logout()" aria-label="Cerrar Sesión">
-        <mat-icon>logout</mat-icon>
-      </button>
-      <button mat-icon-button color="primary" routerLink="/registro" aria-label="Registrarse">
-        <mat-icon>person_add</mat-icon>
-      </button>
-      <button mat-icon-button color="primary" routerLink="/recuperar-contrasena" aria-label="Recuperar Contraseña">
-        <mat-icon>help_outline</mat-icon>
-      </button>
-      <button mat-icon-button color="primary" routerLink="/verificarEmail" aria-label="Reenviar Verificación de Email">
-        <mat-icon>help_outline</mat-icon>
-      </button>
-    </div>
+      <div class="logo-container">
+          <img src="https://firebasestorage.googleapis.com/v0/b/sportmatch-432ff.appspot.com/o/logo_a.png?alt=media&token=bd17e540-3492-43b8-a47f-8a32b7c6f96b" alt="SportMatch Logo" class="header-logo">
+      </div>
+      <h1 class="title">SportMatch</h1>
+      <div class="header-actions">
+          <button mat-icon-button color="primary" (click)="logout()" aria-label="Cerrar Sesión">
+              <mat-icon>logout</mat-icon>
+          </button>
+      </div>
   </header>
 
   <div class="content">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <section class="button-section">
-        <h2>Acciones administrativas</h2>
-        <button mat-raised-button color="primary" routerLink="/dashboard">
-          <mat-icon>dashboard</mat-icon>
-          <span>Información de Cuenta</span>
-        </button>
-        <button mat-raised-button color="primary" routerLink="/admin">
-          <mat-icon>admin_panel_settings</mat-icon>
-          <span>Admin Dashboard</span>
-        </button>
-        <button mat-raised-button color="primary" routerLink="/deportes">
-          <mat-icon>sports</mat-icon>
-          <span>Gestionar Deportes</span>
-        </button>
-        <button mat-raised-button color="primary" routerLink="/gestion-usuarios">
-          <mat-icon>group</mat-icon>
-          <span>Gestionar Usuarios</span>
-        </button>
-        <button mat-raised-button color="primary" routerLink="/reportes">
-          <mat-icon>assessment</mat-icon>
-          <span>Ver Reportes</span>
-        </button>
-        <button mat-raised-button color="primary" routerLink="/configuracion">
-          <mat-icon>settings</mat-icon>
-          <span>Configuración</span>
-        </button>
-      </section>
-    </aside>
+      <aside class="sidebar">
+          <section class="button-section">
+              <a routerLink="/home" routerLinkActive="active-link" class="sidebar-link">
+                  <mat-icon>admin_panel_settings</mat-icon>
+                  <span>Admin Dashboard</span>
+              </a>
+              <a routerLink="/deportes" routerLinkActive="active-link" class="sidebar-link">
+                  <mat-icon>sports</mat-icon>
+                  <span>Gestionar Deportes</span>
+              </a>
+          </section>
+      </aside>
 
     <!-- Main Content -->
     <main class="main-content">
@@ -58,24 +31,24 @@
 
       <!-- Formulario para agregar/modificar deportes -->
       <form [formGroup]="deporteForm" (ngSubmit)="guardarDeporte()">
-        <mat-form-field>
-          <mat-label>Nombre del Deporte</mat-label>
-          <input matInput formControlName="nombre" placeholder="Nombre del Deporte">
-        </mat-form-field>
-      
-        <mat-form-field>
-          <mat-label>Descripción</mat-label>
-          <input matInput formControlName="description" placeholder="Descripción del Deporte">
-        </mat-form-field>
-      
-        <!-- Botón centrado debajo del formulario -->
-        <button mat-raised-button color="primary" type="submit">
-          {{ isEditMode ? 'Actualizar Deporte' : 'Agregar Deporte' }}
-        </button>
-      </form>
+    <mat-form-field appearance="outline">
+        <mat-label>Nombre del Deporte</mat-label>
+        <input matInput formControlName="nombre" placeholder="Nombre del Deporte">
+    </mat-form-field>
+  
+    <mat-form-field appearance="outline">
+        <mat-label>Descripción</mat-label>
+        <input matInput formControlName="description" placeholder="Descripción del Deporte">
+    </mat-form-field>
+
+    <button mat-raised-button class="btn-orange" type="submit">
+      {{ isEditMode ? 'Actualizar Deporte' : 'Agregar Deporte' }}
+    </button>
+</form>
+
 
       <!-- Tabla de deportes -->
-      <table mat-table [dataSource]="sports" class="mat-elevation-z8">
+      <table mat-table [dataSource]="sports" class="mat-elevation-z8 custom-table">
         <!-- Nombre del deporte -->
         <ng-container matColumnDef="nombre">
           <th mat-header-cell *matHeaderCellDef> Nombre del Deporte </th>
@@ -89,17 +62,18 @@
         </ng-container>
 
         <!-- Botones de Acción en la Tabla -->
-        <ng-container matColumnDef="acciones">
-          <th mat-header-cell *matHeaderCellDef> Acciones </th>
-          <td mat-cell *matCellDef="let sport">
-            <button mat-icon-button color="warn" (click)="eliminarDeporte(sport.id)">
-              <mat-icon>delete</mat-icon>
-            </button>
-            <button mat-icon-button color="primary" (click)="editarDeporte(sport)">
-              <mat-icon>edit</mat-icon>
-            </button>
-          </td>
-        </ng-container>
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+            <td mat-cell *matCellDef="let sport">
+              <button mat-icon-button class="delete-button" (click)="eliminarDeporte(sport.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+              <button mat-icon-button class="edit-button" (click)="editarDeporte(sport)">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
 
 
         <!-- Encabezados y filas de la tabla -->

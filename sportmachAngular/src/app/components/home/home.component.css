@@ -24,7 +24,7 @@ html, body {
 
 .sidebar {
     width: 250px;
-    background-color: #616161;
+    background-color: #212121;
     padding: 20px;
     box-sizing: border-box;
 }
@@ -36,7 +36,7 @@ html, body {
 }
 
 .header {
-    background-color: #616161;
+    background-color: #212121;
     color: white;
     padding: 10px 20px;
     display: flex;
@@ -56,7 +56,7 @@ mat-icon {
 }
 
 .footer {
-    background-color: #616161;
+    background-color: #212121;
     color: white;
     padding: 10px 0;
     text-align: center;
@@ -153,4 +153,81 @@ mat-card {
     .stats-cards {
         flex-direction: column; /* Cambia las tarjetas de estadísticas a vertical en pantallas pequeñas */
     }
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-x: hidden; /* Asegura que el contenido no se desborde horizontalmente */
+    background-color: #454545; /* Color gris claro para el fondo del contenido */
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    margin-right: 10px; /* Espacio entre la imagen y el título */
+}
+
+.header-logo {
+    width: 40px; /* Ajusta el tamaño de la imagen según prefieras */
+    height: auto;
+    margin-left: 90px;
+}
+
+.title {
+    font-size: 2.5rem; /* Ajusta el tamaño del texto si es necesario */
+    background: linear-gradient(180deg, yellow, orange); /* Degradado de amarillo a naranja */
+    -webkit-background-clip: text; /* Compatibilidad con navegadores basados en WebKit */
+    background-clip: text; /* Propiedad estándar para otros navegadores */
+    color: transparent; /* Hace que el degradado llene el texto */
+}
+
+h2 {
+    text-align: center;
+    color: white;
+}
+
+.sidebar button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Transición suave */
+}
+
+.sidebar mat-icon {
+    margin-right: 10px; /* Espacio entre el ícono y el texto */
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transición suave */
+}
+
+.sidebar-link mat-icon {
+    margin-right: 10px; /* Espacio entre el ícono y el texto */
+    color: #fff; /* Íconos en blanco */
+}
+
+.sidebar-link:hover {
+    background-color: #101010; /* Color al hacer hover */
+    color: white; /* Color del texto al hacer hover */
+}
+
+.sidebar-link.active-link {
+    background-color: rgb(255, 179, 0); /* Color del botón seleccionado */
+    color: white; /* Color del texto cuando está seleccionado */
+}
+
+.sidebar-link:hover mat-icon,
+.sidebar-link.active-link mat-icon {
+    color: white; /* Íconos en blanco cuando está en hover o activo */
 }
