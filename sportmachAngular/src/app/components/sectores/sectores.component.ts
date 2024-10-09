@@ -77,6 +77,8 @@ export class SectoresComponent implements OnInit {
     this.showHorarios[sectorId] = !this.showHorarios[sectorId];
   }
 
+
+
   abrirModalSector(sector: Sectores) {
     this.sectorSeleccionado = { ...sector, horarios: sector.horarios || [] };
     this.modalSectorAbierto = true;
@@ -214,9 +216,11 @@ export class SectoresComponent implements OnInit {
     if (!this.duracionesPorDia[dia]) {
       this.duracionesPorDia[dia] = { horas: 1, minutos: 0 };
     }
+    // Asegúrate de que los horarios se generen correctamente para el día seleccionado
     this.generarHorariosPorDia(dia);
     this.modalAbierto = true;
   }
+
 
   cerrarModal() {
     this.modalAbierto = false;
@@ -278,7 +282,8 @@ export class SectoresComponent implements OnInit {
     const horariosDiaSeleccionado = this.horariosSeleccionados[this.diaSeleccionado].map(h => ({
       dia: this.diaSeleccionado,
       inicio: this.formatHour(h.inicio),  // Guardar como 'HH:mm'
-      fin: this.formatHour(h.fin)         // Guardar como 'HH:mm'
+      fin: this.formatHour(h.fin),        // Guardar como 'HH:mm'
+      disponible: true                    // Establecer la disponibilidad a true por defecto
     }));
 
     // Filtramos los horarios anteriores del día seleccionado
@@ -290,6 +295,7 @@ export class SectoresComponent implements OnInit {
     this.snackBar.open(`Horarios para ${this.diaSeleccionado} guardados`, 'Cerrar', { duration: 2000 });
     this.cerrarModal();
   }
+
 
   limpiarHorarios(dia: string) {
     // Eliminar los horarios seleccionados para el día en particular
