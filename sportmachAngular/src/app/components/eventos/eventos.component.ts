@@ -168,6 +168,11 @@ export class EventosComponent implements OnInit {
         return;
       }
 
+      // Si estamos en modo edición, liberar la hora anterior
+      if (this.isEditing && this.eventoEditando) {
+        this.liberarHorarioAnterior(this.eventoEditando.idSector, this.eventoEditando.fechaReservada);
+      }
+
       this.newEvento.fechaReservada = this.selectedDate;
       this.newEvento.descripcion += `\nHorario seleccionado: ${this.selectedHorario.dia} de ${this.selectedHorario.inicio} a ${this.selectedHorario.fin} en la fecha ${this.selectedDate}`;
 
@@ -213,6 +218,29 @@ export class EventosComponent implements OnInit {
       }
     }
   }
+
+
+  liberarHorarioAnterior(idSector: string, fechaReservada: string): void {
+    const selectedSector = this.sectores.find(sector => sector.idSector === idSector);
+    if (selectedSector) {
+      const horario = selectedSector.horarios.find(h => h.fechasReservadas?.includes(fechaReservada));
+      if (horario && horario.fechasReservadas) {
+        const index = horario.fechasReservadas.indexOf(fechaReservada);
+        if (index !== -1) {
+          horario.fechasReservadas.splice(index, 1);  // Eliminar la fecha reservada
+          horario.disponible = true;  // Marcar la hora como disponible nuevamente
+          this.updateSectorHorario(selectedSector)
+            .then(() => {
+              console.log('Hora previa liberada y sector actualizado.');
+            })
+            .catch(error => {
+              console.error('Error al liberar la hora anterior: ', error);
+            });
+        }
+      }
+    }
+  }
+
 
   // Método para editar un evento
   editEvent(evento: eventos): void {
