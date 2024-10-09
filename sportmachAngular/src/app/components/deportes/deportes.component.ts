@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Firestore, collection, collectionData, doc, addDoc, updateDoc, deleteDoc } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
 import { Auth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 
@@ -11,10 +10,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./deportes.component.css']
 })
 export class DeportesComponent implements OnInit {
-
-  displayedColumns: string[] = ['nombre', 'description', 'acciones'];
+  displayedColumns: string[] = ['nombre', 'descripcion', 'acciones']; // Cambia a 'descripcion'
   deporteForm: FormGroup;
-  sports: any[] = [];  // Arreglo que contendrá los deportes
+  sports: any[] = []; // Arreglo que contendrá los deportes
   isEditMode: boolean = false;
   sportIdEditando: string | null = null;
 
@@ -22,48 +20,53 @@ export class DeportesComponent implements OnInit {
     // Inicializamos el formulario
     this.deporteForm = new FormGroup({
       'nombre': new FormControl('', Validators.required),
-      'description': new FormControl('')  // Campo opcional
+      'descripcion': new FormControl('') // Cambia a 'descripcion'
     });
 
     // Obtenemos la lista de deportes desde Firestore
-    const sportsCollection = collection(this.firestore, 'sports');
-    collectionData(sportsCollection, { idField: 'id' }).subscribe((data) => {
-      this.sports = data;  // Asignamos los datos a la variable sports
-    });
+    const deportesCollection = collection(this.firestore, 'deportes');
+    collectionData(deportesCollection, { idField: 'id' }).subscribe(
+      (data) => {
+        this.sports = data; // Asignamos los datos a la variable sports
+        console.log(this.sports); // Verifica que los datos se carguen correctamente
+      },
+      (error) => {
+        console.error('Error al obtener deportes:', error); // Maneja el error
+      }
+    );
   }
 
   ngOnInit(): void { }
 
   // Guardar (Agregar o Actualizar)
   guardarDeporte(): void {
-    const { nombre, description } = this.deporteForm.value;
-    const sportsCollection = collection(this.firestore, 'sports');
-  
+    const { nombre, descripcion } = this.deporteForm.value; // Cambia a 'descripcion'
+    const deportesCollection = collection(this.firestore, 'deportes');
+
     if (this.isEditMode && this.sportIdEditando) {
       // Actualizar deporte existente
-      const sportDoc = doc(this.firestore, `sports/${this.sportIdEditando}`);
-      updateDoc(sportDoc, { name, description }).then(() => {
+      const sportDoc = doc(this.firestore, `deportes/${this.sportIdEditando}`);
+      updateDoc(sportDoc, { nombre, descripcion }).then(() => { // Cambia a 'descripcion'
         this.cancelarEdicion();
       });
     } else {
       // Agregar nuevo deporte
-      addDoc(sportsCollection, { name, description }).then(() => {
+      addDoc(deportesCollection, { nombre, descripcion }).then(() => { // Cambia a 'descripcion'
         this.deporteForm.reset();
       });
     }
   }
-  
 
   // Editar deporte
   editarDeporte(deporte: any): void {
     this.isEditMode = true;
     this.sportIdEditando = deporte.id;
-    this.deporteForm.patchValue({ nombre: deporte.nombre });
+    this.deporteForm.patchValue({ nombre: deporte.nombre, descripcion: deporte.descripcion }); // Cambia a 'descripcion'
   }
 
   // Eliminar deporte
   eliminarDeporte(deporteId: string): void {
-    const sportDoc = doc(this.firestore, `sports/${deporteId}`);
+    const sportDoc = doc(this.firestore, `deportes/${deporteId}`);
     deleteDoc(sportDoc);
   }
 
@@ -76,7 +79,7 @@ export class DeportesComponent implements OnInit {
 
   logout(): void {
     this.auth.signOut().then(() => {
-      this.router.navigate(['/login']);  // Redirigir al login después de cerrar sesión
+      this.router.navigate(['/login']); // Redirigir al login después de cerrar sesión
     }).catch((error) => {
       console.error('Error al cerrar sesión', error);
     });

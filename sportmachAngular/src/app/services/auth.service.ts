@@ -44,13 +44,11 @@ signupUser(user: any): Promise<any> {
       const emailLower = user.email.toLowerCase();
       
       // Usamos addDoc para dejar que Firestore genere automáticamente el ID del documento
-      const usersCollection = collection(this.afs, 'users');
+      const usersCollection = collection(this.afs, 'AdminUsers');
       return addDoc(usersCollection, {
-        accountType: 'endUser',
+        accountType: 'Admin',
         displayName: user.displayName,
-        displayName_lower: user.displayName.toLowerCase(),
-        email: user.email,
-        email_lower: emailLower
+        email: user.email
       }).then(() => {
         return sendEmailVerification(result.user);  // Enviamos verificación de email
       });

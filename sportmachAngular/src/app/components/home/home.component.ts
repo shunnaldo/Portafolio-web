@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
     this.user$ = authState(this.auth);  // Observamos el estado de autenticación
 
     // Obtenemos la colección de usuarios desde Firestore
-    const usersCollection = collection(this.firestore, 'users');
+    const usersCollection = collection(this.firestore, 'Users');
     this.usersCount$ = collectionData(usersCollection).pipe(
       map(users => users.length)  // Obtenemos la longitud de los usuarios
     );
