@@ -132,28 +132,52 @@
 
 <br><br>
 
+
 <h1 class="tituloo">Lista de eventos</h1>
 
 <div class="eventos-list">
+  <!-- Lista de eventos -->
   <div class="card" *ngFor="let evento of eventos">
     <div class="card-image">
       <img [src]="evento.image" alt="{{ evento.titulo }}" />
     </div>
     <div class="card-info">
       <h2>{{ evento.titulo }}</h2>
+      <!-- Botón para abrir pop-up -->
+      <button (click)="showDetails(evento)">Más información</button>
+    </div>
+  </div>
+</div>
 
-      <!-- Mostrar botón de eliminar reserva solo si hay sector y fecha reservada -->
-      <div *ngFor="let evento of eventos">
-        <div>{{ evento | json }}</div> <!-- Esto imprimirá los datos del evento -->
-        <button *ngIf="evento.idSector || evento.fechaReservada"
-              (click)="removeReservation(evento)"
-              style="display: block; margin-top: 10px; background-color: red; color: white; padding: 10px;">
-                Eliminar Reserva
-        </button>
-
-        <button (click)="editEvent(evento)">Modificar</button>
-
+<!-- Pop-up de detalles del evento -->
+<div *ngIf="selectedEvento" class="popup-overlay">
+  <div class="popup">
+    <button class="close-popup" (click)="closeDetails()">Cerrar</button>
+    <h1>{{ selectedEvento?.titulo }}</h1>
+    <div class="details-container">
+      <!-- Imagen del sector seleccionado -->
+      <div class="image-section">
+        <img [src]="selectedEvento?.image || 'placeholder-image-url.jpg'" alt="{{ selectedEvento?.titulo }}" />
+        <div class="image-info">
+          <p><strong>Creador:</strong> {{ selectedEvento?.creator }}</p>
+          <p><strong>Sector:</strong> {{ selectedEvento?.sectorNombre }}</p>
+          <p><strong>Fecha Reservada:</strong> {{ selectedEvento?.fechaReservada }}</p>
+        </div>
       </div>
+
+      <!-- Detalles del evento -->
+      <div class="info-section">
+        <p><strong>Descripción:</strong> {{ selectedEvento?.descripcion }}</p>
+        <p class="visible"><strong>Visible:</strong> {{ selectedEvento?.status ? 'Sí' : 'No' }}</p>
+      </div>
+    </div>
+
+    <!-- Botones de acción en el pop-up -->
+    <div class="action-buttons">
+      <button (click)="editEvent(selectedEvento)">Editar</button>
+      <button *ngIf="selectedEvento.idSector || selectedEvento.fechaReservada" (click)="removeReservation(selectedEvento)">
+        Eliminar Reserva
+      </button>
     </div>
   </div>
 </div>

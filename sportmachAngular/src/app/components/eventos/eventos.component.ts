@@ -12,6 +12,7 @@ import { Horario } from 'src/app/models/horario.models';
 })
 export class EventosComponent implements OnInit {
 
+  selectedEvento: any = null;
   sectores: Sectores[] = [];
   horariosDisponibles: Horario[] = [];
   newEvento: eventos = new eventos('', '', '', '', '', false, '', '');
@@ -109,12 +110,17 @@ export class EventosComponent implements OnInit {
     this.filterHorarios();
 
     const selectedSector = this.sectores.find(sector => sector.idSector === this.selectedSectorId);
-    if (selectedSector && selectedSector.image) {
-      this.selectedSectorImage = selectedSector.image;
-      this.newEvento.image = selectedSector.image;
-    } else {
-      this.selectedSectorImage = null;
-      this.newEvento.image = '';
+    if (selectedSector) {
+      // Ahora guardamos el nombre del sector en lugar de su ID
+      this.newEvento.sectorNombre = selectedSector.nombre;
+
+      if (selectedSector.image) {
+        this.selectedSectorImage = selectedSector.image;
+        this.newEvento.image = selectedSector.image;
+      } else {
+        this.selectedSectorImage = null;
+        this.newEvento.image = '';
+      }
     }
   }
 
@@ -161,29 +167,29 @@ export class EventosComponent implements OnInit {
 
   onSubmit(): void {
     if (this.selectedHorario && this.selectedDate) {
-      if (this.selectedSectorId) {
-        this.newEvento.idSector = this.selectedSectorId;
-      } else {
-        console.error('El ID del sector no está definido.');
-        return;
-      }
-
-      // Si estamos en modo edición, liberar la hora anterior
-      if (this.isEditing && this.eventoEditando) {
-        this.liberarHorarioAnterior(this.eventoEditando.idSector, this.eventoEditando.fechaReservada);
-      }
-
-      this.newEvento.fechaReservada = this.selectedDate;
-      this.newEvento.descripcion += `\nHorario seleccionado: ${this.selectedHorario.dia} de ${this.selectedHorario.inicio} a ${this.selectedHorario.fin} en la fecha ${this.selectedDate}`;
-
-      if (!this.selectedHorario.fechasReservadas) {
-        this.selectedHorario.fechasReservadas = [];
-      }
-      this.selectedHorario.fechasReservadas.push(this.selectedDate);
-
       const selectedSector = this.sectores.find(sector => sector.idSector === this.selectedSectorId);
 
       if (selectedSector) {
+        // Ahora guardamos el nombre del sector en el nuevo evento
+        this.newEvento.sectorNombre = selectedSector.nombre;
+
+        this.newEvento.fechaReservada = this.selectedDate;
+        this.newEvento.descripcion += `\nHorario seleccionado: ${this.selectedHorario.dia} de ${this.selectedHorario.inicio} a ${this.selectedHorario.fin} en la fecha ${this.selectedDate}`;
+
+        if (!this.selectedHorario.fechasReservadas) {
+          this.selectedHorario.fechasReservadas = [];
+        }
+        this.selectedHorario.fechasReservadas.push(this.selectedDate);
+
+        // Si estamos en modo edición, liberar la hora anterior
+        if (this.isEditing && this.eventoEditando) {
+          const sectorNombre = this.eventoEditando.sectorNombre ?? '';
+          const fechaReservada = this.eventoEditando.fechaReservada ?? '';
+
+          this.liberarHorarioAnterior(sectorNombre, fechaReservada);
+        }
+
+        // Manejo de creación o edición del evento
         if (this.isEditing && this.eventoEditando) {
           // Si estamos editando, actualizamos el evento
           this.eventosService.updateEvento(this.eventoEditando.idEventosAdmin, this.newEvento)
@@ -219,9 +225,8 @@ export class EventosComponent implements OnInit {
     }
   }
 
-
-  liberarHorarioAnterior(idSector: string, fechaReservada: string): void {
-    const selectedSector = this.sectores.find(sector => sector.idSector === idSector);
+  liberarHorarioAnterior(nombreSector: string, fechaReservada: string): void {
+    const selectedSector = this.sectores.find(sector => sector.nombre === nombreSector);
     if (selectedSector) {
       const horario = selectedSector.horarios.find(h => h.fechasReservadas?.includes(fechaReservada));
       if (horario && horario.fechasReservadas) {
@@ -241,8 +246,14 @@ export class EventosComponent implements OnInit {
     }
   }
 
+  showDetails(evento: any) {
+    this.selectedEvento = evento; // Mostrar el evento seleccionado
+  }
 
-  // Método para editar un evento
+  closeDetails() {
+    this.selectedEvento = null; // Ocultar los detalles
+  }
+
   editEvent(evento: eventos): void {
     this.isEditing = true;
     this.eventoEditando = evento;
@@ -252,21 +263,15 @@ export class EventosComponent implements OnInit {
     this.selectedSectorId = evento.idSector;
     this.selectedDate = evento.fechaReservada;
 
-    // Filtrar los horarios del sector seleccionado y marcar el horario correspondiente (si existe)
     this.filterHorarios();
 
-    // Aquí deberíamos tener acceso a `horariosDisponibles` basados en el sector y la fecha
-    // Seleccionamos el horario basado en alguna lógica de identificación. Por ejemplo:
     this.selectedHorario = this.horariosDisponibles.find(
       horario => horario.fechasReservadas?.includes(evento.fechaReservada)
     ) || null;
   }
 
-
-
   removeReservation(evento: any): void {
-    console.log('Evento recibido:', evento);
-    const selectedSector = this.sectores.find(sector => sector.idSector === evento.idSector);
+    const selectedSector = this.sectores.find(sector => sector.nombre === evento.sectorNombre);
     if (selectedSector && evento.fechaReservada) {
       const horario = selectedSector.horarios.find(h => h.fechasReservadas?.includes(evento.fechaReservada));
       if (horario && horario.fechasReservadas) {
@@ -331,7 +336,7 @@ export class EventosComponent implements OnInit {
   canProceedToNextStep(): boolean {
     switch (this.currentStep) {
       case 1:
-        return !!this.newEvento.idSector && !!this.selectedDate && !!this.selectedHorario;
+        return !!this.newEvento.sectorNombre && !!this.selectedDate && !!this.selectedHorario;
       case 2:
         return !!this.newEvento.titulo && !!this.newEvento.descripcion && !!this.newEvento.creator;
       case 3:
@@ -340,6 +345,5 @@ export class EventosComponent implements OnInit {
         return false;
     }
   }
-
 
 }
