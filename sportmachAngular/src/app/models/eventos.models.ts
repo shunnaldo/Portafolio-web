@@ -7,7 +7,8 @@ export class eventos {
   status: boolean;
   image: string;  // Campo para la URL de la imagen
   fechaReservada: string;
-  sectorNombre?:string
+  sectorNombre?:string;
+  capacidadAlumnos?: number;
 
   constructor(
     idEventosAdmin: string,
