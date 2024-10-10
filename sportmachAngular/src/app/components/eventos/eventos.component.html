@@ -81,7 +81,7 @@
         </div>
 
         <div>
-          <input id="creator" [(ngModel)]="newEvento.creator" name="creator" placeholder="Creador" required />
+          <input id="creator" [(ngModel)]="newEvento.creator" name="creator" placeholder="Organizador" required />
         </div>
 
         <div class="checkbox-container">
@@ -91,6 +91,7 @@
           <input id="status" type="checkbox" [(ngModel)]="newEvento.status" name="status" />
         </div>
       </div>
+
 
       <!-- Paso 3: Visualización del Evento -->
       <div class="step-content" [ngClass]="{'active-step': currentStep === 3}">

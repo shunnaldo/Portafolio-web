@@ -5,10 +5,11 @@ export class eventos {
   descripcion: string;
   creator: string;
   status: boolean;
-  image: string;  // Campo para la URL de la imagen
+  image: string;
   fechaReservada: string;
   sectorNombre?:string;
   capacidadAlumnos?: number;
+
 
   constructor(
     idEventosAdmin: string,
