@@ -10,7 +10,9 @@ import { VerificarEmailComponent } from './components/verificar-email/verificar-
 import { AuthGuard } from './services/auth.guard';
 import { GuestGuard } from './services/guest.guard';
 import { DeportesComponent } from './components/deportes/deportes.component';
-
+import { SectoresComponent } from './components/sectores/sectores.component';
+import { EventosComponent } from './components/eventos/eventos.component';
+import { EventosListComponent } from './components/eventos-list/eventos-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -22,6 +24,10 @@ const routes: Routes = [
   { path: 'registro', component: RegistroComponent, canActivate: [GuestGuard] },
   { path: 'verificarEmail', component: VerificarEmailComponent },
   { path: 'deportes', component: DeportesComponent},
+  { path: 'sectores', component: SectoresComponent },
+  { path: 'eventos', component: EventosComponent },
+  { path: 'evento/:id', component: EventosComponent },
+  { path: 'evento-list', component: EventosListComponent },
   { path: '**', component: HomeComponent }
 ];
 

@@ -58,6 +58,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { FirestoreModule } from '@angular/fire/firestore';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { DeportesComponent } from './components/deportes/deportes.component';
+import { EventosComponent } from './components/eventos/eventos.component';
+import { EventosListComponent } from './components/eventos-list/eventos-list.component';
+import { SectoresComponent } from './components/sectores/sectores.component';
 
 
 
@@ -74,7 +77,10 @@ import { DeportesComponent } from './components/deportes/deportes.component';
     AdminDashboardComponent,
     HomeComponent,
     VerificarEmailComponent,
-    DeportesComponent
+    DeportesComponent,
+    EventosComponent,
+    EventosListComponent,
+    SectoresComponent
   ],
   imports: [
     BrowserModule,
