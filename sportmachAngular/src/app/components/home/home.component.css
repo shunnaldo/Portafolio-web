@@ -22,55 +22,10 @@ html, body {
     overflow-x: hidden; /* Evita que el contenido cause desplazamiento horizontal */
 }
 
-.sidebar {
-    width: 250px;
-    background-color: #212121;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
 .main-content {
     flex-grow: 1;
     padding: 20px;
     overflow-x: hidden; /* Asegura que el contenido no se desborde horizontalmente */
-}
-
-.header {
-    background-color: #212121;
-    color: white;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    z-index: 1000;
-}
-
-.header-actions {
-    display: flex;
-    gap: 10px;
-}
-
-mat-icon {
-    color: white;
-}
-
-.footer {
-    background-color: #212121;
-    color: white;
-    padding: 10px 0;
-    text-align: center;
-    width: 100%;
-}
-
-.button-section {
-    margin-bottom: 20px;
-}
-
-button {
-    display: block;
-    width: 100%;
-    margin-bottom: 10px;
 }
 
 mat-card {
@@ -136,15 +91,6 @@ mat-card {
         width: 100%;
     }
 
-    .header {
-        flex-direction: column;
-    }
-
-    .header-actions {
-        margin-top: 10px;
-        justify-content: center;
-    }
-
     .quick-access-buttons {
         flex-direction: column; /* Cambia los botones a vertical en pantallas pequeñas */
         gap: 10px; /* Menor espacio entre los botones en pantallas pequeñas */
@@ -162,18 +108,6 @@ mat-card {
     background-color: #454545; /* Color gris claro para el fondo del contenido */
 }
 
-.logo-container {
-    display: flex;
-    align-items: center;
-    margin-right: 10px; /* Espacio entre la imagen y el título */
-}
-
-.header-logo {
-    width: 40px; /* Ajusta el tamaño de la imagen según prefieras */
-    height: auto;
-    margin-left: 90px;
-}
-
 .title {
     font-size: 2.5rem; /* Ajusta el tamaño del texto si es necesario */
     background: linear-gradient(180deg, yellow, orange); /* Degradado de amarillo a naranja */
@@ -185,6 +119,24 @@ mat-card {
 h2 {
     text-align: center;
     color: white;
+}
+
+.sidebar {
+    height: 100%;
+    width: 250px;
+    background-color: #212121;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.button-section {
+    margin-bottom: 20px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
 }
 
 .sidebar button {
