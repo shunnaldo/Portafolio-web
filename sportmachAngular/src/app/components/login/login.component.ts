@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
       .then((result : any) => {
         this.isProgressVisible = false;
         if (result == null) {
-          this.router.navigate(['/home']);
+          this.router.navigate(['/dashboard']);
         } else if (result.isValid === false) {
           this.firebaseErrorMessage = result.message;
         }

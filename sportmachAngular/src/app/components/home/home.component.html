@@ -1,8 +1,17 @@
 <div class="container">
-    <app-header></app-header>
+    <header class="header">
+        <div class="logo-container">
+            <img src="https://firebasestorage.googleapis.com/v0/b/sportmatch-432ff.appspot.com/o/logo_a.png?alt=media&token=bd17e540-3492-43b8-a47f-8a32b7c6f96b" alt="SportMatch Logo" class="header-logo">
+        </div>
+        <h1 class="title">SportMatch</h1>
+        <div class="header-actions">
+            <button mat-icon-button color="primary" (click)="logout()" aria-label="Cerrar Sesión">
+                <mat-icon>logout</mat-icon>
+            </button>
+        </div>
+    </header>
 
     <div class="content">
-
         <aside class="sidebar">
             <section class="button-section">
                 <a routerLink="/home" routerLinkActive="active-link" class="sidebar-link">
@@ -23,6 +32,8 @@
                 </a>
             </section>
         </aside>
+        
+
         
         <main class="main-content">
 
@@ -61,5 +72,7 @@
         </main>
     </div>
 
-    <app-footer></app-footer>
+    <footer class="footer">
+        <p>&copy; 2024 SportMatch. Todos los derechos reservados.</p>
+    </footer>
 </div>

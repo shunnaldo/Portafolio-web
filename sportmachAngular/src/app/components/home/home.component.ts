@@ -35,4 +35,12 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     // Lógica adicional si es necesario
   }
+
+  logout(): void {
+    this.auth.signOut().then(() => {
+      this.router.navigate(['/login']);
+    }).catch((error) => {
+      console.error('Sign out error', error);
+    });
+  }
 }

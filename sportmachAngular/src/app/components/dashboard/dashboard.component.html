@@ -1,0 +1,31 @@
+<div class="header">
+    <h1>SportMatch</h1>
+</div>
+
+<hr>
+<hr>
+<hr>
+
+<div class="container">
+    <h1>Dashboard</h1>
+
+    <br>
+    <br>
+    <button mat-raised-button color="primary" routerLink="/home">
+        <mat-icon>home</mat-icon>
+        <span>Volver al Menu</span>
+    </button>
+
+    <mat-list *ngIf="(user$ | async) as user">
+        <mat-list-item>Tipo de Cuenta: {{ user?.accountType }}</mat-list-item>
+        <mat-list-item>Display Name: {{ user?.displayName }}</mat-list-item>
+        <mat-list-item>Display Name (lower): {{ user?.displayName_lower }}</mat-list-item>
+        <mat-list-item>Email: {{ user?.email }}</mat-list-item>
+        <mat-list-item>Email (lower): {{ user?.email_lower }}</mat-list-item>
+        <mat-list-item>Email Verification Status: {{ user?.emailVerified }}</mat-list-item>
+    </mat-list>
+</div>
+
+<div class="footer">
+    <p>&copy; 2024 SportMatch. Todos los derechos reservados.</p>
+</div>

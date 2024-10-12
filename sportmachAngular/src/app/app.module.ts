@@ -1,23 +1,21 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { FormsModule } from '@angular/forms';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RegistroComponent } from './components/registro/registro.component';
 import { LoginComponent } from './components/login/login.component';
 import { RecuperarContrasenaComponent } from './components/recuperar-contrasena/recuperar-contrasena.component';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { HomeComponent } from './components/home/home.component';
-import { DeportesComponent } from './components/deportes/deportes.component';
-import { EventosComponent } from './components/eventos/eventos.component';
-import { EventosListComponent } from './components/eventos-list/eventos-list.component';
-import { SectoresComponent } from './components/sectores/sectores.component';
+import { VerificarEmailComponent } from './components/verificar-email/verificar-email.component';
 
+import { AuthService } from './services/auth.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -59,10 +57,10 @@ import { MatTreeModule } from '@angular/material/tree';
 import { HttpClientModule } from '@angular/common/http';
 import { FirestoreModule } from '@angular/fire/firestore';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-
-import { HeaderComponent } from './shared/header/header.component';
-import { FooterComponent } from './shared/footer/footer.component';
-import { RouterModule } from '@angular/router';
+import { DeportesComponent } from './components/deportes/deportes.component';
+import { EventosComponent } from './components/eventos/eventos.component';
+import { EventosListComponent } from './components/eventos-list/eventos-list.component';
+import { SectoresComponent } from './components/sectores/sectores.component';
 
 
 
@@ -72,20 +70,20 @@ import { RouterModule } from '@angular/router';
 @NgModule({
   declarations: [
     AppComponent,
+    DashboardComponent,
     RegistroComponent,
     LoginComponent,
     RecuperarContrasenaComponent,
     AdminDashboardComponent,
     HomeComponent,
+    VerificarEmailComponent,
     DeportesComponent,
     EventosComponent,
     EventosListComponent,
-    SectoresComponent,
-    HeaderComponent,
-    FooterComponent,
+    SectoresComponent
   ],
   imports: [
-        BrowserModule,
+    BrowserModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
