@@ -22,13 +22,6 @@ html, body {
     overflow-x: hidden; /* Evita que el contenido cause desplazamiento horizontal */
 }
 
-.sidebar {
-    width: 250px;
-    background-color: #212121;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
 .main-content {
     flex-grow: 1;
     padding: 20px;
@@ -49,7 +42,7 @@ mat-card {
     padding: 15px;
     margin: 10px;
     border-radius: 8px;
-    background-color: #9e9e9e;
+    background-color: #FDBF50;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
@@ -94,13 +87,23 @@ mat-card {
     flex-grow: 1;
     padding: 20px;
     overflow-x: hidden; /* Asegura que el contenido no se desborde horizontalmente */
-    background-color: #454545; /* Color gris claro para el fondo del contenido */
+    background-color: #F4F4F8;
 }
 
 h2 {
     text-align: center;
-    color: white;
+    color: black;
 }
+
+/* SIDEBAR CSS */
+
+.sidebar {
+    width: 250px;
+    background-color: #2A2C41;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
 
 .sidebar button {
     display: flex;
@@ -133,12 +136,12 @@ h2 {
 }
 
 .sidebar-link:hover {
-    background-color: #101010; /* Color al hacer hover */
+    background-color: #FF724C; /* Color al hacer hover */
     color: white; /* Color del texto al hacer hover */
 }
 
 .sidebar-link.active-link {
-    background-color: rgb(255, 179, 0); /* Color del botón seleccionado */
+    background-color: #FDBF50; /* Color del botón seleccionado FF724C */
     color: white; /* Color del texto cuando está seleccionado */
 }
 
@@ -146,6 +149,8 @@ h2 {
 .sidebar-link.active-link mat-icon {
     color: white; /* Íconos en blanco cuando está en hover o activo */
 }
+
+/* END SIDEBAR CSS */
 
 @media (max-width: 600px) {
     .sidebar {

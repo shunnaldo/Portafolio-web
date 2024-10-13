@@ -1,4 +1,5 @@
 <div class="container">
+    
     <app-header></app-header>
 
     <div class="content">
@@ -20,10 +21,12 @@
                     <mat-icon>map</mat-icon>
                     <span>Gestionar Sectores</span>
                 </a>
+                <a routerLink="/usuarios" routerLinkActive="active-link" class="sidebar-link">
+                  <mat-icon>manage_accounts</mat-icon>
+                  <span>Gestionar Usuarios</span>
+              </a>
             </section>
         </aside>
-        
-
         
         <main class="main-content">
 
@@ -63,4 +66,5 @@
     </div>
 
     <app-footer></app-footer>
+
 </div>
