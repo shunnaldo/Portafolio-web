@@ -61,6 +61,8 @@ import { DeportesComponent } from './components/deportes/deportes.component';
 import { EventosComponent } from './components/eventos/eventos.component';
 import { EventosListComponent } from './components/eventos-list/eventos-list.component';
 import { SectoresComponent } from './components/sectores/sectores.component';
+import { HeaderComponent } from './shared/header/header.component';
+import { FooterComponent } from './shared/footer/footer.component';
 
 
 
@@ -80,7 +82,9 @@ import { SectoresComponent } from './components/sectores/sectores.component';
     DeportesComponent,
     EventosComponent,
     EventosListComponent,
-    SectoresComponent
+    SectoresComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

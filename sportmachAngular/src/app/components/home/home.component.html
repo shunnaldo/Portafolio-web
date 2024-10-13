@@ -1,15 +1,5 @@
 <div class="container">
-    <header class="header">
-        <div class="logo-container">
-            <img src="https://firebasestorage.googleapis.com/v0/b/sportmatch-432ff.appspot.com/o/logo_a.png?alt=media&token=bd17e540-3492-43b8-a47f-8a32b7c6f96b" alt="SportMatch Logo" class="header-logo">
-        </div>
-        <h1 class="title">SportMatch</h1>
-        <div class="header-actions">
-            <button mat-icon-button color="primary" (click)="logout()" aria-label="Cerrar Sesión">
-                <mat-icon>logout</mat-icon>
-            </button>
-        </div>
-    </header>
+    <app-header></app-header>
 
     <div class="content">
         <aside class="sidebar">
@@ -72,7 +62,5 @@
         </main>
     </div>
 
-    <footer class="footer">
-        <p>&copy; 2024 SportMatch. Todos los derechos reservados.</p>
-    </footer>
+    <app-footer></app-footer>
 </div>

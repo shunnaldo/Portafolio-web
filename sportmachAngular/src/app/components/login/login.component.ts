@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.authService.userLoggedIn) {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/home']);
     }
   }
 
@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
       .then((result : any) => {
         this.isProgressVisible = false;
         if (result == null) {
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/home']);
         } else if (result.isValid === false) {
           this.firebaseErrorMessage = result.message;
         }

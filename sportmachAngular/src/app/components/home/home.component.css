@@ -35,34 +35,6 @@ html, body {
     overflow-x: hidden; /* Asegura que el contenido no se desborde horizontalmente */
 }
 
-.header {
-    background-color: #212121;
-    color: white;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    z-index: 1000;
-}
-
-.header-actions {
-    display: flex;
-    gap: 10px;
-}
-
-mat-icon {
-    color: white;
-}
-
-.footer {
-    background-color: #212121;
-    color: white;
-    padding: 10px 0;
-    text-align: center;
-    width: 100%;
-}
-
 .button-section {
     margin-bottom: 20px;
 }
@@ -118,68 +90,11 @@ mat-card {
     text-align: center;
 }
 
-/* Media Query para pantallas pequeñas */
-@media (max-width: 600px) {
-    .sidebar {
-        width: 100%;
-    }
-
-    .content {
-        flex-direction: column;
-    }
-
-    .main-content {
-        padding: 10px;
-    }
-
-    button {
-        width: 100%;
-    }
-
-    .header {
-        flex-direction: column;
-    }
-
-    .header-actions {
-        margin-top: 10px;
-        justify-content: center;
-    }
-
-    .quick-access-buttons {
-        flex-direction: column; /* Cambia los botones a vertical en pantallas pequeñas */
-        gap: 10px; /* Menor espacio entre los botones en pantallas pequeñas */
-    }
-
-    .stats-cards {
-        flex-direction: column; /* Cambia las tarjetas de estadísticas a vertical en pantallas pequeñas */
-    }
-}
-
 .main-content {
     flex-grow: 1;
     padding: 20px;
     overflow-x: hidden; /* Asegura que el contenido no se desborde horizontalmente */
     background-color: #454545; /* Color gris claro para el fondo del contenido */
-}
-
-.logo-container {
-    display: flex;
-    align-items: center;
-    margin-right: 10px; /* Espacio entre la imagen y el título */
-}
-
-.header-logo {
-    width: 40px; /* Ajusta el tamaño de la imagen según prefieras */
-    height: auto;
-    margin-left: 90px;
-}
-
-.title {
-    font-size: 2.5rem; /* Ajusta el tamaño del texto si es necesario */
-    background: linear-gradient(180deg, yellow, orange); /* Degradado de amarillo a naranja */
-    -webkit-background-clip: text; /* Compatibilidad con navegadores basados en WebKit */
-    background-clip: text; /* Propiedad estándar para otros navegadores */
-    color: transparent; /* Hace que el degradado llene el texto */
 }
 
 h2 {
@@ -230,4 +145,40 @@ h2 {
 .sidebar-link:hover mat-icon,
 .sidebar-link.active-link mat-icon {
     color: white; /* Íconos en blanco cuando está en hover o activo */
+}
+
+@media (max-width: 600px) {
+    .sidebar {
+        width: 100%;
+    }
+
+    .content {
+        flex-direction: column;
+    }
+
+    .main-content {
+        padding: 10px;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    .header {
+        flex-direction: column;
+    }
+
+    .header-actions {
+        margin-top: 10px;
+        justify-content: center;
+    }
+
+    .quick-access-buttons {
+        flex-direction: column; /* Cambia los botones a vertical en pantallas pequeñas */
+        gap: 10px; /* Menor espacio entre los botones en pantallas pequeñas */
+    }
+
+    .stats-cards {
+        flex-direction: column; /* Cambia las tarjetas de estadísticas a vertical en pantallas pequeñas */
+    }
 }
