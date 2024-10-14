@@ -50,13 +50,20 @@ export class EventosAlumnosService {
   }
 
   // Actualizar un evento
-  updateEvento(id: string, evento: eventosAlumnos): Promise<void> {
-    return this.firestore.collection(this.collectionName).doc(id).update(evento)
-      .catch(error => {
-        console.error(`Error actualizando evento con ID ${id}: `, error);
-        throw error; // Propagar el error si es necesario
+  updateEvento(id: string, data: Partial<eventosAlumnos>): Promise<void> {
+    if (!id) {
+      console.error('El ID proporcionado es inválido.');
+      return Promise.reject('ID inválido');
+    }
+
+    return this.firestore.collection(this.collectionName).doc(id).update(data)
+      .catch((error) => {
+        console.error(`Error actualizando evento con ID ${id}:`, error);
+        throw error;
       });
   }
+
+
 
   // Eliminar un evento
   deleteEvento(id: string): Promise<void> {
