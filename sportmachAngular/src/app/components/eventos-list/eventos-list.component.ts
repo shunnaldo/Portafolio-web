@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { EventosService } from 'src/app/services/eventos.service';
-
+import { EventosAlumnosService } from 'src/app/services/eventos-alumnos.service';
+import { eventosAlumnos } from 'src/app/models/evento-alumno';
 
 @Component({
   selector: 'app-eventos-list',
@@ -9,30 +9,24 @@ import { EventosService } from 'src/app/services/eventos.service';
 })
 export class EventosListComponent implements OnInit {
 
-  eventos: any[] = [];
-  selectedEvento: any = null;
+  eventos: eventosAlumnos[] = [];
 
-
-  constructor(private eventosService: EventosService) {}
+  constructor(private eventosAlumnosService: EventosAlumnosService) { }
 
   ngOnInit(): void {
-    this.loadEventos();
+    this.loadEventosAlumnos(); // Asegúrate de que este método se llame
   }
 
-  loadEventos() {
-    this.eventosService.getEventos().subscribe(data => {
-      this.eventos = data;
-    });
+  loadEventosAlumnos(): void {
+    this.eventosAlumnosService.getEventos().subscribe(
+      (eventos) => {
+        console.log('Eventos recibidos:', eventos);
+        this.eventos = eventos;
+      },
+      (error) => {
+        console.error('Error al cargar los eventos:', error);
+      }
+    );
   }
-
-  showDetails(evento: any) {
-    this.selectedEvento = evento; // Mostrar el evento seleccionado
-  }
-
-  closeDetails() {
-    this.selectedEvento = null; // Ocultar los detalles
-  }
-
-
 
 }

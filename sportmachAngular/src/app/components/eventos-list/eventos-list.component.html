@@ -1,45 +1,31 @@
-<h1 class="tituloo">Lista de eventos</h1>
+<div class="eventos-container">
+  <h2>Eventos de Alumnos</h2>
 
-<div class="eventos-list">
-  <div class="card" *ngFor="let evento of eventos">
-    <div class="card-image">
-      <img [src]="evento.image" alt="{{ evento.titulo }}" />
-    </div>
-    <div class="card-info">
-      <h2>{{ evento.titulo }}</h2>
-      <button (click)="showDetails(evento)">Más información</button>
-    </div>
+  <div *ngIf="eventos.length === 0" class="no-eventos">
+    <p>No hay eventos disponibles.</p>
   </div>
-</div>
 
-<!-- Contenedor de detalles -->
-<div class="event-details" *ngIf="selectedEvento">
-  <h1 class="titulooCard">{{ selectedEvento?.titulo }}</h1>
+  <div *ngFor="let evento of eventos" class="evento-card">
+    <img [src]="evento.image" alt="Imagen del evento" class="evento-image" />
 
-  <div class="details-container">
-    <!-- Imagen del sector seleccionado -->
-    <div class="image-section">
-      <img [src]="selectedEvento?.image || 'placeholder-image-url.jpg'" alt="{{ selectedEvento?.titulo }}" />
-      <!-- Fecha y Creador debajo de la imagen -->
-      <div class="image-info">
-        <p><strong>Creador:</strong> {{ selectedEvento?.creator }}</p>
-        <br>
-        <p><strong>Fecha:     </strong> {{ selectedEvento?.idSector }}</p>
+    <div class="evento-info">
+      <h3>{{ evento.titulo }}</h3>
+      <p class="descripcion">{{ evento.descripcion }}</p>
+
+      <div class="detalles">
+        <p><strong>Fecha:</strong> {{ evento.fechaReservada }}</p>
+        <p *ngIf="evento.hora"><strong>Hora:</strong> {{ evento.hora }}</p>
+        <p *ngIf="evento.sectorNombre"><strong>Sector:</strong> {{ evento.sectorNombre }}</p>
+        <p *ngIf="evento.capacidadAlumnos">
+          <strong>Capacidad:</strong> {{ evento.capacidadAlumnos }} alumnos
+        </p>
+        <p><strong>En lista de espera:</strong> {{ evento.espera ? 'Sí' : 'No' }}</p>
+      </div>
+
+      <div class="acciones">
+<!--         <button (click)="editarEvento(evento)" class="btn editar">Editar</button>
+        <button (click)="eliminarEvento(evento.idEventosAlumnos)" class="btn eliminar">Eliminar</button> -->
       </div>
     </div>
-
-    <!-- Detalles del evento centrado -->
-    <div class="">
-      <p class="info-section"><strong>Descripción:</strong> {{ selectedEvento?.descripcion }}</p>
-      <p class="visible"><strong>Visible:</strong> {{ selectedEvento?.status ? 'Sí' : 'No' }}</p>
-    </div>
-  </div>
-
-  <!-- Botones de acción -->
-  <div class="action-buttons">
-    <button >Editar</button>
-    <!-- Botón para eliminar reserva, visible solo si ya está reservada -->
-
-
   </div>
 </div>

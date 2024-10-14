@@ -8,7 +8,6 @@ const routes: Routes = [
 
   { path: 'sectores', component: SectoresComponent },
   { path: 'evento', component: EventosComponent },
-  { path: 'evento/:id', component: EventosComponent },
   { path: 'evento-list', component: EventosListComponent }
 
 ];
