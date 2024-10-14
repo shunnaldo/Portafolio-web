@@ -4,6 +4,7 @@ import { Sectores } from 'src/app/models/sectores.models';
 import { Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+
 @Component({
   selector: 'app-sectores',
   templateUrl: './sectores.component.html',
@@ -12,7 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class SectoresComponent implements OnInit {
 
   sectores$: Observable<Sectores[]> = new Observable();
-  newSector: Sectores = new Sectores('', '', null, []);
+  newSector: Sectores = new Sectores('', '', null, [], true, '');
   selectedFile: File | null = null;
   isEditing: boolean = false;
   editingSectorId: string | null = null;
@@ -41,6 +42,7 @@ export class SectoresComponent implements OnInit {
     this.resetHorarios();
   }
 
+
   toggleAccordion(dia: string): void {
     if (this.acordionesAbiertos.has(dia)) {
       this.acordionesAbiertos.delete(dia);
@@ -62,6 +64,7 @@ export class SectoresComponent implements OnInit {
     return Array.from(diasConHorarios);  // Convertir el Set a un array
   }
 
+
   getHorariosByDay(dia: string): any[] {
     return this.sectorSeleccionado?.horarios.filter(horario => horario.dia === dia) || [];
   }
@@ -80,9 +83,16 @@ export class SectoresComponent implements OnInit {
 
 
   abrirModalSector(sector: Sectores) {
-    this.sectorSeleccionado = { ...sector, horarios: sector.horarios || [] };
+    this.sectorSeleccionado = {
+      ...sector,
+      visibleVer: sector.visible ? 'público' : 'privado'
+    };
     this.modalSectorAbierto = true;
   }
+
+
+
+
 
   cerrarModalSector() {
     this.modalSectorAbierto = false;
@@ -97,6 +107,9 @@ export class SectoresComponent implements OnInit {
       });
       return;
     }
+
+    // Sincronizamos el valor booleano con el texto
+    this.newSector.visible = this.newSector.visibleVer === 'público';
 
     if (this.isEditing && this.editingSectorId) {
       this.sectoresService.updateSector(this.editingSectorId, this.newSector)
@@ -121,6 +134,7 @@ export class SectoresComponent implements OnInit {
     }
   }
 
+
   // Método para manejar la carga de archivos
   onFileChange(event: any) {
     const file = event.target.files[0];
@@ -136,8 +150,10 @@ export class SectoresComponent implements OnInit {
     }
   }
 
+
+
   resetForm() {
-    this.newSector = new Sectores('', '', null, []);
+    this.newSector = new Sectores('', '', null, [], false, 'privado');
     this.selectedFile = null;
     this.isEditing = false;
     this.editingSectorId = null;
@@ -312,6 +328,8 @@ export class SectoresComponent implements OnInit {
   capitalizeFirstLetter(text: string): string {
     return text.charAt(0).toUpperCase() + text.slice(1);
   }
+
+
 
 
 }

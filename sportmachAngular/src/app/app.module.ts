@@ -18,6 +18,7 @@ import { MatNativeDateModule } from '@angular/material/core'; // Añadir MatNati
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { EventosListComponent } from './components/eventos-list/eventos-list.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +41,7 @@ import { EventosListComponent } from './components/eventos-list/eventos-list.com
     MatInputModule,
     MatButtonModule,
     MatNativeDateModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]
