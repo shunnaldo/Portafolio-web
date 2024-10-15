@@ -168,59 +168,47 @@ export class EventosComponent implements OnInit {
   onSubmit(): void {
     if (this.selectedHorario && this.selectedDate) {
       const selectedSector = this.sectores.find(sector => sector.idSector === this.selectedSectorId);
-
+  
       if (selectedSector) {
-        // Ahora guardamos el nombre del sector en el nuevo evento
         this.newEvento.sectorNombre = selectedSector.nombre;
-
         this.newEvento.fechaReservada = this.selectedDate;
         this.newEvento.descripcion += `\nHorario seleccionado: ${this.selectedHorario.dia} de ${this.selectedHorario.inicio} a ${this.selectedHorario.fin} en la fecha ${this.selectedDate}`;
-
+  
         if (!this.selectedHorario.fechasReservadas) {
           this.selectedHorario.fechasReservadas = [];
         }
         this.selectedHorario.fechasReservadas.push(this.selectedDate);
-
-        // Si estamos en modo edición, liberar la hora anterior
+  
         if (this.isEditing && this.eventoEditando) {
           const sectorNombre = this.eventoEditando.sectorNombre ?? '';
           const fechaReservada = this.eventoEditando.fechaReservada ?? '';
-
           this.liberarHorarioAnterior(sectorNombre, fechaReservada);
-        }
-
-        // Manejo de creación o edición del evento
-        if (this.isEditing && this.eventoEditando) {
-          // Si estamos editando, actualizamos el evento
+  
           this.eventosService.updateEvento(this.eventoEditando.idEventosAdmin, this.newEvento)
             .then(() => {
               this.updateSectorHorario(selectedSector);
               alert('Evento modificado exitosamente');
+              this.loadEvento(); // Actualizar lista de eventos
               this.resetForm();
-              this.filterHorarios();
               this.isEditing = false;
-              this.eventoEditando = null;
             })
             .catch(error => {
               console.error('Error modificando el evento: ', error);
               alert('Hubo un error al modificar el evento');
             });
         } else {
-          // Si no estamos editando, creamos un nuevo evento
           this.eventosService.createEvento(this.newEvento)
             .then(() => {
               this.updateSectorHorario(selectedSector);
               alert('Evento creado exitosamente');
+              this.loadEvento(); // Actualizar lista de eventos
               this.resetForm();
-              this.filterHorarios();
             })
             .catch(error => {
               console.error('Error creando el evento: ', error);
               alert('Hubo un error al crear el evento');
             });
         }
-      } else {
-        console.error('No se encontró el sector seleccionado.');
       }
     }
   }
@@ -270,6 +258,7 @@ export class EventosComponent implements OnInit {
     ) || null;
   }
 
+  
   removeReservation(evento: any): void {
     const selectedSector = this.sectores.find(sector => sector.nombre === evento.sectorNombre);
     if (selectedSector && evento.fechaReservada) {
@@ -279,13 +268,13 @@ export class EventosComponent implements OnInit {
         if (index !== -1) {
           horario.fechasReservadas.splice(index, 1);
           horario.disponible = true;
-
+  
           this.updateSectorHorario(selectedSector)
             .then(() => {
               this.eventosService.deleteEvento(evento.idEventosAdmin)
                 .then(() => {
                   alert('Reserva y evento eliminados exitosamente.');
-                  this.loadEvento();
+                  this.loadEvento(); // Actualizar lista de eventos
                 })
                 .catch(error => {
                   console.error('Error al eliminar el evento:', error);
