@@ -77,11 +77,4 @@ export class DeportesComponent implements OnInit {
     this.deporteForm.reset();
   }
 
-  logout(): void {
-    this.auth.signOut().then(() => {
-      this.router.navigate(['/login']); // Redirigir al login después de cerrar sesión
-    }).catch((error) => {
-      console.error('Error al cerrar sesión', error);
-    });
-  }
 }
