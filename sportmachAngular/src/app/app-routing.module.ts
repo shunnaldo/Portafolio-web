@@ -17,14 +17,14 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'recuperar-contrasena', component: RecuperarContrasenaComponent, canActivate: [GuestGuard] },
   { path: 'login', component: LoginComponent, canActivate: [GuestGuard] },
-  { path: 'registro', component: RegistroComponent, canActivate: [GuestGuard] },
-  { path: 'deportes', component: DeportesComponent},
-  { path: 'sectores', component: SectoresComponent },
-  { path: 'eventos', component: EventosComponent },
-  { path: 'evento/:id', component: EventosComponent },
-  { path: 'evento-list', component: EventosListComponent },
-  { path: 'usuarios', component: UsuariosComponent },
-  { path: '**', component: HomeComponent }
+  { path: 'registro', component: RegistroComponent, canActivate: [AuthGuard] },
+  { path: 'deportes', component: DeportesComponent, canActivate: [AuthGuard] },
+  { path: 'sectores', component: SectoresComponent, canActivate: [AuthGuard] },
+  { path: 'eventos', component: EventosComponent, canActivate: [AuthGuard] },
+  { path: 'evento/:id', component: EventosComponent, canActivate: [AuthGuard] },
+  { path: 'evento-list', component: EventosListComponent, canActivate: [AuthGuard] },
+  { path: 'usuarios', component: UsuariosComponent, canActivate: [AuthGuard] },
+  { path: '**', component: HomeComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
