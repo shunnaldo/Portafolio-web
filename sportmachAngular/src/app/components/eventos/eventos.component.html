@@ -16,42 +16,34 @@
 
   <!-- Contenedor del formulario -->
   <div class="form-container">
-    <!-- Asegúrate de que no haya formularios anidados y que esta etiqueta abra y cierre correctamente -->
     <form (ngSubmit)="onSubmit()" #eventForm="ngForm">
       <!-- Paso 1: Selección de sector -->
       <div class="step-content" [ngClass]="{'active-step': currentStep === 1}">
         <h1 style="text-align: center;">Sectores</h1>
-        <br>
         <div class="form-grid">
           <div class="form-fields">
-            <div>
-              <select id="idSector" [(ngModel)]="newEvento.idSector" name="idSector" (change)="onSectorChange($event)" required>
-                <option value="" disabled selected>Seleccione un sector</option>
-                <option *ngFor="let sector of sectores" [value]="sector.idSector">
-                  {{ sector.nombre }}
-                </option>
-              </select>
-            </div>
+            <select id="idSector" [(ngModel)]="newEvento.idSector" name="idSector" (change)="onSectorChange($event)" required>
+              <option value="" disabled selected>Seleccione un sector</option>
+              <option *ngFor="let sector of sectores" [value]="sector.idSector">
+                {{ sector.nombre }}
+              </option>
+            </select>
 
-            <div>
-              <input
-                type="date"
-                id="fecha"
-                [(ngModel)]="selectedDate"
-                name="fecha"
-                placeholder="Seleccione una fecha"
-                required
-                (change)="onDateChange()"
-                [min]="minDate"
-                [max]="maxDate"
-              />
-            </div>
+            <input
+              type="date"
+              id="fecha"
+              [(ngModel)]="selectedDate"
+              name="fecha"
+              required
+              (change)="onDateChange()"
+              [min]="minDate"
+              [max]="maxDate"
+            />
 
             <div *ngIf="horariosDisponibles.length > 0">
               <div class="horarios-container">
                 <button
                   type="button"
-                  class="horarioss"
                   *ngFor="let horario of horariosDisponibles"
                   [disabled]="!horario.disponible"
                   [ngClass]="{'selected': horario === selectedHorario, 'not-available': !horario.disponible}"
@@ -62,59 +54,44 @@
             </div>
           </div>
 
+          <!-- Imagen del sector al lado del formulario -->
           <div class="sector-image-container" *ngIf="selectedSectorImage">
-            <img [src]="selectedSectorImage" alt="Imagen del sector" />
+            <img [src]="selectedSectorImage" alt="Imagen del sector seleccionado" />
           </div>
         </div>
       </div>
 
-      <!-- Paso 2: Título, Descripción, Creador, Estado -->
+      <!-- Paso 2: Título, Descripción, Organizador, Estado -->
       <div class="step-content" [ngClass]="{'active-step': currentStep === 2}">
-        <h1 style="text-align: center;">Planificar evento</h1>
-        <br>
-        <div>
-          <input id="titulo" [(ngModel)]="newEvento.titulo" name="titulo" placeholder="Título" required />
-        </div>
-
-        <div>
-          <textarea id="descripcion" [(ngModel)]="newEvento.descripcion" name="descripcion" placeholder="Descripción" required></textarea>
-        </div>
-
-        <div>
-          <input id="creator" [(ngModel)]="newEvento.creator" name="creator" placeholder="Organizador" required />
-        </div>
-
+        <h1 style="text-align: center;">Planificar Evento</h1>
+        <input id="titulo" [(ngModel)]="newEvento.titulo" name="titulo" placeholder="Título" required />
+        <textarea id="descripcion" [(ngModel)]="newEvento.descripcion" name="descripcion" placeholder="Descripción" required></textarea>
+        <input id="creator" [(ngModel)]="newEvento.creator" name="creator" placeholder="Organizador" required />
         <div class="checkbox-container">
-          <label for="status">
-            <h4>Visible</h4>
-          </label>
+          <label for="status">Visible</label>
           <input id="status" type="checkbox" [(ngModel)]="newEvento.status" name="status" />
         </div>
       </div>
 
-
       <!-- Paso 3: Visualización del Evento -->
       <div class="step-content" [ngClass]="{'active-step': currentStep === 3}">
-        <div class="card-header">
-          <h1 style="text-align: center;">Visualización de evento</h1>
-        </div>
-        <div class="card">
-          <div class="card-content">
-            <!-- Imagen del sector seleccionado -->
-            <div class="sector-image-preview" *ngIf="selectedSectorImage">
-              <img [src]="selectedSectorImage" alt="Imagen del sector seleccionado" />
-            </div>
-            <br><br>
-            <div class="sector-horario">
-              <p><strong>Sector: </strong>{{ getSectorNombre(newEvento.idSector) }}</p>
-              <p><strong>Horario: </strong>{{ selectedHorario ? (selectedHorario.inicio + ' - ' + selectedHorario.fin) : 'No seleccionado' }}</p>
-            </div>
-            <br>
-            <h3 class="card-header">{{ newEvento.titulo }}</h3>
-            <p><strong>Descripción:</strong><br>{{ newEvento.descripcion }}</p>
-            <br>
-            <div class="sector-horario">
-              <p>{{ newEvento.creator }}</p>
+        <div class="form-grid">
+          <!-- Imagen del sector al lado de la tarjeta -->
+          <div class="sector-image-container" *ngIf="selectedSectorImage">
+            <img [src]="selectedSectorImage" alt="Imagen del sector seleccionado" />
+          </div>
+
+          <br>
+
+          <div>
+            <div>
+              <h3 class="card-title">{{ newEvento.titulo }}</h3>
+              <div class="sector-horario">
+                <p><strong>Sector:</strong> {{ getSectorNombre(newEvento.idSector) }}</p>
+                <p><strong>Horario:</strong> {{ selectedHorario ? (selectedHorario.inicio + ' - ' + selectedHorario.fin) : 'No seleccionado' }}</p>
+              </div>
+              <p><strong>Descripción:</strong> {{ newEvento.descripcion }}</p>
+              <p><strong>Organizador:</strong> {{ newEvento.creator }}</p>
               <p><strong>Visible:</strong> {{ newEvento.status ? 'Sí' : 'No' }}</p>
             </div>
           </div>
@@ -127,58 +104,6 @@
         <button type="button" (click)="nextStep()" [disabled]="!canProceedToNextStep()">Siguiente</button>
         <button type="submit" [disabled]="eventForm.invalid || currentStep !== 3">Crear Evento</button>
       </div>
-    </form> <!-- Esta es la única etiqueta de cierre de form -->
-  </div>
-</div>
-
-<br><br>
-
-
-<h1 class="tituloo">Lista de eventos</h1>
-
-<div class="eventos-list">
-  <!-- Lista de eventos -->
-  <div class="card" *ngFor="let evento of eventos">
-    <div class="card-image">
-      <img [src]="evento.image" alt="{{ evento.titulo }}" />
-    </div>
-    <div class="card-info">
-      <h2>{{ evento.titulo }}</h2>
-      <!-- Botón para abrir pop-up -->
-      <button (click)="showDetails(evento)">Más información</button>
-    </div>
-  </div>
-</div>
-
-<!-- Pop-up de detalles del evento -->
-<div *ngIf="selectedEvento" class="popup-overlay">
-  <div class="popup">
-    <button class="close-popup" (click)="closeDetails()">Cerrar</button>
-    <h1>{{ selectedEvento?.titulo }}</h1>
-    <div class="details-container">
-      <!-- Imagen del sector seleccionado -->
-      <div class="image-section">
-        <img [src]="selectedEvento?.image || 'placeholder-image-url.jpg'" alt="{{ selectedEvento?.titulo }}" />
-        <div class="image-info">
-          <p><strong>Creador:</strong> {{ selectedEvento?.creator }}</p>
-          <p><strong>Sector:</strong> {{ selectedEvento?.sectorNombre }}</p>
-          <p><strong>Fecha Reservada:</strong> {{ selectedEvento?.fechaReservada }}</p>
-        </div>
-      </div>
-
-      <!-- Detalles del evento -->
-      <div class="info-section">
-        <p><strong>Descripción:</strong> {{ selectedEvento?.descripcion }}</p>
-        <p class="visible"><strong>Visible:</strong> {{ selectedEvento?.status ? 'Sí' : 'No' }}</p>
-      </div>
-    </div>
-
-    <!-- Botones de acción en el pop-up -->
-    <div class="action-buttons">
-      <button (click)="editEvent(selectedEvento)">Editar</button>
-      <button *ngIf="selectedEvento.idSector || selectedEvento.fechaReservada" (click)="removeReservation(selectedEvento)">
-        Eliminar Reserva
-      </button>
-    </div>
+    </form>
   </div>
 </div>
