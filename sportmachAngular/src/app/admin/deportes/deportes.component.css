@@ -31,35 +31,35 @@ html, body {
 .button-section {
   margin-bottom: 20px;
 }
-  
+
 button {
   display: block;
   width: 100%;
   margin-bottom: 10px;
 }
-  
+
 .status-section {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
-  
+
 /* Media Query para pantallas pequeñas */
 @media (max-width: 600px) {
   .sidebar {
     width: 100%;
   }
-  
+
   .content {
     flex-direction: column;
   }
-  
+
   .main-content {
     padding: 10px;
   }
-  
+
 }
-  
+
 .custom-table {
   background-color: #F4F4F8;
   margin-top: 20px;
@@ -78,7 +78,7 @@ form {
   gap: 15px;  /* Espacio entre los campos del formulario */
   margin-top: 20px;
 }
-  
+
 button[type="submit"] {
   align-self: center;  /* Centra el botón dentro del formulario */
   width: auto;  /* Asegura que el botón no ocupe todo el ancho */
