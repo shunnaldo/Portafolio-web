@@ -1,0 +1,125 @@
+.eventos-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f4f4f8;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.eventos-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ff724c;
+  font-size: 2rem;
+}
+
+.no-eventos {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 1.2rem;
+  color: #2a2c41;
+}
+
+.evento-card {
+  display: flex;
+  align-items: flex-start;
+  background-color: white;
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.evento-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.evento-image {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 15px;
+}
+
+.evento-info {
+  flex: 1;
+}
+
+.evento-info h3 {
+  color: #ff724c;
+  margin: 0 0 10px;
+  font-size: 1.5rem;
+}
+
+.descripcion {
+  font-size: 1rem;
+  color: #2a2c41;
+  margin-bottom: 10px;
+}
+
+.detalles p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+}
+
+.detalles strong {
+  color: #2a2c41;
+}
+
+.acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn.editar {
+  background-color: #2a2c41;
+  color: white;
+}
+
+.btn.editar:hover {
+  background-color: #4a4c61;
+}
+
+.btn.eliminar {
+  background-color: #ff724c;
+  color: white;
+}
+
+.btn.eliminar:hover {
+  background-color: #fd6042;
+}
+
+@media (max-width: 768px) {
+  .evento-card {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .evento-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+
+  .evento-info h3 {
+    text-align: center;
+  }
+
+  .acciones {
+    justify-content: center;
+  }
+}

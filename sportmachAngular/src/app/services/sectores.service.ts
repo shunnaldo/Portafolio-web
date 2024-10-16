@@ -32,7 +32,6 @@ export class SectoresService {
           finalize(() => {
             fileRef.getDownloadURL().subscribe(url => {
               sector.image = url;
-              // Usar el spread operator para convertir `sector` en un objeto plano
               this.firestore.collection(this.collectionName).doc(id).set({ ...sector })
                 .then(() => resolve(null))
                 .catch(err => reject(err));
@@ -41,7 +40,6 @@ export class SectoresService {
         ).subscribe();
       });
     } else {
-      // Usar el spread operator para convertir `sector` en un objeto plano
       return this.firestore.collection(this.collectionName).doc(id).set({ ...sector });
     }
   }
@@ -63,4 +61,6 @@ export class SectoresService {
       }))
     );
   }
+
+
 }
