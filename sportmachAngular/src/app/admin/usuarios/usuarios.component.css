@@ -26,6 +26,7 @@ html, body {
   flex-grow: 1;
   padding: 20px;
   overflow-x: hidden; /* Asegura que el contenido no se desborde horizontalmente */
+  background-color: #F4F4F8;
 }
 
 
