@@ -1,5 +1,14 @@
-export interface Horario {
-  dia: string;          // Día de la semana (e.g., 'lunes', 'martes')
-  inicio: string;       // Hora de inicio en formato 'HH:mm'
-  fin: string;          // Hora de fin en formato 'HH:mm'
+export class Horario {
+  dia: string;
+  inicio: string;
+  fin: string;
+  disponible: boolean;
+  fechasReservadas?: string[];
+
+  constructor(dia: string, inicio: string, fin: string, disponible: boolean) {
+    this.dia = dia;
+    this.inicio = inicio;
+    this.fin = fin;
+    this.disponible = disponible;
+  }
 }

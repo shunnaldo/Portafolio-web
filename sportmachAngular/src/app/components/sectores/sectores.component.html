@@ -1,3 +1,5 @@
+
+
 <div class="sector-form">
   <h1 class="titulo">{{ isEditing ? 'Editar Sector' : 'Agregar Sector' }}</h1>
   <form (ngSubmit)="addOrUpdateSector()">
@@ -29,6 +31,14 @@
           <!-- Descripción del sector -->
           <textarea id="description" [(ngModel)]="newSector.description" name="description" placeholder="Descripción"></textarea>
         </div>
+
+        <div class="input-group">
+          <select id="visibilidad" [(ngModel)]="newSector.visibleVer" name="visibleVer" required>
+            <option value="público">Público</option>
+            <option value="privado">Privado</option>
+          </select>
+        </div>
+
 
         <!-- Días de horarios -->
         <div class="dias-seleccion">
@@ -90,6 +100,8 @@
       </div>
     </div>
 
+
+
     <!-- Lista de horarios disponibles ajustando la duración por día -->
     <div *ngFor="let hora of horariosPorDia[diaSeleccionado]">
       <input
@@ -128,6 +140,7 @@
     <span class="close" (click)="cerrarModalSector()">&times;</span>
     <h4>{{ sectorSeleccionado?.nombre }}</h4>
     <p>Capacidad: {{ sectorSeleccionado?.capacidad }}</p>
+    <p>Visibilidad: {{ sectorSeleccionado?.visibleVer }}</p>
     <p>Descripción: {{ sectorSeleccionado?.description }}</p>
 
     <!-- Verifica si horarios está definido y tiene longitud mayor a 0 -->

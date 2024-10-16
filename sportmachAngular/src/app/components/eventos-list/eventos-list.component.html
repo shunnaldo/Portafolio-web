@@ -1,0 +1,34 @@
+<h1 class="titulo">Eventos</h1>
+
+<div class="eventos-container">
+  <div *ngFor="let evento of eventos" class="card">
+    <img [src]="evento.image" alt="Imagen del evento" class="card-image" />
+
+    <div class="card-content">
+      <h3 class="card-title">{{ evento.titulo }}</h3>
+      <div class="card-details">
+        <p><strong>Fecha:</strong> {{ evento.fechaReservada }}</p>
+        <p *ngIf="evento.hora"><strong>Hora:</strong> {{ evento.hora }}</p>
+        <p *ngIf="evento.sectorNombre"><strong>Sector:</strong> {{ evento.sectorNombre }}</p>
+        <p *ngIf="evento.capacidadAlumnos">
+          <strong>Capacidad:</strong> {{ evento.capacidadAlumnos }} alumnos
+        </p>
+      </div>
+
+      <div class="estado-disponibilidad">
+        <span [class]="evento.espera ? 'disponible' : 'no-disponible'">
+          {{ evento.espera ? 'Disponible' : 'No Disponible' }}
+        </span>
+        <label class="switch">
+          <input type="checkbox" [checked]="evento.espera" (change)="toggleEspera(evento)" />
+          <span class="slider round"></span>
+        </label>
+      </div>
+
+      <div class="card-actions">
+        <button (click)="editarEvento(evento)" class="btn editar">agendar</button>
+        <button (click)="eliminarEvento(evento.idEventosAlumnos)" class="btn eliminar">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
