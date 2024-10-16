@@ -34,14 +34,18 @@ export class EventosListComponent implements OnInit {
       return; // No continuar si el ID no es válido
     }
 
-    evento.espera = !evento.espera; // Cambiar el estado de espera
+    // Cambiar el estado localmente para reflejar el cambio
+    evento.espera = !evento.espera;
 
+    // Actualizar el estado en Firebase
     this.eventosAlumnosService.updateEvento(evento.idEventosAlumnos, { espera: evento.espera })
       .then(() => {
         console.log(`Estado de espera actualizado para el evento: ${evento.idEventosAlumnos}`);
       })
       .catch((error) => {
         console.error('Error al actualizar el estado de espera:', error);
+        // Revertir el cambio en caso de error
+        evento.espera = !evento.espera;
       });
   }
 
