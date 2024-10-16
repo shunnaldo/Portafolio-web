@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
     );
 
     // Obtenemos la colección de eventos desde Firestore
-    const eventsCollection = collection(this.firestore, 'events');
+    const eventsCollection = collection(this.firestore, 'eventosAlumnos');
     this.eventsCount$ = collectionData(eventsCollection).pipe(
       map(events => events.length)  // Obtenemos la longitud de los eventos
     );
