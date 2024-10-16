@@ -1,3 +1,34 @@
+<div class="container">
+    
+  <app-header></app-header>
+
+  <div class="content">
+    <aside class="sidebar">
+      <section class="button-section">
+          <a routerLink="/home" routerLinkActive="active-link" class="sidebar-link">
+              <mat-icon>admin_panel_settings</mat-icon>
+              <span>Admin Dashboard</span>
+          </a>
+          <a routerLink="/deportes" routerLinkActive="active-link" class="sidebar-link">
+              <mat-icon>sports_soccer</mat-icon>
+              <span>Gestionar Deportes</span>
+          </a>
+          <a routerLink="/eventos" routerLinkActive="active-link" class="sidebar-link">
+              <mat-icon>event</mat-icon>
+              <span>Gestionar Eventos</span>
+          </a>
+          <a routerLink="/sectores" routerLinkActive="active-link" class="sidebar-link">
+              <mat-icon>map</mat-icon>
+              <span>Gestionar Sectores</span>
+          </a>
+          <a routerLink="/usuarios" routerLinkActive="active-link" class="sidebar-link">
+            <mat-icon>manage_accounts</mat-icon>
+            <span>Gestionar Usuarios</span>
+        </a>
+      </section>
+  </aside>
+  <main class="main-content">
+    <h2>Gestionar Eventos</h2>
 <div class="form-stepper-container">
     <!-- Stepper vertical -->
     <div class="stepper">
@@ -20,7 +51,7 @@
       <form (ngSubmit)="onSubmit()" #eventForm="ngForm">
         <!-- Paso 1: Selección de sector -->
         <div class="step-content" [ngClass]="{'active-step': currentStep === 1}">
-          <h1 style="text-align: center;">Sectores</h1>
+          <h1 style="text-align: center;">Crear Evento: Sector</h1>
           <br>
           <div class="form-grid">
             <div class="form-fields">
@@ -70,7 +101,7 @@
   
         <!-- Paso 2: Título, Descripción, Creador, Estado -->
         <div class="step-content" [ngClass]="{'active-step': currentStep === 2}">
-          <h1 style="text-align: center;">Planificar evento</h1>
+          <h1 style="text-align: center;">Crear Evento: información</h1>
           <br>
           <div>
             <input id="titulo" [(ngModel)]="newEvento.titulo" name="titulo" placeholder="Título" required />
@@ -95,7 +126,7 @@
         <!-- Paso 3: Visualización del Evento -->
         <div class="step-content" [ngClass]="{'active-step': currentStep === 3}">
           <div class="card-header">
-            <h1 style="text-align: center;">Visualización de evento</h1>
+            <h1 style="text-align: center;">Crear Evento: Visualizacion</h1>
           </div>
           <div class="card">
             <div class="card-content">
@@ -181,4 +212,7 @@
       </div>
     </div>
   </div>
-  
+</main>
+</div>
+<app-footer></app-footer>
+</div>
