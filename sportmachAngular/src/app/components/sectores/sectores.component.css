@@ -465,4 +465,46 @@ h5 {
   margin-top: 20px;
 }
 
+/* Estilo para los labels del formulario y modales */
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  color: #333; /* Color oscuro para mejor contraste */
+  font-size: 16px;
+  text-align: left;
+}
+
+/* Label en el modal */
+.modal-content label {
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: block;
+  color: #ff7f50; /* Color acorde al tema del modal */
+}
+
+/* Input debajo del label en el formulario */
+.input-group label {
+  margin-bottom: 8px;
+}
+
+.input-group select,
+.input-group input,
+.input-group textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+/* Aseguramos que los select tengan una apariencia consistente */
+.input-group select {
+  appearance: none;
+  background-color: white;
+  cursor: pointer;
+}
+
 
