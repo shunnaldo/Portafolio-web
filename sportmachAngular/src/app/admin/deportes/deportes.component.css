@@ -1,179 +1,179 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box; /* Incluye padding y border en el tamaño del elemento */
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Incluye padding y border en el tamaño del elemento */
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden; /* Evita el desplazamiento horizontal */
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-x: hidden; /* Asegura que el contenedor no permita desplazamiento horizontal */
+}
+
+.content {
+  display: flex;
+  flex-grow: 1;
+  overflow-x: hidden; /* Evita que el contenido cause desplazamiento horizontal */
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-x: hidden; /* Asegura que el contenido no se desborde horizontalmente */
+  background-color: #F4F4F8;
+}
+
+.button-section {
+  margin-bottom: 20px;
+}
+
+button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.status-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
   
-  html, body {
+/* Media Query para pantallas pequeñas */
+@media (max-width: 600px) {
+  .sidebar {
     width: 100%;
-    overflow-x: hidden; /* Evita el desplazamiento horizontal */
-  }
-  
-  .container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow-x: hidden; /* Asegura que el contenedor no permita desplazamiento horizontal */
   }
   
   .content {
-    display: flex;
-    flex-grow: 1;
-    overflow-x: hidden; /* Evita que el contenido cause desplazamiento horizontal */
+    flex-direction: column;
   }
   
   .main-content {
-    flex-grow: 1;
-    padding: 20px;
-    overflow-x: hidden; /* Asegura que el contenido no se desborde horizontalmente */
-    background-color: #F4F4F8;
-  }
-  
-  .button-section {
-    margin-bottom: 20px;
-  }
-    
-  button {
-    display: block;
-    width: 100%;
-    margin-bottom: 10px;
-  }
-    
-  .status-section {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-    
-  /* Media Query para pantallas pequeñas */
-  @media (max-width: 600px) {
-    .sidebar {
-      width: 100%;
-    }
-    
-    .content {
-      flex-direction: column;
-    }
-    
-    .main-content {
-      padding: 10px;
-    }
-    
-  }
-    
-  .custom-table {
-    background-color: #F4F4F8;
-    margin-top: 20px;
-  
-  }
-  
-  
-  /* Personalización del botón de borrar */
-  .custom-table .mat-cell button.mat-icon-button.delete-button {
-    color: #ff9800 !important; /* Naranja para el ícono de borrar */
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;  /* Espacio entre los campos del formulario */
-    margin-top: 20px;
-  }
-    
-  button[type="submit"] {
-    align-self: center;  /* Centra el botón dentro del formulario */
-    width: auto;  /* Asegura que el botón no ocupe todo el ancho */
-    padding: 10px 20px;  /* Añade un padding adecuado para el botón */
-    }
-  
-  h2 {
-    text-align: center;
-    color: black;
-  }
-  
-  /* Cambia el fondo y el color de los inputs */
-  .mat-form-field {
-    width: 100%; /* Asegura que ocupe todo el ancho disponible */
-  }
-  
-  /* Estilo para el campo de texto */
-  .mat-input-element {
-    padding: 10px; /* Espaciado interno */
-    color: black; /* Color del texto */
-    background-color: #f5f5f5; /* Fondo claro */
-    border-radius: 4px; /* Bordes redondeados */
-  }
-  
-  .btn-orange {
-    background-color: #ff724C !important; /* Fondo naranja */
-    color: white; /* Texto en blanco */
-    transition: background-color 0.3s ease; /* Suave transición al cambiar el fondo */
-  }
-  
-  /* Cambia el color al pasar el mouse (hover) */
-  .btn-orange:hover {
-    background-color: #FDBF50 !important; /* Naranja más oscuro al hacer hover */
-  }
-  
-  /* Cambia el color cuando el botón está deshabilitado */
-  .btn-orange[disabled] {
-    background-color: #ffbb55 !important; /* Un naranja más claro cuando está deshabilitado */
-    color: #fff;
-  }
-  
-  /* SIDEBAR CSS */
-  
-  .sidebar {
-    width: 250px;
-    background-color: #2A2C41;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  
-  
-  .sidebar button {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%;
-    margin-bottom: 10px;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Transición suave */
-  }
-  
-  .sidebar mat-icon {
-    margin-right: 10px; /* Espacio entre el ícono y el texto */
-  }
-  
-  .sidebar-link {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
     padding: 10px;
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 4px;
-    transition: background-color 0.3s ease, color 0.3s ease; /* Transición suave */
   }
   
-  .sidebar-link mat-icon {
-    margin-right: 10px; /* Espacio entre el ícono y el texto */
-    color: #fff; /* Íconos en blanco */
-  }
+}
   
-  .sidebar-link:hover {
-    background-color: #ffdf94; /* Color al hacer hover */
-    color: white; /* Color del texto al hacer hover */
-  }
+.custom-table {
+  background-color: #F4F4F8;
+  margin-top: 20px;
+
+}
+
+
+/* Personalización del botón de borrar */
+.custom-table .mat-cell button.mat-icon-button.delete-button {
+  color: #ff9800 !important; /* Naranja para el ícono de borrar */
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;  /* Espacio entre los campos del formulario */
+  margin-top: 20px;
+}
   
-  .sidebar-link.active-link {
-    background-color: #FDBF50; /* Color del botón seleccionado FF724C */
-    color: white; /* Color del texto cuando está seleccionado */
+button[type="submit"] {
+  align-self: center;  /* Centra el botón dentro del formulario */
+  width: auto;  /* Asegura que el botón no ocupe todo el ancho */
+  padding: 10px 20px;  /* Añade un padding adecuado para el botón */
   }
-  
-  .sidebar-link:hover mat-icon,
-  .sidebar-link.active-link mat-icon {
-    color: white; /* Íconos en blanco cuando está en hover o activo */
-  }
-  
-  /* END SIDEBAR CSS */
+
+h2 {
+  text-align: center;
+  color: black;
+}
+
+/* Cambia el fondo y el color de los inputs */
+.mat-form-field {
+  width: 100%; /* Asegura que ocupe todo el ancho disponible */
+}
+
+/* Estilo para el campo de texto */
+.mat-input-element {
+  padding: 10px; /* Espaciado interno */
+  color: black; /* Color del texto */
+  background-color: #f5f5f5; /* Fondo claro */
+  border-radius: 4px; /* Bordes redondeados */
+}
+
+.btn-orange {
+  background-color: #ff724C !important; /* Fondo naranja */
+  color: white; /* Texto en blanco */
+  transition: background-color 0.3s ease; /* Suave transición al cambiar el fondo */
+}
+
+/* Cambia el color al pasar el mouse (hover) */
+.btn-orange:hover {
+  background-color: #FDBF50 !important; /* Naranja más oscuro al hacer hover */
+}
+
+/* Cambia el color cuando el botón está deshabilitado */
+.btn-orange[disabled] {
+  background-color: #ffbb55 !important; /* Un naranja más claro cuando está deshabilitado */
+  color: #fff;
+}
+
+/* SIDEBAR CSS */
+
+.sidebar {
+  width: 250px;
+  background-color: #2A2C41;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+
+.sidebar button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Transición suave */
+}
+
+.sidebar mat-icon {
+  margin-right: 10px; /* Espacio entre el ícono y el texto */
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Transición suave */
+}
+
+.sidebar-link mat-icon {
+  margin-right: 10px; /* Espacio entre el ícono y el texto */
+  color: #fff; /* Íconos en blanco */
+}
+
+.sidebar-link:hover {
+  background-color: #ffdf94; /* Color al hacer hover */
+  color: white; /* Color del texto al hacer hover */
+}
+
+.sidebar-link.active-link {
+  background-color: #FDBF50; /* Color del botón seleccionado FF724C */
+  color: white; /* Color del texto cuando está seleccionado */
+}
+
+.sidebar-link:hover mat-icon,
+.sidebar-link.active-link mat-icon {
+  color: white; /* Íconos en blanco cuando está en hover o activo */
+}
+
+/* END SIDEBAR CSS */
