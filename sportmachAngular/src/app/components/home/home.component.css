@@ -1,0 +1,189 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Incluye padding y border en el tamaño del elemento */
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden; /* Evita el desplazamiento horizontal */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow-x: hidden; /* Asegura que el contenedor no permita desplazamiento horizontal */
+}
+
+.content {
+    display: flex;
+    flex-grow: 1;
+    overflow-x: hidden; /* Evita que el contenido cause desplazamiento horizontal */
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-x: hidden; /* Asegura que el contenido no se desborde horizontalmente */
+}
+
+.button-section {
+    margin-bottom: 20px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+mat-card {
+    padding: 15px;
+    margin: 10px;
+    border-radius: 8px;
+    background-color: #FDBF50;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 300px;
+    width: 100%;
+}
+
+.status-section {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Quick Access Buttons - Estilos para alinear horizontalmente */
+.quick-access-buttons {
+    display: flex;
+    justify-content: space-around; /* Espacio uniforme entre los botones */
+    gap: 20px; /* Espaciado entre los botones */
+    margin-top: 20px;
+}
+
+.quick-access-buttons button {
+    width: auto; /* Botones adaptan su ancho al contenido */
+    padding: 10px 20px; /* Espaciado interno del botón */
+}
+
+/* Sección de estadísticas */
+.stats-cards {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.stats-cards mat-card {
+    width: 200px;
+    text-align: center;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-x: hidden; /* Asegura que el contenido no se desborde horizontalmente */
+    background-color: #F4F4F8;
+}
+
+h2 {
+    text-align: center;
+    color: black;
+}
+
+/* SIDEBAR CSS */
+
+.sidebar {
+    width: 250px;
+    background-color: #2A2C41;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+
+.sidebar button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Transición suave */
+}
+
+.sidebar mat-icon {
+    margin-right: 10px; /* Espacio entre el ícono y el texto */
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transición suave */
+}
+
+.sidebar-link mat-icon {
+    margin-right: 10px; /* Espacio entre el ícono y el texto */
+    color: #fff; /* Íconos en blanco */
+}
+
+.sidebar-link:hover {
+    background-color: #ffdf94; /* Color al hacer hover */
+    color: white; /* Color del texto al hacer hover */
+}
+
+.sidebar-link.active-link {
+    background-color: #FDBF50; /* Color del botón seleccionado FF724C */
+    color: white; /* Color del texto cuando está seleccionado */
+}
+
+.sidebar-link:hover mat-icon,
+.sidebar-link.active-link mat-icon {
+    color: white; /* Íconos en blanco cuando está en hover o activo */
+}
+
+/* END SIDEBAR CSS */
+
+@media (max-width: 600px) {
+    .sidebar {
+        width: 100%;
+    }
+
+    .content {
+        flex-direction: column;
+    }
+
+    .main-content {
+        padding: 10px;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    .header {
+        flex-direction: column;
+    }
+
+    .header-actions {
+        margin-top: 10px;
+        justify-content: center;
+    }
+
+    .quick-access-buttons {
+        flex-direction: column; /* Cambia los botones a vertical en pantallas pequeñas */
+        gap: 10px; /* Menor espacio entre los botones en pantallas pequeñas */
+    }
+
+    .stats-cards {
+        flex-direction: column; /* Cambia las tarjetas de estadísticas a vertical en pantallas pequeñas */
+    }
+}

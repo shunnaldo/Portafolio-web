@@ -1,0 +1,110 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Incluye padding y border en el tamaño del elemento */
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden; /* Evita el desplazamiento horizontal */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow-x: hidden; /* Asegura que el contenedor no permita desplazamiento horizontal */
+}
+
+.content {
+    display: flex;
+    flex-grow: 1;
+    overflow-x: hidden; /* Evita que el contenido cause desplazamiento horizontal */
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-x: hidden; /* Asegura que el contenido no se desborde horizontalmente */
+    background-color: #F4F4F8;
+}
+
+.login-section {
+    text-align: center;
+    margin-top: 0px;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra horizontalmente el contenido */
+}
+
+mat-card {
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 8px;
+    background-color: #f5f5f5;
+    max-width: 400px;
+    width: 100%;
+}
+
+.error-style {
+    color: red;
+    margin-top: 10px;
+}
+
+.progressIndicator {
+    display: flex;
+    justify-content: center; /* Asegura que el spinner se centre horizontalmente */
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+    height: 100px; /* Ajusta la altura del contenedor para centrar verticalmente si es necesario */
+}
+
+.header {
+    background-color: #2A2C41;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    z-index: 1000;
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    margin-right: 10px; /* Espacio entre la imagen y el título */
+}
+
+.header-logo {
+    width: 40px; /* Ajusta el tamaño de la imagen según prefieras */
+    height: auto;
+    margin-left: 90px;
+}
+
+.title {
+    font-size: 2.5rem; /* Ajusta el tamaño del texto si es necesario */
+    background: linear-gradient(180deg, yellow, orange); /* Degradado de amarillo a naranja */
+    -webkit-background-clip: text; /* Compatibilidad con navegadores basados en WebKit */
+    background-clip: text; /* Propiedad estándar para otros navegadores */
+    color: transparent; /* Hace que el degradado llene el texto */
+    justify-content: center;
+}
+
+@media (max-width: 600px) {
+    .header {
+        flex-direction: column;
+    }
+
+    .header-actions {
+        margin-top: 10px;
+        justify-content: center;
+    }
+}

@@ -1,0 +1,46 @@
+<div class="container">
+    <header class="header">
+        <h1>SportMatch</h1>
+    </header>
+
+    <section class="recover-section">
+        <h2>Recuperar Contraseña</h2>
+        <button mat-raised-button color="primary" routerLink="/home">
+            <mat-icon>home</mat-icon>
+            <span>Volver al Menu</span>
+        </button>
+
+        <mat-card class="form-card">
+            <form [formGroup]="forgotPasswordForm" (ngSubmit)="retrievePassword()">
+                <p>Se enviará un correo para recuperar la contraseña a...</p>
+                <p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Correo</mat-label>
+                        <input autocomplete="off" formControlName="email" type="email" matInput placeholder="Email">
+                    </mat-form-field>
+                </p>
+
+                <div *ngIf="firebaseErrorMessage != ''" class="error-style">
+                    <span>{{ firebaseErrorMessage }}</span>
+                </div>
+
+                <button mat-raised-button color="primary" [disabled]="mailSent">Recuperar mi Contraseña</button>
+                <div *ngIf="mailSent">
+                    <p>Se ha enviado el correo!</p>
+                    <button mat-raised-button color="primary" routerLink="/home">
+                        <mat-icon>home</mat-icon>
+                        <span>Return Home</span>
+                    </button>
+                </div>
+            </form>
+        </mat-card>
+
+        <div class="progressIndicator" [style.display]="isProgressVisible ? 'inline' : 'none'">
+            <mat-progress-spinner class="example-margin" color="primary" mode="indeterminate"></mat-progress-spinner>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 SportMatch. Todos los derechos reservados.</p>
+    </footer>
+</div>
