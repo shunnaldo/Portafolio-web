@@ -4,6 +4,7 @@ import { EventosService } from 'src/app/services/eventos.service';
 import { SectoresService } from 'src/app/services/sectores.service';
 import { Sectores } from 'src/app/models/sectores.models';
 import { Horario } from 'src/app/models/horario.models';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Component({
   selector: 'app-eventos',
@@ -15,7 +16,7 @@ export class EventosComponent implements OnInit {
   selectedEvento: any = null;
   sectores: Sectores[] = [];
   horariosDisponibles: Horario[] = [];
-  newEvento: eventos = new eventos('', '', '', '', '', false, '', '');
+  newEvento: eventos = new eventos('', '', '', '', '', false, '', '','');
   selectedHorario: Horario | null = null;
   selectedDate: string | null = null;
   selectedSectorId: string | null = null;
@@ -27,12 +28,14 @@ export class EventosComponent implements OnInit {
   isEditing: boolean = false; // Para saber si estamos en modo edición
   eventoEditando: eventos | null = null; // Guardar el evento que se está editando
 
+
   // Nueva propiedad para la imagen del sector seleccionado
   selectedSectorImage: string | null = null;
 
   constructor(
     private eventosService: EventosService,
-    private sectoresService: SectoresService
+    private sectoresService: SectoresService,
+    private afAuth: AngularFireAuth
   ) {
     const today = new Date();
     this.minDate = today.toISOString().split('T')[0];
@@ -168,50 +171,68 @@ export class EventosComponent implements OnInit {
   onSubmit(): void {
     if (this.selectedHorario && this.selectedDate) {
       const selectedSector = this.sectores.find(sector => sector.idSector === this.selectedSectorId);
-  
+
       if (selectedSector) {
         this.newEvento.sectorNombre = selectedSector.nombre;
         this.newEvento.fechaReservada = this.selectedDate;
-        this.newEvento.descripcion += `\nHorario seleccionado: ${this.selectedHorario.dia} de ${this.selectedHorario.inicio} a ${this.selectedHorario.fin} en la fecha ${this.selectedDate}`;
-  
+
         if (!this.selectedHorario.fechasReservadas) {
           this.selectedHorario.fechasReservadas = [];
         }
         this.selectedHorario.fechasReservadas.push(this.selectedDate);
-  
-        if (this.isEditing && this.eventoEditando) {
-          const sectorNombre = this.eventoEditando.sectorNombre ?? '';
-          const fechaReservada = this.eventoEditando.fechaReservada ?? '';
-          this.liberarHorarioAnterior(sectorNombre, fechaReservada);
-  
-          this.eventosService.updateEvento(this.eventoEditando.idEventosAdmin, this.newEvento)
-            .then(() => {
-              this.updateSectorHorario(selectedSector);
-              alert('Evento modificado exitosamente');
-              this.loadEvento(); // Actualizar lista de eventos
-              this.resetForm();
-              this.isEditing = false;
-            })
-            .catch(error => {
-              console.error('Error modificando el evento: ', error);
-              alert('Hubo un error al modificar el evento');
-            });
-        } else {
-          this.eventosService.createEvento(this.newEvento)
-            .then(() => {
-              this.updateSectorHorario(selectedSector);
-              alert('Evento creado exitosamente');
-              this.loadEvento(); // Actualizar lista de eventos
-              this.resetForm();
-            })
-            .catch(error => {
-              console.error('Error creando el evento: ', error);
-              alert('Hubo un error al crear el evento');
-            });
-        }
+
+        // Obtener el correo del usuario autenticado
+        this.afAuth.currentUser.then(user => {
+          if (user) {
+            this.newEvento.creator = user.email ?? 'Correo no disponible'; // Usa 'creator' para asignar el correo del creador
+
+            // Validar que se haya ingresado la capacidad de alumnos
+            if (!this.newEvento.capacidadAlumnos || this.newEvento.capacidadAlumnos < 1) {
+              alert('Debe ingresar una capacidad válida para los participantes.');
+              return;
+            }
+
+            if (this.isEditing && this.eventoEditando) {
+              const sectorNombre = this.eventoEditando.sectorNombre ?? '';
+              const fechaReservada = this.eventoEditando.fechaReservada ?? '';
+              this.liberarHorarioAnterior(sectorNombre, fechaReservada);
+
+              this.eventosService.updateEvento(this.eventoEditando.idEventosAdmin, this.newEvento)
+                .then(() => {
+                  this.updateSectorHorario(selectedSector);
+                  alert('Evento modificado exitosamente');
+                  location.reload(); // Recargar la página después de modificar el evento
+                })
+                .catch(error => {
+                  console.error('Error modificando el evento: ', error);
+                  alert('Hubo un error al modificar el evento');
+                });
+            } else {
+              this.eventosService.createEvento(this.newEvento)
+                .then(() => {
+                  this.updateSectorHorario(selectedSector);
+                  alert('Evento creado exitosamente');
+                  location.reload(); // Recargar la página después de crear el evento
+                })
+                .catch(error => {
+                  console.error('Error creando el evento: ', error);
+                  alert('Hubo un error al crear el evento');
+                });
+            }
+          } else {
+            alert('Usuario no autenticado.');
+          }
+        }).catch(error => {
+          console.error('Error obteniendo el usuario actual: ', error);
+        });
       }
     }
   }
+
+
+
+
+
 
   liberarHorarioAnterior(nombreSector: string, fechaReservada: string): void {
     const selectedSector = this.sectores.find(sector => sector.nombre === nombreSector);
@@ -258,41 +279,50 @@ export class EventosComponent implements OnInit {
     ) || null;
   }
 
-  
+
   removeReservation(evento: any): void {
-    const selectedSector = this.sectores.find(sector => sector.nombre === evento.sectorNombre);
-    if (selectedSector && evento.fechaReservada) {
-      const horario = selectedSector.horarios.find(h => h.fechasReservadas?.includes(evento.fechaReservada));
-      if (horario && horario.fechasReservadas) {
-        const index = horario.fechasReservadas.indexOf(evento.fechaReservada);
-        if (index !== -1) {
-          horario.fechasReservadas.splice(index, 1);
-          horario.disponible = true;
-  
-          this.updateSectorHorario(selectedSector)
-            .then(() => {
-              this.eventosService.deleteEvento(evento.idEventosAdmin)
-                .then(() => {
-                  alert('Reserva y evento eliminados exitosamente.');
-                  this.loadEvento(); // Actualizar lista de eventos
-                })
-                .catch(error => {
-                  console.error('Error al eliminar el evento:', error);
-                });
-            })
-            .catch(error => {
-              console.error('Error al actualizar el sector:', error);
-            });
+    // Mostrar una confirmación antes de proceder con la eliminación
+    const confirmDelete = window.confirm(`¿Estás seguro de que deseas eliminar el evento "${evento.titulo}"? Esta acción no se puede deshacer.`);
+
+    if (confirmDelete) {
+      const selectedSector = this.sectores.find(sector => sector.nombre === evento.sectorNombre);
+      if (selectedSector && evento.fechaReservada) {
+        const horario = selectedSector.horarios.find(h => h.fechasReservadas?.includes(evento.fechaReservada));
+        if (horario && horario.fechasReservadas) {
+          const index = horario.fechasReservadas.indexOf(evento.fechaReservada);
+          if (index !== -1) {
+            horario.fechasReservadas.splice(index, 1);
+            horario.disponible = true;
+
+            this.updateSectorHorario(selectedSector)
+              .then(() => {
+                this.eventosService.deleteEvento(evento.idEventosAdmin)
+                  .then(() => {
+                    alert('Reserva y evento eliminados exitosamente.');
+                    this.loadEvento(); // Actualizar lista de eventos
+                  })
+                  .catch(error => {
+                    console.error('Error al eliminar el evento:', error);
+                  });
+              })
+              .catch(error => {
+                console.error('Error al actualizar el sector:', error);
+              });
+          } else {
+            console.error('Fecha no encontrada en el horario.');
+          }
         } else {
-          console.error('Fecha no encontrada en el horario.');
+          console.error('No se encontró el horario con la fecha reservada.');
         }
       } else {
-        console.error('No se encontró el horario con la fecha reservada.');
+        console.error('No se encontró el sector o la fecha reservada.');
       }
     } else {
-      console.error('No se encontró el sector o la fecha reservada.');
+      // El usuario canceló la eliminación
+      console.log('Eliminación cancelada por el usuario.');
     }
   }
+
 
   updateSectorHorario(selectedSector: Sectores): Promise<void> {
     if (selectedSector.idSector) {
@@ -314,13 +344,15 @@ export class EventosComponent implements OnInit {
   }
 
   resetForm(): void {
-    this.newEvento = new eventos('', '', '', '', '', false, '', '');
+    this.newEvento = new eventos('', '', '', '', '', false, '', '','');
     this.selectedHorario = null;
     this.horariosDisponibles = [];
     this.selectedDate = null;
     this.selectedSectorId = null;
     this.selectedSectorImage = null;
   }
+
+
 
   canProceedToNextStep(): boolean {
     switch (this.currentStep) {

@@ -84,6 +84,18 @@
           <input id="creator" [(ngModel)]="newEvento.creator" name="creator" placeholder="Organizador" required />
         </div>
 
+        <div>
+          <input
+            type="number"
+            id="capacidadAlumnos"
+            [(ngModel)]="newEvento.capacidadAlumnos"
+            name="capacidadAlumnos"
+            placeholder="Capacidad de Participantes"
+            required
+            min="1"
+          />
+        </div>
+
         <div class="checkbox-container">
           <label for="status">
             <h4>Visible</h4>
@@ -163,6 +175,7 @@
           <p><strong>Creador:</strong> {{ selectedEvento?.creator }}</p>
           <p><strong>Sector:</strong> {{ selectedEvento?.sectorNombre }}</p>
           <p><strong>Fecha Reservada:</strong> {{ selectedEvento?.fechaReservada }}</p>
+          <p><strong>Participantes: </strong>{{selectedEvento?.participantes}}</p>
         </div>
       </div>
 
