@@ -70,6 +70,7 @@ import { EventosComponent } from './admin/eventos/eventos.component';
     MatCardModule,
     MatTableModule,
     MatFormFieldModule,
+    //
     provideAuth(() => getAuth()),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore())
