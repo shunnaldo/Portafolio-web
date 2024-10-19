@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, User, onAuthStateChanged, sendPasswordResetEmail, signOut } from '@angular/fire/auth';
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { Router } from '@angular/router';
-import { Firestore, collection, doc, setDoc, addDoc } from '@angular/fire/firestore';
+import { Firestore, collection, doc, setDoc, addDoc, collectionData  } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +23,26 @@ export class AuthService {
             this.userLoggedIn = false;
         }
     });
+}
+
+getUsers(): Observable<any[]> {
+  const usersCollection = collection(this.afs, 'Users'); // Cambia 'Users' por el nombre correcto de tu colección si es diferente
+  return collectionData(usersCollection, { idField: 'id' });
+}
+
+getFavoriteSportsCount(): Observable<{ [key: string]: number }> {
+  return this.getUsers().pipe(
+    map(users => {
+      const sportsCount: { [key: string]: number } = {};
+      users.forEach(user => {
+        const sport = user.deporteFavorito;
+        if (sport) {
+          sportsCount[sport] = (sportsCount[sport] || 0) + 1;
+        }
+      });
+      return sportsCount;
+    })
+  );
 }
 
 loginUser(email: string, password: string): Promise<any> {

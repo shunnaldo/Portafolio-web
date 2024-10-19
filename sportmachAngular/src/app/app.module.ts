@@ -35,6 +35,9 @@ import { DeportesComponent } from './admin/deportes/deportes.component';
 import { UsuariosComponent } from './admin/usuarios/usuarios.component';
 import { SectoresComponent } from './admin/sectores/sectores.component';
 import { EventosComponent } from './admin/eventos/eventos.component';
+import { SportChartComponent } from './components/sport-chart/sport-chart.component';
+
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -48,7 +51,8 @@ import { EventosComponent } from './admin/eventos/eventos.component';
     LoginComponent,
     RecuperarContrasenaComponent,
     DeportesComponent,
-    UsuariosComponent
+    UsuariosComponent,
+    SportChartComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +78,7 @@ import { EventosComponent } from './admin/eventos/eventos.component';
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore())
   ],
-  providers: [],
+  providers: [provideCharts(withDefaultRegisterables())],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
