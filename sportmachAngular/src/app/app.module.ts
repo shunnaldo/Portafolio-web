@@ -36,6 +36,11 @@ import { UsuariosComponent } from './admin/usuarios/usuarios.component';
 import { SectoresComponent } from './admin/sectores/sectores.component';
 import { EventosComponent } from './admin/eventos/eventos.component';
 
+import { NgxApexchartsModule } from 'ngx-apexcharts';
+import { DeportesChartComponent } from './graphics/deportes-chart/deportes-chart.component';
+import { SectoresChartComponent } from './graphics/sectores-chart/sectores-chart.component';
+import { UserGrowthChartComponent } from './graphics/user-growth-chart/user-growth-chart.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,9 +53,13 @@ import { EventosComponent } from './admin/eventos/eventos.component';
     LoginComponent,
     RecuperarContrasenaComponent,
     DeportesComponent,
-    UsuariosComponent
+    UsuariosComponent,
+    DeportesChartComponent,
+    SectoresChartComponent,
+    UserGrowthChartComponent,
   ],
   imports: [
+    NgxApexchartsModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
