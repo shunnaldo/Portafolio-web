@@ -9,6 +9,7 @@ export class eventos {
   fechaReservada: string;
   idCreator: string;
   participants: string[];
+  hora?: string;
   sectorNombre?:string;
   capacidadAlumnos?: number;
 

@@ -5,6 +5,8 @@ import { SectoresService } from 'src/app/services/sectores.service';
 import { Sectores } from 'src/app/models/sectores.models';
 import { Horario } from 'src/app/models/horario.models';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { EventosAlumnosService } from 'src/app/services/eventos-alumnos.service';
+import { eventosAlumnos } from 'src/app/models/evento-alumno';
 
 @Component({
   selector: 'app-eventos',
@@ -12,6 +14,8 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
   styleUrls: ['./eventos.component.css']
 })
 export class EventosComponent implements OnInit {
+
+  eventosAlumnos: eventosAlumnos[] = [];
 
   selectedEvento: any = null;
   sectores: Sectores[] = [];
@@ -35,13 +39,15 @@ export class EventosComponent implements OnInit {
   constructor(
     private eventosService: EventosService,
     private sectoresService: SectoresService,
-    private afAuth: AngularFireAuth
+    private afAuth: AngularFireAuth,
+    private eventoAlumnoService:EventosAlumnosService
   ) {
     const today = new Date();
     this.minDate = today.toISOString().split('T')[0];
     const nextYear = new Date(today.setFullYear(today.getFullYear() + 1));
     this.maxDate = nextYear.toISOString().split('T')[0];
   }
+
 
   ngOnInit(): void {
     this.loadSectores();
@@ -50,7 +56,18 @@ export class EventosComponent implements OnInit {
     });
 
     this.loadEvento();
+    this.loadEventosAlumnos();
   }
+
+
+  loadEventosAlumnos(): void {
+    this.eventoAlumnoService.getEventos().subscribe(eventosAlumnos => {
+      this.eventosAlumnos = eventosAlumnos;
+      console.log('Eventos de alumnos cargados:', this.eventosAlumnos);
+      this.filterHorarios(); // Filtrar los horarios después de cargar los eventos de alumnos
+    });
+  }
+
 
   loadEvento(): void {
     this.eventosService.getEventos().subscribe(eventos => {
@@ -137,22 +154,54 @@ export class EventosComponent implements OnInit {
 
   filterHorarios(): void {
     if (this.selectedSectorId && this.selectedDate) {
-      const selectedSector = this.sectores.find(sector => sector.idSector === this.selectedSectorId);
-      const dayOfWeek = this.normalizeDayName(this.getDayOfWeek(this.selectedDate));
+      const sectorId = this.selectedSectorId || ''; // Usa un valor por defecto si es null
+      const fecha = this.selectedDate || ''; // Usa un valor por defecto si es null
+      const selectedSector = this.sectores.find(s => s.idSector === sectorId);
 
       if (selectedSector) {
-        this.horariosDisponibles = selectedSector.horarios.filter(horario => {
+        const dayOfWeek = this.normalizeDayName(this.getDayOfWeek(fecha));
+
+        this.horariosDisponibles = selectedSector.horarios.map(horario => {
           const isSameDayOfWeek = this.normalizeDayName(horario.dia) === dayOfWeek;
-          let isDateReserved = false;
-          if (this.selectedDate) {
-            isDateReserved = horario.fechasReservadas?.includes(this.selectedDate) || false;
-          }
-          horario.disponible = !isDateReserved;
-          return isSameDayOfWeek;
-        });
+
+          // Verificar si el horario está ocupado en 'eventos' o 'eventosAlumnos'
+          const eventoBloqueado = this.eventos.some(evento => {
+            const coincideSector = evento.idSector === sectorId;
+            const coincideFecha = this.compararFechas(evento.fechaReservada, fecha);
+            const coincideHora = evento.hora === `${horario.inicio} - ${horario.fin}`;
+            return coincideSector && coincideFecha && coincideHora;
+          });
+
+          // Verificar si el horario está ocupado en 'eventosAlumnos'
+          const alumnoEventoBloqueado = this.eventosAlumnos?.some(eventoAlumno => {
+            const coincideSector = eventoAlumno.idSector === sectorId;
+            const coincideFecha = this.compararFechas(eventoAlumno.fechaReservada, fecha);
+            const coincideHora = eventoAlumno.hora === `${horario.inicio} - ${horario.fin}`;
+            return coincideSector && coincideFecha && coincideHora;
+          });
+
+          // Determinar si el horario está disponible
+          const disponible = isSameDayOfWeek && !eventoBloqueado && !alumnoEventoBloqueado;
+
+          // Log para depurar
+          console.log(`Horario: ${horario.inicio} - ${horario.fin}, Disponible: ${disponible}`);
+
+          return { ...horario, disponible };
+        }).filter(horario => this.normalizeDayName(horario.dia) === dayOfWeek);
       }
     }
   }
+
+
+
+  compararFechas(fecha1: string, fecha2: string): boolean {
+    // Convertimos ambas fechas a formato YYYY-MM-DD para compararlas
+    const date1 = new Date(fecha1).toISOString().split('T')[0];
+    const date2 = new Date(fecha2).toISOString().split('T')[0];
+    return date1 === date2;
+  }
+
+
 
   normalizeDayName(day: string): string {
     return day.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
@@ -175,6 +224,9 @@ export class EventosComponent implements OnInit {
       if (selectedSector) {
         this.newEvento.sectorNombre = selectedSector.nombre;
         this.newEvento.fechaReservada = this.selectedDate;
+
+        // Guardar la hora seleccionada en el evento
+        this.newEvento.hora = `${this.selectedHorario.inicio} - ${this.selectedHorario.fin}`;
 
         if (!this.selectedHorario.fechasReservadas) {
           this.selectedHorario.fechasReservadas = [];
