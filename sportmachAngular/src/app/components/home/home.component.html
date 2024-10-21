@@ -36,16 +36,32 @@
                 
                 <!-- Sección de estadísticas -->
                 <div class="stats-cards">
-                    <mat-card>
+                    <mat-card class="basic-stats">
                         <h3>Usuarios Registrados</h3>
                         <p>{{ usersCount$ | async }}</p>
                     </mat-card>
-                    <mat-card>
+                    <mat-card class="basic-stats">
                         <h3>Eventos Activos</h3>
                         <p>{{ eventsCount$ | async }}</p>
                     </mat-card>
                 </div>
                 
+                <div class="graphic-cards">
+                    <mat-card class="graphics">
+                        <app-deportes-chart></app-deportes-chart>
+                    </mat-card>
+                    <mat-card class="graphics">
+                        <app-sectores-chart></app-sectores-chart>
+                    </mat-card>
+                    <mat-card class="graphics">
+                        <app-user-growth-chart></app-user-growth-chart>
+                    </mat-card>
+                    <mat-card class="graphics">
+                        <app-club-members-chart></app-club-members-chart>
+                    </mat-card>
+                </div>
+
+
                 <!-- Botones de accesos rápidos en forma horizontal -->
                 <section class="actions-section">
                     <h2>Accesos Rápidos</h2>

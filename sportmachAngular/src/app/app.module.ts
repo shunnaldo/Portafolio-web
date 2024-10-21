@@ -36,6 +36,13 @@ import { UsuariosComponent } from './admin/usuarios/usuarios.component';
 import { SectoresComponent } from './admin/sectores/sectores.component';
 import { EventosComponent } from './admin/eventos/eventos.component';
 
+import { NgxApexchartsModule } from 'ngx-apexcharts';
+import { DeportesChartComponent } from './graphics/deportes-chart/deportes-chart.component';
+import { SectoresChartComponent } from './graphics/sectores-chart/sectores-chart.component';
+import { UserGrowthChartComponent } from './graphics/user-growth-chart/user-growth-chart.component';
+import { ClubMembersChartComponent } from './graphics/club-members-chart/club-members-chart.component';
+import { RankingManagementComponent } from './components/ranking-management/ranking-management.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,9 +55,15 @@ import { EventosComponent } from './admin/eventos/eventos.component';
     LoginComponent,
     RecuperarContrasenaComponent,
     DeportesComponent,
-    UsuariosComponent
+    UsuariosComponent,
+    DeportesChartComponent,
+    SectoresChartComponent,
+    UserGrowthChartComponent,
+    ClubMembersChartComponent,
+    RankingManagementComponent,
   ],
   imports: [
+    NgxApexchartsModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
@@ -70,6 +83,7 @@ import { EventosComponent } from './admin/eventos/eventos.component';
     MatCardModule,
     MatTableModule,
     MatFormFieldModule,
+    //
     provideAuth(() => getAuth()),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore())

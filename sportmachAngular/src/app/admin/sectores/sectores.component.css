@@ -541,8 +541,9 @@ label {
 
 
 
+  
+ .sidebar {
 
-.sidebar {
   width: 250px;
   background-color: #2A2C41;
   padding: 20px;
@@ -595,4 +596,6 @@ label {
   color: white; /* Íconos en blanco cuando está en hover o activo */
 }
 
+
 /* END SIDEBAR CSS */
+

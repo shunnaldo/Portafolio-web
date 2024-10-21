@@ -10,6 +10,7 @@ import { SectoresComponent } from './admin/sectores/sectores.component';
 import { EventosComponent } from './admin/eventos/eventos.component';
 import { EventosListComponent } from './admin/eventos-list/eventos-list.component';
 import { UsuariosComponent } from './admin/usuarios/usuarios.component';
+import { RankingManagementComponent } from './components/ranking-management/ranking-management.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -22,7 +23,8 @@ const routes: Routes = [
   { path: 'evento/:id', component: EventosComponent, canActivate: [AuthGuard] },
   { path: 'evento-list', component: EventosListComponent, canActivate: [AuthGuard] },
   { path: 'usuarios', component: UsuariosComponent, canActivate: [AuthGuard] },
-  { path: '**', component: HomeComponent, canActivate: [AuthGuard] }
+  { path: 'ranking', component: RankingManagementComponent, canActivate: [AuthGuard] },
+  { path: '**', component: HomeComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
