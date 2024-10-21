@@ -13,17 +13,17 @@ export class DeportesChartComponent implements OnInit {
     this.chartOptions = {
       series: [],
       chart: {
-        type: 'pie',
+        type: 'pie', // Gráfico de pastel
         height: 350
       },
-      labels: [],
+      labels: [], // Aquí se establecerán los nombres de los deportes
       title: {
         text: 'Deportes Favoritos'
       },
       dataLabels: {
         enabled: true,
-        formatter: function (val: any, opts: any) {
-          // Muestra el nombre del deporte y su porcentaje en el gráfico
+        formatter: (val: any, opts: any) => {
+          // Usar las etiquetas configuradas en el gráfico
           return val.toFixed(2) + "%";
         }
       },
@@ -32,18 +32,19 @@ export class DeportesChartComponent implements OnInit {
         formatter: (seriesName: any, opts: any) => {
           return this.chartOptions.labels[opts.seriesIndex]; // Muestra el nombre del deporte en la leyenda
         }
+      },
+      tooltip: {
+        enabled: false
       }
-      
     };
   }
 
   ngOnInit(): void {
     this.userService.getFavoriteSportsCount().subscribe(data => {
-      console.log('Datos filtrados:', data); // Verifica los datos en la consola
-      this.chartOptions.series = Object.values(data); // Los valores son los conteos de cada deporte
-      this.chartOptions.labels = Object.keys(data); // Las etiquetas son los nombres de los deportes
+      this.chartOptions.series = Object.values(data); // Cantidad de eventos por sector
+      this.chartOptions.labels = Object.keys(data); // Nombres de los sectores
 
-      // Forzar la actualización de las opciones para asegurarse de que el gráfico se redibuje
+      // Forzar la actualización del gráfico
       this.chartOptions = { ...this.chartOptions };
     });
   }

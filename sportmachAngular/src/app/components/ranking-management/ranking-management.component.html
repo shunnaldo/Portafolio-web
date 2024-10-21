@@ -1,0 +1,35 @@
+<div class="ranking-container">
+    <h2>Gestión de Ranking</h2>
+    <table>
+        <thead>
+          <tr>
+            <th>Posición</th>
+            <th>ID de Usuario</th>
+            <th>Usuario</th>
+            <th>Puntos</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ranking of rankings">
+            <td>{{ ranking.position }}</td>
+            <td>{{ ranking.userId }}</td>
+            <td>{{ ranking.name }}</td>
+            <td>{{ ranking.points }}</td>
+            <td>
+              <button (click)="removeUser(ranking.userId)">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+  
+    <!-- Formulario para añadir o actualizar usuarios en el ranking -->
+    <div>
+        <input [(ngModel)]="userId" placeholder="ID de Usuario" />
+        <input [(ngModel)]="points" type="number" placeholder="Puntos" />
+        <button (click)="addOrUpdateUser(userId, points)">Agregar/Actualizar Usuario</button>
+      </div>
+      
+  </div>
+  

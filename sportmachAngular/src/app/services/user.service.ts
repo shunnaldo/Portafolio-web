@@ -15,17 +15,28 @@ export class UserService {
     return collectionData(usersCollection, { idField: 'id' });
   }
 
+  getSports(): Observable<any[]> {
+    const sportsCollection = collection(this.firestore, 'deportes');
+    return collectionData(sportsCollection, { idField: 'id' });
+  }
+
   getFavoriteSportsCount(): Observable<{ [key: string]: number }> {
-    return this.getUsers().pipe(
-      map(users => {
+    return combineLatest([this.getUsers(), this.getSports()]).pipe(
+      map(([users, sports]) => {
         const sportsCount: { [key: string]: number } = {};
+
+        // Crear un mapa de deportes para acceder a los nombres por id
+        const sportsMap = new Map(sports.map(sport => [sport.nombre, sport.nombre]));
+
         users.forEach(user => {
-          const sport = user.deporteFavorito;
-          // Filtramos para asegurarnos de que 'sport' sea una cadena válida
-          if (sport && typeof sport === 'string') {
-            sportsCount[sport] = (sportsCount[sport] || 0) + 1;
+          const favoriteSport = user.deporteFavorito;
+          const sportName = sportsMap.get(favoriteSport);
+
+          if (sportName) {
+            sportsCount[sportName] = (sportsCount[sportName] || 0) + 1;
           }
         });
+
         return sportsCount;
       })
     );
@@ -82,5 +93,26 @@ export class UserService {
       })
     );
   }
-  
+  getClubs(): Observable<any[]> {
+    const clubsCollection = collection(this.firestore, 'clubs');
+    return collectionData(clubsCollection, { idField: 'id' });
+  }
+
+  getUsersInClubsCount(): Observable<{ inClub: number, noClub: number }> {
+    return combineLatest([this.getUsers(), this.getClubs()]).pipe(
+      map(([users, clubs]) => {
+        const userIdsInClubs = new Set<string>();
+        clubs.forEach(club => {
+          if (club.miembroIds && Array.isArray(club.miembroIds)) {
+            club.miembroIds.forEach((id: string) => userIdsInClubs.add(id));
+          }
+        });
+
+        const usersInClub = users.filter(user => userIdsInClubs.has(user.id)).length;
+        const usersNoClub = users.length - usersInClub;
+
+        return { inClub: usersInClub, noClub: usersNoClub };
+      })
+    );
+  }
 }
