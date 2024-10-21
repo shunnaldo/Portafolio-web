@@ -29,6 +29,7 @@ html, body {
   background-color: #F4F4F8;
 }
 
+
 .titulo{
   text-align: center;
   color: #ff914d;
@@ -539,9 +540,10 @@ label {
 }
 
 
- /* SIDEBAR CSS */
+
   
  .sidebar {
+
   width: 250px;
   background-color: #2A2C41;
   padding: 20px;
@@ -594,4 +596,6 @@ label {
   color: white; /* Íconos en blanco cuando está en hover o activo */
 }
 
+
 /* END SIDEBAR CSS */
+
