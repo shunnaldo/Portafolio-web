@@ -1,5 +1,5 @@
 <div class="container">
-    
+
     <app-header></app-header>
 
     <div class="content">
@@ -25,9 +25,13 @@
                   <mat-icon>manage_accounts</mat-icon>
                   <span>Gestionar Usuarios</span>
               </a>
+              <a routerLink="/ranking" routerLinkActive="active-link" class="sidebar-link">
+                <mat-icon>leaderboard</mat-icon>
+                <span>Gestionar Ranking</span>
+              </a>
             </section>
         </aside>
-        
+
         <main class="main-content">
 
             <!-- Panel de Resumen y Estadísticas -->
@@ -43,6 +47,10 @@
                     <mat-card class="basic-stats">
                         <h3>Eventos Activos</h3>
                         <p>{{ eventsCount$ | async }}</p>
+                    </mat-card>
+                    <mat-card class="basic-stats">
+                        <h3>Clubes Registrados</h3>
+                        <p>{{ clubsCount$ | async }}</p>
                     </mat-card>
                 </div>
                 
@@ -60,23 +68,12 @@
                         <app-club-members-chart></app-club-members-chart>
                     </mat-card>
                 </div>
+                <div class="graphic-cards">
+                    <mat-card class="graphics">
+                        <app-ranking-chart></app-ranking-chart>
+                    </mat-card>
+                </div>
 
-
-                <!-- Botones de accesos rápidos en forma horizontal -->
-                <section class="actions-section">
-                    <h2>Accesos Rápidos</h2>
-                    <div class="quick-access-buttons">
-                        <button mat-raised-button color="primary" routerLink="/usuarios">
-                            Gestionar Usuarios
-                        </button>
-                        <button mat-raised-button color="primary" routerLink="/reportes">
-                            Ver Reportes
-                        </button>
-                        <button mat-raised-button color="primary" routerLink="/configuracion">
-                            Configuración
-                        </button>
-                    </div>
-                </section>
             </section>
         </main>
     </div>

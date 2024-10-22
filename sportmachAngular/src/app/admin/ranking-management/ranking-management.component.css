@@ -1,0 +1,142 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Incluye padding y border en el tamaño del elemento */
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden; /* Evita el desplazamiento horizontal */
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-x: hidden; /* Asegura que el contenedor no permita desplazamiento horizontal */
+}
+
+.content {
+  display: flex;
+  flex-grow: 1;
+  overflow-x: hidden; /* Evita que el contenido cause desplazamiento horizontal */
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-x: hidden; /* Asegura que el contenido no se desborde horizontalmente */
+}
+
+.button-section {
+  margin-bottom: 20px;
+}
+
+button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+mat-card {
+  padding: 15px;
+  margin: 10px;
+  border-radius: 8px;
+  background-color: #FDBF50;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.status-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Quick Access Buttons - Estilos para alinear horizontalmente */
+.quick-access-buttons {
+  display: flex;
+  justify-content: space-around; /* Espacio uniforme entre los botones */
+  gap: 20px; /* Espaciado entre los botones */
+  margin-top: 20px;
+}
+
+.quick-access-buttons button {
+  width: auto; /* Botones adaptan su ancho al contenido */
+  padding: 10px 20px; /* Espaciado interno del botón */
+}
+
+/* Sección de estadísticas */
+.stats-cards {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.stats-cards mat-card {
+  width: 200px;
+  text-align: center;
+}
+
+.graphics {
+  background-color: #ececec;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-x: hidden; /* Asegura que el contenido no se desborde horizontalmente */
+  background-color: #F4F4F8;
+}
+
+h2 {
+  text-align: center;
+  color: black;
+}
+
+.graphic-cards{
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.ranking-container {
+    max-width: 800px;
+    margin: auto;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  th {
+    background-color: #f4f4f4;
+  }
+  
+  button {
+    padding: 5px 10px;
+    background-color: #FDBF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #e6ad4b;
+  }
+  

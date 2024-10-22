@@ -10,7 +10,7 @@ import { SectoresComponent } from './admin/sectores/sectores.component';
 import { EventosComponent } from './admin/eventos/eventos.component';
 import { EventosListComponent } from './admin/eventos-list/eventos-list.component';
 import { UsuariosComponent } from './admin/usuarios/usuarios.component';
-import { RankingManagementComponent } from './components/ranking-management/ranking-management.component';
+import { RankingManagementComponent } from './admin/ranking-management/ranking-management.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },

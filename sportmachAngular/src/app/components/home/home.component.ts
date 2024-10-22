@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
   user$: Observable<any | null>;  // Observable para rastrear el estado del usuario
   usersCount$: Observable<number>;  // Observable para el conteo de usuarios
   eventsCount$: Observable<number>; // Observable para el conteo de eventos
+  clubsCount$: Observable<number>; // Observable para el conteo de clubes
 
   constructor(private auth: Auth, private firestore: Firestore, private router: Router) {
     this.user$ = authState(this.auth);  // Observamos el estado de autenticación
@@ -29,6 +30,11 @@ export class HomeComponent implements OnInit {
     const eventsCollection = collection(this.firestore, 'eventosAlumnos');
     this.eventsCount$ = collectionData(eventsCollection).pipe(
       map(events => events.length)  // Obtenemos la longitud de los eventos
+    );
+
+    const clubsCollection = collection(this.firestore, 'clubs');
+    this.clubsCount$ = collectionData(clubsCollection).pipe(
+      map(clubs => clubs.length)  // Obtenemos la longitud de los clubes
     );
   }
 
