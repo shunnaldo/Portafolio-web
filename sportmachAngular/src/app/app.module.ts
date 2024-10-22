@@ -42,6 +42,7 @@ import { SectoresChartComponent } from './graphics/sectores-chart/sectores-chart
 import { UserGrowthChartComponent } from './graphics/user-growth-chart/user-growth-chart.component';
 import { ClubMembersChartComponent } from './graphics/club-members-chart/club-members-chart.component';
 import { RankingManagementComponent } from './components/ranking-management/ranking-management.component';
+import { SidebarComponent } from './shared/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { RankingManagementComponent } from './components/ranking-management/rank
     UserGrowthChartComponent,
     ClubMembersChartComponent,
     RankingManagementComponent,
+    SidebarComponent,
   ],
   imports: [
     NgxApexchartsModule,

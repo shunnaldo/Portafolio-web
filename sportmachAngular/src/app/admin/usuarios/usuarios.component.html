@@ -1,33 +1,9 @@
 <div class="container">
 
-    <app-header></app-header>
-  
+
     <div class="content">
-      <aside class="sidebar">
-        <section class="button-section">
-            <a routerLink="/home" routerLinkActive="active-link" class="sidebar-link">
-                <mat-icon>admin_panel_settings</mat-icon>
-                <span>Admin Dashboard</span>
-            </a>
-            <a routerLink="/deportes" routerLinkActive="active-link" class="sidebar-link">
-                <mat-icon>sports_soccer</mat-icon>
-                <span>Gestionar Deportes</span>
-            </a>
-            <a routerLink="/eventos" routerLinkActive="active-link" class="sidebar-link">
-                <mat-icon>event</mat-icon>
-                <span>Gestionar Eventos</span>
-            </a>
-            <a routerLink="/sectores" routerLinkActive="active-link" class="sidebar-link">
-                <mat-icon>map</mat-icon>
-                <span>Gestionar Sectores</span>
-            </a>
-            <a routerLink="/usuarios" routerLinkActive="active-link" class="sidebar-link">
-              <mat-icon>manage_accounts</mat-icon>
-              <span>Gestionar Usuarios</span>
-          </a>
-        </section>
-      </aside>
-  
+
+
       <!-- Main Content -->
       <main class="main-content">
       <h2>Gestionar Usuarios</h2>
@@ -54,10 +30,10 @@
           <input matInput formControlName="photo" placeholder="URL de la Foto">
         </mat-form-field>
 
-        <button 
-          mat-raised-button 
-          class="btn-orange" 
-          type="submit" 
+        <button
+          mat-raised-button
+          class="btn-orange"
+          type="submit"
           [disabled]="usuarioForm.get('name')?.invalid || usuarioForm.invalid">
           {{ isEditMode ? 'Actualizar Usuario' : 'Agregar Usuario' }}
         </button>
@@ -94,9 +70,9 @@
         <ng-container matColumnDef="photo">
             <th mat-header-cell *matHeaderCellDef> Foto </th>
             <td mat-cell *matCellDef="let user">
-            <img 
-                [src]="user.photo || 'assets/images/default-user.png'" 
-                alt="Foto de {{ user.name }}" 
+            <img
+                [src]="user.photo || 'assets/images/default-user.png'"
+                alt="Foto de {{ user.name }}"
                 class="user-photo"
                 (error)="onImageError($event)">
             </td>
@@ -122,6 +98,6 @@
     </main>
   </div>
 
-  <app-footer></app-footer>
+
 
 </div>
