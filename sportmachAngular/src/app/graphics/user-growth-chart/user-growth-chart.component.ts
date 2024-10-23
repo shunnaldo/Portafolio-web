@@ -27,15 +27,6 @@ export class UserGrowthChartComponent implements OnInit {
           autoScaleYaxis: true
         }
       },
-      toolbar: {
-        tools: {
-          zoom: false,    
-          zoomin: false,    
-          zoomout: false,
-          pan: false,      
-          reset: false, 
-        },
-      },
       title: {
         text: 'Total de Usuarios'
       },
@@ -70,46 +61,47 @@ export class UserGrowthChartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getUserGrowthByMonth().subscribe(data => {
+    this.userService.getUserGrowthByDay().subscribe(data => {
       const seriesData = Object.keys(data).map(date => {
-        const [month, year] = date.split('-');
-        const formattedDate = new Date(parseInt(year), parseInt(month) - 1).getTime();
+        const [day, month, year] = date.split('-');
+        const formattedDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day)).getTime();
         return { date: formattedDate, count: data[date] };
       });
-
+  
       // Ordenar los datos por fecha
-    seriesData.sort((a, b) => a.date - b.date);
-
-    // Calcular la cantidad acumulada de usuarios
-    let totalUsers = 0;
-    const cumulativeData = seriesData.map(point => {
-      totalUsers += point.count;
-      return [point.date, totalUsers];
+      seriesData.sort((a, b) => a.date - b.date);
+  
+      // Calcular la cantidad acumulada de usuarios por día
+      let totalUsers = 0;
+      const cumulativeData = seriesData.map(point => {
+        totalUsers += point.count;
+        return [point.date, totalUsers];
+      });
+  
+      // Agregar el punto inicial con valor 0 un día antes del primer dato
+      if (cumulativeData.length > 0) {
+        const firstDate = cumulativeData[0][0]; // Obtener la fecha de la primera entrada
+        const initialDate = new Date(firstDate);
+        initialDate.setDate(initialDate.getDate() - 1); // Restar un día para la fecha inicial
+  
+        // Agregar el punto inicial con valor 0
+        cumulativeData.unshift([initialDate.getTime(), 0]);
+      }
+  
+      // Asignar los datos y configurar la serie
+      this.chartOptions.series[0].data = cumulativeData;
+      this.chartOptions.xaxis.min = cumulativeData[0][0]; // Fecha mínima
+      this.chartOptions.xaxis.max = cumulativeData[cumulativeData.length - 1][0]; // Fecha máxima
+  
+      // Forzar actualización del gráfico
+      this.chartOptions = { ...this.chartOptions };
+  
+      // Renderizar el gráfico
+      this.chart = new ApexCharts(document.querySelector("#chart-timeline"), this.chartOptions);
+      this.chart.render();
     });
-
-    // Si hay datos en la serie, agregar un punto inicial en 0
-    if (cumulativeData.length > 0) {
-      const firstDate = cumulativeData[0][0]; // Obtener la fecha de la primera entrada
-      const initialDate = new Date(firstDate);
-      initialDate.setDate(initialDate.getDay() - 1); // Restar un mes para la fecha inicial
-
-      // Agregar el punto inicial con valor 0
-      cumulativeData.unshift([initialDate.getTime(), 0]);
-    }
-
-    // Asignar datos y configurar la serie
-    this.chartOptions.series[0].data = cumulativeData;
-    this.chartOptions.xaxis.min = cumulativeData[0][0]; // Fecha mínima
-    this.chartOptions.xaxis.max = cumulativeData[cumulativeData.length - 1][0]; // Fecha máxima
-
-    // Forzar actualización del gráfico para que se reflejen las etiquetas y los datos correctamente
-    this.chartOptions = { ...this.chartOptions };
-
-    // Renderizar el gráfico
-    this.chart = new ApexCharts(document.querySelector("#chart-timeline"), this.chartOptions);
-    this.chart.render();
-  });
   }
+  
 
   // Funciones para mostrar rangos específicos
   showLastWeek() {
@@ -144,4 +136,3 @@ export class UserGrowthChartComponent implements OnInit {
     this.chart.resetSeries();
   }
 }
-
