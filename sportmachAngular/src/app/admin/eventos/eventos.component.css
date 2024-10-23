@@ -1,33 +1,4 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box; /* Incluye padding y border en el tamaño del elemento */
-}
 
-html, body {
-  width: 100%;
-  overflow-x: hidden; /* Evita el desplazamiento horizontal */
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  overflow-x: hidden; /* Asegura que el contenedor no permita desplazamiento horizontal */
-}
-
-.content {
-  display: flex;
-  flex-grow: 1;
-  overflow-x: hidden; /* Evita que el contenido cause desplazamiento horizontal */
-}
-
-.main-content {
-  flex-grow: 1;
-  padding: 20px;
-  overflow-x: hidden; /* Asegura que el contenido no se desborde horizontalmente */
-  background-color: #F4F4F8;
-}
 
 
 .form-stepper-container {
