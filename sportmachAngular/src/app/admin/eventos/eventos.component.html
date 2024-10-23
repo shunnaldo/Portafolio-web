@@ -62,12 +62,13 @@
                     class="horarioss"
                     *ngFor="let horario of horariosDisponibles"
                     [disabled]="!horario.disponible"
-                    [ngClass]="{'selected': horario === selectedHorario, 'not-available': !horario.disponible}"
+                    [ngClass]="{'selected': selectedHorarios.includes(horario), 'not-available': !horario.disponible}"
                     (click)="selectHorario(horario)">
                     {{ horario.inicio }} - {{ horario.fin }}
                   </button>
                 </div>
               </div>
+
             </div>
 
             <div class="sector-image-container" *ngIf="selectedSectorImage">

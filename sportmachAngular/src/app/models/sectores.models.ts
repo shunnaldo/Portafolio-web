@@ -5,8 +5,11 @@ export class Sectores {
   nombre: string;
   image: string | null;
   horarios: Horario[];
+  selectedHorarios: Horario[] = [];
   visible: boolean;
   visibleVer:string;
+  hora?: string; // Esta es la propiedad existente
+  horas?: string[];
   description?: string;
   capacidad?: number;
 
@@ -18,7 +21,8 @@ export class Sectores {
     visible: boolean,
     visibleVer: string = 'privado',
     description?: string,
-    capacidad?: number
+    capacidad?: number,
+    horas?: string[]
   ) {
     this.idSector = idSector;
     this.nombre = nombre;
@@ -28,5 +32,7 @@ export class Sectores {
     this.visibleVer = visibleVer;
     this.description = description;
     this.capacidad = capacidad;
+    this.horas = horas || [];
+
   }
 }
