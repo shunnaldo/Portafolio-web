@@ -1,1 +1,27 @@
+<div class="eventos-container">
+  <h1>Lista de Eventos Disponibles</h1>
 
+  <div *ngIf="eventosFiltrados.length === 0">
+    <p>No hay eventos disponibles en este momento.</p>
+  </div>
+
+  <div *ngFor="let evento of eventosFiltrados" class="evento-card">
+    <h3>{{ evento.titulo }}</h3>
+    <p>{{ evento.descripcion }}</p>
+    <p><strong>Sector:</strong> {{ evento.sectorNombre }}</p>
+    <p><strong>Fecha Reservada:</strong> {{ evento.fechaReservada }}</p>
+    <p><strong>Hora:</strong> {{ evento.hora }}</p>
+    <p><strong>Capacidad Máxima:</strong> {{ evento.capacidadMaxima }}</p>
+    <p><strong>Participantes Actuales:</strong> {{ evento.participantesActuales.length }}</p>
+
+    <!-- Toggle para cambiar el estado 'espera' -->
+    <label>
+      <input type="checkbox" [checked]="!evento.espera" (change)="toggleEspera(evento)" />
+      Disponible
+    </label>
+
+    <!-- Botones de acciones -->
+    <button (click)="editarEvento(evento)" class="btn btn-edit">Editar</button>
+    <button (click)="eliminarEvento(evento.idEventosAlumnos)" class="btn btn-delete">Eliminar</button>
+  </div>
+</div>

@@ -9,6 +9,7 @@ import { eventosAlumnos } from 'src/app/models/evento-alumno';
 })
 export class EventosListComponent implements OnInit {
   eventos: eventosAlumnos[] = [];
+  eventosFiltrados: eventosAlumnos[] = [];
 
   constructor(private eventosAlumnosService: EventosAlumnosService) {}
 
@@ -20,7 +21,9 @@ export class EventosListComponent implements OnInit {
     this.eventosAlumnosService.getEventos().subscribe(
       (eventos) => {
         console.log('Eventos recibidos:', eventos);
+        // Filtrar eventos donde espera es false (es decir, disponibles)
         this.eventos = eventos;
+        this.eventosFiltrados = this.eventos.filter(evento => !evento.espera);
       },
       (error) => {
         console.error('Error al cargar los eventos:', error);
