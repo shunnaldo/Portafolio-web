@@ -28,8 +28,8 @@ app-header {
 /* Sidebar */
 app-sidebar {
   width: 250px;
+  min-height: 100vh;
   background-color: #2a2d3e;
-  height: auto;
   color: white;
   padding: 20px;
   box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
@@ -40,7 +40,44 @@ app-sidebar {
   flex: 1;
   padding: 20px;
   background-color: #fff;
-  overflow-y: auto; /* Permite scroll si es necesario */
+  overflow-y: auto;
+  min-height: calc(100vh - 60px); /* 60px es el alto del header */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Tarjetas estadísticas */
+.stat-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.stat-card {
+  flex: 1 1 200px; /* Se expande pero mantiene un ancho mínimo */
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Contenedor de gráficos */
+.chart-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.chart-box {
+  flex: 1 1 300px; /* Se expande pero mantiene un tamaño mínimo */
+  height: 300px; /* Ajusta este valor para que todos los gráficos se vean consistentes */
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Footer */
@@ -50,4 +87,24 @@ app-footer {
   text-align: center;
   padding: 15px 0;
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Formulario */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-container select,
+.form-container input {
+  width: 100%;
+  max-width: 400px; /* Ajusta este valor según tu diseño */
+  margin: 10px 0;
+}
+
+.form-container button {
+  padding: 10px 20px;
+  margin: 10px 5px;
 }
