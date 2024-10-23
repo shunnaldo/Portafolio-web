@@ -1,0 +1,53 @@
+
+.sidebar {
+  width: 250px;
+  background-color: #2A2C41;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+
+.sidebar button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Transición suave */
+}
+
+.sidebar mat-icon {
+  margin-right: 10px; /* Espacio entre el ícono y el texto */
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Transición suave */
+}
+
+.sidebar-link mat-icon {
+  margin-right: 10px; /* Espacio entre el ícono y el texto */
+  color: #fff; /* Íconos en blanco */
+}
+
+.sidebar-link:hover {
+  background-color: #ffdf94; /* Color al hacer hover */
+  color: white; /* Color del texto al hacer hover */
+}
+
+.sidebar-link.active-link {
+  background-color: #FDBF50; /* Color del botón seleccionado FF724C */
+  color: white; /* Color del texto cuando está seleccionado */
+}
+
+.sidebar-link:hover mat-icon,
+.sidebar-link.active-link mat-icon {
+  color: white; /* Íconos en blanco cuando está en hover o activo */
+}

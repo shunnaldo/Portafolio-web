@@ -1,32 +1,8 @@
 <div class="container">
 
-  <app-header></app-header>
 
   <div class="content">
-    <aside class="sidebar">
-      <section class="button-section">
-          <a routerLink="/home" routerLinkActive="active-link" class="sidebar-link">
-              <mat-icon>admin_panel_settings</mat-icon>
-              <span>Admin Dashboard</span>
-          </a>
-          <a routerLink="/deportes" routerLinkActive="active-link" class="sidebar-link">
-              <mat-icon>sports_soccer</mat-icon>
-              <span>Gestionar Deportes</span>
-          </a>
-          <a routerLink="/eventos" routerLinkActive="active-link" class="sidebar-link">
-              <mat-icon>event</mat-icon>
-              <span>Gestionar Eventos</span>
-          </a>
-          <a routerLink="/sectores" routerLinkActive="active-link" class="sidebar-link">
-              <mat-icon>map</mat-icon>
-              <span>Gestionar Sectores</span>
-          </a>
-          <a routerLink="/usuarios" routerLinkActive="active-link" class="sidebar-link">
-            <mat-icon>manage_accounts</mat-icon>
-            <span>Gestionar Usuarios</span>
-        </a>
-      </section>
-    </aside>
+
 
     <main class="main-content">
 
@@ -86,12 +62,13 @@
                     class="horarioss"
                     *ngFor="let horario of horariosDisponibles"
                     [disabled]="!horario.disponible"
-                    [ngClass]="{'selected': horario === selectedHorario, 'not-available': !horario.disponible}"
+                    [ngClass]="{'selected': selectedHorarios.includes(horario), 'not-available': !horario.disponible}"
                     (click)="selectHorario(horario)">
                     {{ horario.inicio }} - {{ horario.fin }}
                   </button>
                 </div>
               </div>
+
             </div>
 
             <div class="sector-image-container" *ngIf="selectedSectorImage">
@@ -231,5 +208,5 @@
 
   </div>
 
-  <app-footer></app-footer>
+
 </div>

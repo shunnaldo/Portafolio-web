@@ -1,43 +1,16 @@
 <div class="container">
 
-    <app-header></app-header>
 
     <div class="content">
-        <aside class="sidebar">
-            <section class="button-section">
-                <a routerLink="/home" routerLinkActive="active-link" class="sidebar-link">
-                    <mat-icon>admin_panel_settings</mat-icon>
-                    <span>Admin Dashboard</span>
-                </a>
-                <a routerLink="/deportes" routerLinkActive="active-link" class="sidebar-link">
-                    <mat-icon>sports_soccer</mat-icon>
-                    <span>Gestionar Deportes</span>
-                </a>
-                <a routerLink="/eventos" routerLinkActive="active-link" class="sidebar-link">
-                    <mat-icon>event</mat-icon>
-                    <span>Gestionar Eventos</span>
-                </a>
-                <a routerLink="/sectores" routerLinkActive="active-link" class="sidebar-link">
-                    <mat-icon>map</mat-icon>
-                    <span>Gestionar Sectores</span>
-                </a>
-                <a routerLink="/usuarios" routerLinkActive="active-link" class="sidebar-link">
-                  <mat-icon>manage_accounts</mat-icon>
-                  <span>Gestionar Usuarios</span>
-              </a>
-              <a routerLink="/ranking" routerLinkActive="active-link" class="sidebar-link">
-                <mat-icon>leaderboard</mat-icon>
-                <span>Gestionar Ranking</span>
-              </a>
-            </section>
-        </aside>
+
+
 
         <main class="main-content">
 
             <!-- Panel de Resumen y Estadísticas -->
             <section class="home-dashboard">
                 <h2>Panel de Resumen y Estadísticas</h2>
-                
+
                 <!-- Sección de estadísticas -->
                 <div class="stats-cards">
                     <mat-card class="basic-stats">
@@ -61,7 +34,7 @@
                         <p>{{ sportsCount$ | async }}</p>
                     </mat-card>
                 </div>
-                
+
                 <div class="graphic-cards">
                     <mat-card class="graphics">
                         <app-deportes-chart></app-deportes-chart>
@@ -86,6 +59,6 @@
         </main>
     </div>
 
-    <app-footer></app-footer>
+
 
 </div>

@@ -1,55 +1,32 @@
 <div class="container">
 
-    <app-header></app-header>
-  
+
+
     <div class="content">
-      <aside class="sidebar">
-        <section class="button-section">
-            <a routerLink="/home" routerLinkActive="active-link" class="sidebar-link">
-                <mat-icon>admin_panel_settings</mat-icon>
-                <span>Admin Dashboard</span>
-            </a>
-            <a routerLink="/deportes" routerLinkActive="active-link" class="sidebar-link">
-                <mat-icon>sports_soccer</mat-icon>
-                <span>Gestionar Deportes</span>
-            </a>
-            <a routerLink="/eventos" routerLinkActive="active-link" class="sidebar-link">
-                <mat-icon>event</mat-icon>
-                <span>Gestionar Eventos</span>
-            </a>
-            <a routerLink="/sectores" routerLinkActive="active-link" class="sidebar-link">
-                <mat-icon>map</mat-icon>
-                <span>Gestionar Sectores</span>
-            </a>
-            <a routerLink="/usuarios" routerLinkActive="active-link" class="sidebar-link">
-              <mat-icon>manage_accounts</mat-icon>
-              <span>Gestionar Usuarios</span>
-          </a>
-        </section>
-      </aside>
-  
+
+
     <!-- Main Content -->
       <main class="main-content">
         <h2>Gestionar Deportes</h2>
-  
+
         <!-- Formulario para agregar/modificar deportes -->
         <form [formGroup]="deporteForm" (ngSubmit)="guardarDeporte()">
           <mat-form-field appearance="outline">
             <mat-label>Nombre del Deporte</mat-label>
             <input matInput formControlName="nombre" placeholder="Nombre del Deporte">
           </mat-form-field>
-      
+
           <mat-form-field appearance="outline">
             <mat-label>Descripción</mat-label>
             <input matInput formControlName="descripcion" placeholder="Descripción del Deporte">
           </mat-form-field>
-  
+
           <button mat-raised-button class="btn-orange" type="submit" [disabled]="deporteForm.get('nombre')?.invalid || deporteForm.invalid">
             {{ isEditMode ? 'Actualizar Deporte' : 'Agregar Deporte' }}
           </button>
         </form>
-  
-  
+
+
         <!-- Tabla de deportes -->
         <table mat-table [dataSource]="sports" class="mat-elevation-z8 custom-table">
           <!-- Nombre del deporte -->
@@ -57,14 +34,14 @@
             <th mat-header-cell *matHeaderCellDef> Nombre del Deporte </th>
             <td mat-cell *matCellDef="let sport"> {{ sport.nombre }} </td>
           </ng-container>
-  
+
           <!-- Descripción del deporte -->
           <ng-container matColumnDef="descripcion">
             <th mat-header-cell *matHeaderCellDef> Descripción </th>
             <td mat-cell *matCellDef="let sport"> {{ sport.descripcion || 'Sin descripción' }} </td>
           </ng-container>
-  
-  
+
+
           <!-- Botones de Acción en la Tabla -->
           <ng-container matColumnDef="acciones">
             <th mat-header-cell *matHeaderCellDef> Acciones </th>
@@ -77,17 +54,15 @@
               </button>
             </td>
           </ng-container>
-  
-  
-  
+
+
+
             <!-- Encabezados y filas de la tabla -->
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
       </main>
     </div>
-  
-    <app-footer></app-footer>
-    
+
+
   </div>
-  

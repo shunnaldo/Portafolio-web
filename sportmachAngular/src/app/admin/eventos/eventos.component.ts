@@ -27,6 +27,7 @@ export class EventosComponent implements OnInit {
   availableDays: Set<string> = new Set();
   minDate: string;
   maxDate: string;
+  selectedHorarios: Horario[] = [];
   currentStep: number = 1;
   eventos: eventos[] = [];
   isEditing: boolean = false; // Para saber si estamos en modo edición
@@ -89,6 +90,7 @@ export class EventosComponent implements OnInit {
       this.updateActiveCircle();
     }
   }
+
 
   updateActiveCircle(): void {
     const circles = document.querySelectorAll('.circle');
@@ -214,31 +216,33 @@ export class EventosComponent implements OnInit {
   }
 
   selectHorario(horario: Horario): void {
-    this.selectedHorario = horario;
+    const index = this.selectedHorarios.findIndex((h: Horario) => h.inicio === horario.inicio && h.fin === horario.fin);
+
+    if (index === -1) {
+      // Si el horario no está seleccionado, lo agregamos
+      this.selectedHorarios.push(horario);
+    } else {
+      // Si ya está seleccionado, lo eliminamos
+      this.selectedHorarios.splice(index, 1);
+    }
   }
 
+
   onSubmit(): void {
-    if (this.selectedHorario && this.selectedDate) {
+    if (this.selectedHorarios.length > 0 && this.selectedDate) {
       const selectedSector = this.sectores.find(sector => sector.idSector === this.selectedSectorId);
 
       if (selectedSector) {
         this.newEvento.sectorNombre = selectedSector.nombre;
         this.newEvento.fechaReservada = this.selectedDate;
 
-        // Guardar la hora seleccionada en el evento
-        this.newEvento.hora = `${this.selectedHorario.inicio} - ${this.selectedHorario.fin}`;
+        // Concatenar las horas seleccionadas en un solo string
+        this.newEvento.hora = this.selectedHorarios.map(horario => `${horario.inicio} - ${horario.fin}`).join(', ');
 
-        if (!this.selectedHorario.fechasReservadas) {
-          this.selectedHorario.fechasReservadas = [];
-        }
-        this.selectedHorario.fechasReservadas.push(this.selectedDate);
-
-        // Obtener el correo del usuario autenticado
         this.afAuth.currentUser.then(user => {
           if (user) {
-            this.newEvento.creator = user.email ?? 'Correo no disponible'; // Usa 'creator' para asignar el correo del creador
+            this.newEvento.creator = user.email ?? 'Correo no disponible';
 
-            // Validar que se haya ingresado la capacidad de alumnos
             if (!this.newEvento.capacidadAlumnos || this.newEvento.capacidadAlumnos < 1) {
               alert('Debe ingresar una capacidad válida para los participantes.');
               return;
@@ -253,7 +257,7 @@ export class EventosComponent implements OnInit {
                 .then(() => {
                   this.updateSectorHorario(selectedSector);
                   alert('Evento modificado exitosamente');
-                  location.reload(); // Recargar la página después de modificar el evento
+                  location.reload();
                 })
                 .catch(error => {
                   console.error('Error modificando el evento: ', error);
@@ -264,7 +268,7 @@ export class EventosComponent implements OnInit {
                 .then(() => {
                   this.updateSectorHorario(selectedSector);
                   alert('Evento creado exitosamente');
-                  location.reload(); // Recargar la página después de crear el evento
+                  location.reload();
                 })
                 .catch(error => {
                   console.error('Error creando el evento: ', error);
@@ -280,6 +284,9 @@ export class EventosComponent implements OnInit {
       }
     }
   }
+
+
+
 
 
 
@@ -324,11 +331,27 @@ export class EventosComponent implements OnInit {
     this.selectedSectorId = evento.idSector;
     this.selectedDate = evento.fechaReservada;
 
+    // Filtrar los horarios disponibles en base al sector y la fecha seleccionada
     this.filterHorarios();
 
-    this.selectedHorario = this.horariosDisponibles.find(
-      horario => horario.fechasReservadas?.includes(evento.fechaReservada)
-    ) || null;
+    // Reiniciar el array de selectedHorarios
+    this.selectedHorarios = [];
+
+    // Dividir las horas almacenadas en 'hora' y mapearlas a objetos Horario
+    if (this.newEvento.hora) {
+      const horariosStrings = this.newEvento.hora.split(', '); // Dividimos el string en base a la coma y el espacio
+
+      horariosStrings.forEach(horaStr => {
+        const [inicio, fin] = horaStr.split(' - '); // Dividimos cada hora en 'inicio' y 'fin'
+        const horarioEncontrado = this.horariosDisponibles.find(
+          horario => horario.inicio === inicio && horario.fin === fin
+        );
+
+        if (horarioEncontrado) {
+          this.selectedHorarios.push(horarioEncontrado);
+        }
+      });
+    }
   }
 
 
@@ -409,7 +432,8 @@ export class EventosComponent implements OnInit {
   canProceedToNextStep(): boolean {
     switch (this.currentStep) {
       case 1:
-        return !!this.newEvento.sectorNombre && !!this.selectedDate && !!this.selectedHorario;
+        // Verificar si se ha seleccionado al menos un horario en lugar de uno solo
+        return !!this.newEvento.sectorNombre && !!this.selectedDate && this.selectedHorarios.length > 0;
       case 2:
         return !!this.newEvento.titulo && !!this.newEvento.descripcion && !!this.newEvento.creator;
       case 3:
@@ -418,5 +442,8 @@ export class EventosComponent implements OnInit {
         return false;
     }
   }
+
+
+
 
 }

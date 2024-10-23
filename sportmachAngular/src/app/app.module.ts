@@ -35,14 +35,16 @@ import { DeportesComponent } from './admin/deportes/deportes.component';
 import { UsuariosComponent } from './admin/usuarios/usuarios.component';
 import { SectoresComponent } from './admin/sectores/sectores.component';
 import { EventosComponent } from './admin/eventos/eventos.component';
-
 import { NgxApexchartsModule } from 'ngx-apexcharts';
 import { DeportesChartComponent } from './graphics/deportes-chart/deportes-chart.component';
 import { SectoresChartComponent } from './graphics/sectores-chart/sectores-chart.component';
 import { UserGrowthChartComponent } from './graphics/user-growth-chart/user-growth-chart.component';
 import { ClubMembersChartComponent } from './graphics/club-members-chart/club-members-chart.component';
+import { RankingManagementComponent } from './components/ranking-management/ranking-management.component';
+import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { RankingManagementComponent } from './admin/ranking-management/ranking-management.component';
 import { RankingChartComponent } from './graphics/ranking-chart/ranking-chart.component';
+
 
 @NgModule({
   declarations: [
@@ -62,6 +64,7 @@ import { RankingChartComponent } from './graphics/ranking-chart/ranking-chart.co
     UserGrowthChartComponent,
     ClubMembersChartComponent,
     RankingManagementComponent,
+    SidebarComponent,
     RankingChartComponent,
   ],
   imports: [
