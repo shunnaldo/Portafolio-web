@@ -42,7 +42,6 @@ mat-card {
     padding: 15px;
     margin: 10px;
     border-radius: 8px;
-    background-color: #FDBF50;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
@@ -57,19 +56,6 @@ mat-card {
     margin-top: 20px;
 }
 
-/* Quick Access Buttons - Estilos para alinear horizontalmente */
-.quick-access-buttons {
-    display: flex;
-    justify-content: space-around; /* Espacio uniforme entre los botones */
-    gap: 20px; /* Espaciado entre los botones */
-    margin-top: 20px;
-}
-
-.quick-access-buttons button {
-    width: auto; /* Botones adaptan su ancho al contenido */
-    padding: 10px 20px; /* Espaciado interno del botón */
-}
-
 /* Sección de estadísticas */
 .stats-cards {
     display: flex;
@@ -81,6 +67,7 @@ mat-card {
 .stats-cards mat-card {
     width: 200px;
     text-align: center;
+    background-color: #ececec;
 }
 
 .graphics {

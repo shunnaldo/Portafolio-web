@@ -72,27 +72,31 @@ export class UserService {
     );
   }
 
-  getUserGrowthByMonth(): Observable<{ [key: string]: number }> {
+  getUserGrowthByDay(): Observable<{ [key: string]: number }> {
     return this.getUsers().pipe(
       map(users => {
         const userGrowth: { [key: string]: number } = {};
-
+  
         users.forEach(user => {
           // Verificar si el campo 'data' existe y es un Timestamp de Firebase
           if (user.data && typeof user.data.toDate === 'function') {
             const date = user.data.toDate(); // Convertimos el Timestamp a un objeto Date
-            const monthYear = `${date.getMonth() + 1}-${date.getFullYear()}`; // Formato "MM-YYYY"
-
-            userGrowth[monthYear] = (userGrowth[monthYear] || 0) + 1;
+            const day = date.getDate().toString().padStart(2, '0'); // Formato "dd"
+            const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Formato "MM"
+            const year = date.getFullYear().toString(); // Formato "YYYY"
+            const dayMonthYear = `${day}-${month}-${year}`; // Formato "dd-MM-YYYY"
+  
+            userGrowth[dayMonthYear] = (userGrowth[dayMonthYear] || 0) + 1;
           } else {
             console.warn('Usuario sin fecha de registro válida:', user);
           }
         });
-
+  
         return userGrowth;
       })
     );
   }
+  
   getClubs(): Observable<any[]> {
     const clubsCollection = collection(this.firestore, 'clubs');
     return collectionData(clubsCollection, { idField: 'id' });
@@ -115,4 +119,5 @@ export class UserService {
       })
     );
   }
+
 }

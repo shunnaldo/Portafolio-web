@@ -1,8 +1,8 @@
 <div class="container">
 
 
-
     <div class="content">
+
 
 
         <main class="main-content">
@@ -21,6 +21,18 @@
                         <h3>Eventos Activos</h3>
                         <p>{{ eventsCount$ | async }}</p>
                     </mat-card>
+                    <mat-card class="basic-stats">
+                        <h3>Clubes Registrados</h3>
+                        <p>{{ clubsCount$ | async }}</p>
+                    </mat-card>
+                    <mat-card class="basic-stats">
+                        <h3>Sectores Disponibles</h3>
+                        <p>{{ sectorsCount$ | async }}</p>
+                    </mat-card>
+                    <mat-card class="basic-stats">
+                        <h3>Deportes Disponibles</h3>
+                        <p>{{ sportsCount$ | async }}</p>
+                    </mat-card>
                 </div>
 
                 <div class="graphic-cards">
@@ -37,23 +49,12 @@
                         <app-club-members-chart></app-club-members-chart>
                     </mat-card>
                 </div>
+                <div class="graphic-cards">
+                    <mat-card class="graphics">
+                        <app-ranking-chart></app-ranking-chart>
+                    </mat-card>
+                </div>
 
-
-                <!-- Botones de accesos rápidos en forma horizontal -->
-                <section class="actions-section">
-                    <h2>Accesos Rápidos</h2>
-                    <div class="quick-access-buttons">
-                        <button mat-raised-button color="primary" routerLink="/usuarios">
-                            Gestionar Usuarios
-                        </button>
-                        <button mat-raised-button color="primary" routerLink="/reportes">
-                            Ver Reportes
-                        </button>
-                        <button mat-raised-button color="primary" routerLink="/configuracion">
-                            Configuración
-                        </button>
-                    </div>
-                </section>
             </section>
         </main>
     </div>

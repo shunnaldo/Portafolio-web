@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Firestore, collection, collectionData } from '@angular/fire/firestore'; // Importamos Firestore
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -15,8 +16,11 @@ export class HomeComponent implements OnInit {
   user$: Observable<any | null>;  // Observable para rastrear el estado del usuario
   usersCount$: Observable<number>;  // Observable para el conteo de usuarios
   eventsCount$: Observable<number>; // Observable para el conteo de eventos
+  clubsCount$: Observable<number>; // Observable para el conteo de clubes
+  sectorsCount$: Observable<number>; // Nuevo observable para sectores
+  sportsCount$: Observable<number>; // Nuevo observable para deportes
 
-  constructor(private auth: Auth, private firestore: Firestore, private router: Router) {
+  constructor(private auth: Auth, private firestore: Firestore, private router: Router, private UserService: UserService) {
     this.user$ = authState(this.auth);  // Observamos el estado de autenticación
 
     // Obtenemos la colección de usuarios desde Firestore
@@ -29,6 +33,19 @@ export class HomeComponent implements OnInit {
     const eventsCollection = collection(this.firestore, 'eventosAlumnos');
     this.eventsCount$ = collectionData(eventsCollection).pipe(
       map(events => events.length)  // Obtenemos la longitud de los eventos
+    );
+
+    const clubsCollection = collection(this.firestore, 'clubs');
+    this.clubsCount$ = collectionData(clubsCollection).pipe(
+      map(clubs => clubs.length)  // Obtenemos la longitud de los clubes
+    );
+
+    this.sectorsCount$ = this.UserService.getSectors().pipe(
+      map(sectores => sectores.length)
+    );
+
+    this.sportsCount$ = this.UserService.getSports().pipe(
+      map(sports => sports.length)
     );
   }
 
